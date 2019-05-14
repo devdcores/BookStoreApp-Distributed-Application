@@ -1,0 +1,11 @@
+server:
+  port: ${SERVER_PORT:8761}
+
+eureka:
+  client:
+    registerWithEureka: false   #telling the server not to register himself in the service registry
+    fetchRegistry: false
+  server:
+    waitTimeInMsWhenSyncEmpty: 0    #wait time for subsequent sync
+  instance:
+    prefer-ip-address: false
