@@ -1,0 +1,27 @@
+server:
+  port: ${SERVER_PORT:8765}
+
+zuul:
+  host:
+    connect-timeout-millis: 5000
+    socket-timeout-millis: 20000
+  prefix: /api
+  routes:
+    address:
+      path: /address/**
+      serviceId: address-service
+    users:
+      path: /users/**
+      serviceId: users-service
+  ribbon:
+    eager-load:
+      enabled: true
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+    registerWithEureka: true
+  instance:
+    prefer-ip-address: false
