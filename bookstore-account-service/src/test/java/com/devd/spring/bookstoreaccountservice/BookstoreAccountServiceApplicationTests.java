@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreeurekadiscoveryservice;
+package com.devd.spring.bookstoreaccountservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,11 +7,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author: Devaraj Reddy,
- * Date : 2019-05-14
+ * Date : 2019-05-16
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BookstoreEurekaDiscoveryServiceApplicationTests {
+public class BookstoreAccountServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {

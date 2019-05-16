@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author: Devaraj Reddy,
- * Date : 2019-05-15 00:07
+ * Date : 2019-05-15
  */
 @Configuration
 public class ApiGatewayConfig {
