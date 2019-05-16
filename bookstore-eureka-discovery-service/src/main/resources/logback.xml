@@ -2,7 +2,7 @@
 <configuration>
 
     <springProperty name="SpringAppName" source="spring.application.name"/>
-    <property name="LogFileName" value="Logs/ApiGatewayLog"/>
+    <property name="LogFileName" value="Logs/EurekaDiscoveryLog"/>
     <property name="CONSOLE_LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss z}] %p [Service Name -> ${SpringAppName}], [TraceId -> %X{X-B3-TraceId:-}], [SpanId -> %X{X-B3-SpanId:-}] \n      &lt;%t&gt; %logger : %m%n"/>
 

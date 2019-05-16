@@ -1,6 +1,17 @@
 server:
   port: ${SERVER_PORT:8765}
 
+spring:
+  zipkin:
+    base-url: http://${ZIPKIN_HOST:localhost}:9411
+    enabled: true
+    service:
+      name: bookstore-api-gateway-service
+    message-timeout: 10
+  sleuth:
+    sampler:
+      probability: 1.0
+
 zuul:
   host:
     connect-timeout-millis: 5000
@@ -16,7 +27,6 @@ zuul:
   ribbon:
     eager-load:
       enabled: true
-
 
 eureka:
   client:
