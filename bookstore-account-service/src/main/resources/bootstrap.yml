@@ -1,3 +1,9 @@
 spring:
   application:
     name: bookstore-account-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
