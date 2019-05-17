@@ -16,7 +16,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import java.util.Arrays;
 
 /**
- * Created by nydiarra on 06/05/17.
+ * @author: Devaraj Reddy,
+ * Date : 2019-05-17
  */
 @Configuration
 @EnableAuthorizationServer
