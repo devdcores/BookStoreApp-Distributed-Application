@@ -1,9 +1,11 @@
 package com.devd.spring.bookstoreaccountservice.config;
 
+import com.devd.spring.bookstoreaccountservice.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -13,6 +15,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 /**
@@ -53,14 +56,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Autowired
+	DataSource dataSource;
+
+	@Autowired
+	AppUserDetailsService appUserDetailsService;
+
 	@Override
-	public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
-		configurer
-		        .inMemory()
-		        .withClient(clientId)
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		clients
+				.jdbc(dataSource)
+				.withClient(clientId)
 				.secret(passwordEncoder.encode(clientSecret))
-		        .authorizedGrantTypes(grantType)
+		        .authorizedGrantTypes("client_credentials", "password", "refresh_token")
 		        .scopes(scopeRead, scopeWrite)
+				.authorities("ADMIN")
+				.refreshTokenValiditySeconds(20000)
 		        .resourceIds(resourceIds);
 	}
 
@@ -69,9 +80,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
 		enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter));
 		endpoints.tokenStore(tokenStore)
+				.authenticationManager(authenticationManager).userDetailsService(appUserDetailsService)
 		        .accessTokenConverter(accessTokenConverter)
-		        .tokenEnhancer(enhancerChain)
-		        .authenticationManager(authenticationManager);
+		        .tokenEnhancer(enhancerChain);
 	}
 
 }
