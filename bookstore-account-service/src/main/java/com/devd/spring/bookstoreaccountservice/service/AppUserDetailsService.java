@@ -24,11 +24,12 @@ public class AppUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(s);
+    public UserDetails loadUserByUsername(String userNameOrEmail) throws UsernameNotFoundException {
+        User user = userRepository.findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
 
         if(user == null) {
-            throw new UsernameNotFoundException(String.format("The username %s doesn't exist", s));
+            throw new UsernameNotFoundException(String.format("The username or email Id %s doesn't exist",
+                    userNameOrEmail));
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();

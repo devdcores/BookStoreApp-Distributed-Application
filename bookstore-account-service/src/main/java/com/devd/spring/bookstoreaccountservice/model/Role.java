@@ -2,7 +2,9 @@ package com.devd.spring.bookstoreaccountservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -20,7 +22,8 @@ import java.util.Set;
  * @author: Devaraj Reddy,
  * Date : 2019-05-17
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

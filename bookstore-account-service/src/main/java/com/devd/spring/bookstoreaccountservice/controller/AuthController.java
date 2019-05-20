@@ -1,5 +1,6 @@
 package com.devd.spring.bookstoreaccountservice.controller;
 
+import com.devd.spring.bookstoreaccountservice.exception.RunTimeExceptionPlaceHolder;
 import com.devd.spring.bookstoreaccountservice.model.JwtAuthenticationResponse;
 import com.devd.spring.bookstoreaccountservice.model.LoginRequest;
 import com.devd.spring.bookstoreaccountservice.model.OAuthClientRequest;
@@ -108,19 +109,20 @@ public class AuthController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userRepository.existsByUserName(signUpRequest.getUserName())) {
-            return new ResponseEntity("Username is already taken!",
-                    HttpStatus.BAD_REQUEST);
+            throw new RunTimeExceptionPlaceHolder("Username is already taken!!");
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity("Email Address already in use!",
-                    HttpStatus.BAD_REQUEST);
+            throw new RunTimeExceptionPlaceHolder("Email address already in use!!");
         }
 
         // Creating user's account
         com.devd.spring.bookstoreaccountservice.model.User user =
-                new com.devd.spring.bookstoreaccountservice.model.User(signUpRequest.getUserName(),
-                        signUpRequest.getPassword(), signUpRequest.getFirstName(), signUpRequest.getLastName(),
+                new com.devd.spring.bookstoreaccountservice.model.User(
+                        signUpRequest.getUserName(),
+                        signUpRequest.getPassword(),
+                        signUpRequest.getFirstName(),
+                        signUpRequest.getLastName(),
                         signUpRequest.getEmail());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -136,7 +138,7 @@ public class AuthController {
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(result.getUserName()).toUri();
 
-        return ResponseEntity.created(location).body( "User registered successfully");
+        return ResponseEntity.created(location).build();
     }
 
 
