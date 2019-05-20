@@ -1,5 +1,6 @@
 package com.devd.spring.bookstoreaccountservice.config;
 
+import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.sql.SQLException;
+
 /**
  * @author: Devaraj Reddy,
  * Date : 2019-05-17
@@ -28,9 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value("${security.signing-key}")
 	private String signingKey;
 
-	@Value("${security.encoding-strength}")
-	private Integer encodingStrength;
-
 	@Value("${security.security-realm}")
 	private String securityRealm;
 
@@ -38,6 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();
+	}
+
+	@Bean(initMethod = "start", destroyMethod = "stop")
+	public Server inMemoryH2DatabaseaServer() throws SQLException {
+		return Server.createTcpServer(
+				"-tcp", "-tcpAllowOthers", "-tcpPort", "4010");
 	}
 
 	@Bean

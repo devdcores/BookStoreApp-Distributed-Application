@@ -11,11 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: Devaraj Reddy,
@@ -26,14 +25,11 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "ROLE")
-public class Role {
+public class Role extends DateAudit{
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "RoleUUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GeneratedValue(generator = "hibernate-uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "ROLE_ID", updatable = false, nullable = false)
     private String id;
 
@@ -41,12 +37,9 @@ public class Role {
     private String roleName;
 
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
+            cascade = CascadeType.ALL,
             mappedBy = "roles")
-    private List<User> users;
+    private Set<User> users;
 
     @Column(name = "ROLE_DESCRIPTION")
     private String roleDescription;

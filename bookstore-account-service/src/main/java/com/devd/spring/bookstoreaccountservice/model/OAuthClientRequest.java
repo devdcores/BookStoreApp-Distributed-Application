@@ -16,13 +16,14 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
-public class OAuthClientRequest {
+@Table(name = "oauth_client_details")
+public class OAuthClientRequest extends DateAudit{
 
     @Id
     private Long client_id;
     private String client_secret;
     private String authorized_grant_types;
     private String authorities;
+    private String scope;
 
 }
