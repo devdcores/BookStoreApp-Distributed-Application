@@ -1,0 +1,50 @@
+version: "3"
+services:
+
+  eureka-server:
+    image: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=8761
+
+  zipkin-server:
+    image: openzipkin/zipkin
+    container_name: zipkin-server
+    hostname: zipkin-host
+    ports:
+      - "9411:9411"
+    networks:
+      - bookstore-app-network
+
+  gateway-server:
+    image: gateway-server
+    ports:
+      - "8765:8765"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=8765
+      - EUREKA_HOST=eureka-server
+      - ZIPKIN_HOST=zipkin-server
+    depends_on:
+      - eureka-server
+
+  account-service:
+    image: account-service
+    ports:
+      - "7001:7001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=7001
+      - EUREKA_HOST=eureka-server
+      - ZIPKIN_HOST=zipkin-server
+    depends_on:
+      - gateway-server
+      - eureka-server
+
+networks:
+  bookstore-app-network:

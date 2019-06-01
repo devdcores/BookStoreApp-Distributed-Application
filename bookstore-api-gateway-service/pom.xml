@@ -15,6 +15,8 @@
 	<description>Discovery Server for BookStore App</description>
 
 	<properties>
+		<skip-docker-plugin>true</skip-docker-plugin>
+		<docker-image-name>gateway-server</docker-image-name>
 	</properties>
 
 	<dependencies>
@@ -41,5 +43,30 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.10</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>${skip-docker-plugin}</skip>
+					<repository>${docker-image-name}</repository>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

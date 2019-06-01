@@ -1,12 +1,14 @@
 package com.devd.spring.bookstoreaccountservice.exception;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -14,13 +16,14 @@ import java.util.UUID;
  * Date : 2019-04-12 12:00
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RunTimeExceptionPlaceHolder.class)
     public ResponseEntity<ErrorResponse> handleCustomException(RunTimeExceptionPlaceHolder ex) {
 
         ErrorResponse errorResponse = populateErrorResponse("400", ex.getMessage());
-
+        log.error("Something went wrong, Exception : "+ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 
     }
@@ -29,7 +32,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleCustomException(InvalidFormatException ex) {
 
         ErrorResponse errorResponse = populateErrorResponse("400", ex.getMessage());
-
+        log.error("Something went wrong, Exception : "+ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 
     }
@@ -39,7 +42,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = populateErrorResponse("500", "Something went wring, Internal Server Error, " +
                 "Exception : "+ex.getMessage());
-
+        log.error("Something went wrong, Exception : "+ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
@@ -52,7 +55,7 @@ public class GlobalExceptionHandler {
         error.setCode(code);
         error.setMessage(message);
 
-        errorResponse.setErrors(Arrays.asList(error));
+        errorResponse.setErrors(Collections.singletonList(error));
 
         return errorResponse;
     }

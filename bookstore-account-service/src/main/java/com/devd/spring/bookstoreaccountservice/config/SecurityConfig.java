@@ -40,11 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 
-	@Bean(initMethod = "start", destroyMethod = "stop")
-	public Server inMemoryH2DatabaseaServer() throws SQLException {
-		return Server.createTcpServer(
-				"-tcp", "-tcpAllowOthers", "-tcpPort", "4010");
-	}
+	//To remote connect to H2 database.
+//	@Bean(initMethod = "start", destroyMethod = "stop")
+//	public Server inMemoryH2DatabaseaServer() throws SQLException {
+//		return Server.createTcpServer(
+//				"-tcp", "-tcpAllowOthers", "-tcpPort", "4010");
+//	}
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
