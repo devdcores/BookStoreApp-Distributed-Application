@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: bookstore-catalog-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

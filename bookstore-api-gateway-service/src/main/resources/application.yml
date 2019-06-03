@@ -19,11 +19,11 @@ zuul:
   prefix: /api
   routes:
     address:
-      path: /address/**
-      serviceId: address-service
+      path: /catalog/**
+      serviceId: catalog-service
     users:
-      path: /users/**
-      serviceId: users-service
+      path: /billing/**
+      serviceId: billing-service
   ribbon:
     eager-load:
       enabled: true

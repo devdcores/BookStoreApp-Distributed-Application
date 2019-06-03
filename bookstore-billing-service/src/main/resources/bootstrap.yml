@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: bookstore-billing-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
