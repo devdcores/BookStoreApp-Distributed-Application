@@ -14,16 +14,17 @@ spring:
 
 zuul:
   host:
-    connect-timeout-millis: 5000
+    connect-timeout-millis: 10000
     socket-timeout-millis: 20000
+    connection-request-timeout-millis: 10000
   prefix: /api
   routes:
     address:
       path: /catalog/**
-      serviceId: catalog-service
+      serviceId: bookstore-catalog-service
     users:
       path: /billing/**
-      serviceId: billing-service
+      serviceId: bookstore-billing-service
   ribbon:
     eager-load:
       enabled: true
@@ -35,3 +36,15 @@ eureka:
     registerWithEureka: true
   instance:
     prefer-ip-address: false
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 10000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000

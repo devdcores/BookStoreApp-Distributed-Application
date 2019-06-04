@@ -22,3 +22,15 @@ eureka:
 
 logging.level.com.lmi.spring: DEBUG
 
+hystrix:
+  metrics:
+    enabled: true
+feign:
+  hystrix:
+    enabled: true
+
+management:
+  endpoint:
+    hystrix:
+      stream:
+        enabled: true
