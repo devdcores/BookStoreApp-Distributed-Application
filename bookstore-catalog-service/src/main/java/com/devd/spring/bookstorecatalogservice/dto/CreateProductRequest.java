@@ -1,6 +1,5 @@
 package com.devd.spring.bookstorecatalogservice.dto;
 
-import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

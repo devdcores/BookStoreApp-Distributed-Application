@@ -1,10 +1,8 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
 import com.devd.spring.bookstorecatalogservice.dto.CreateProductRequest;
-import com.devd.spring.bookstorecatalogservice.model.Product;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
