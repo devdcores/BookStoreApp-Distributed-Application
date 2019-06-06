@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * Date : 2019-06-06
  */
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, String> {
 }

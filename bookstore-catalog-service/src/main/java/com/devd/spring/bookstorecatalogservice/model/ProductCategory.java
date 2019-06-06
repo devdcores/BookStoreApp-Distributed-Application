@@ -1,7 +1,11 @@
 package com.devd.spring.bookstorecatalogservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -22,8 +27,7 @@ import java.util.List;
  * Date : 2019-06-04
  */
 @EqualsAndHashCode(callSuper = true)
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -40,11 +44,21 @@ public class ProductCategory extends DateAudit{
     @Column(name = "PRODUCT_CATEGORY_NAME", nullable = false)
     private String productCategoryName;
 
+    @JsonManagedReference("productCategory-product")
     @OneToMany(
             mappedBy = "productCategory",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            fetch = FetchType.LAZY
     )
     private List<Product> products;
     private String description;
+
+    @Override
+    public String toString() {
+        return "ProductCategory{" +
+                "productCategoryId='" + productCategoryId + '\'' +
+                ", productCategoryName='" + productCategoryName + '\'' +
+                ", products=" + products +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

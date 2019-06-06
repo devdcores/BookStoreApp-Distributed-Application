@@ -1,10 +1,14 @@
 package com.devd.spring.bookstorecatalogservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -20,8 +24,8 @@ import javax.persistence.Table;
  * @author: Devaraj Reddy,
  * Date : 2019-06-04
  */
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "PRODUCT")
 @Builder
@@ -42,8 +46,22 @@ public class Product extends DateAudit {
     private String description;
     private double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference("productCategory-product")
+    @ManyToOne
     @JoinColumn(name = "PRODUCT_CATEGORY_ID")
     private ProductCategory productCategory;
+
     private int availableItemCount;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productID='" + productID + '\'' +
+                ", productName='" + productName + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", productCategory=" + productCategory.getProductCategoryId() +
+                ", availableItemCount=" + availableItemCount +
+                '}';
+    }
 }
