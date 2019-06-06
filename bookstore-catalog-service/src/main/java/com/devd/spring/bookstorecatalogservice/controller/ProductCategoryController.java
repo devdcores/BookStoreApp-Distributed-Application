@@ -1,13 +1,16 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
 import com.devd.spring.bookstorecatalogservice.dto.CreateProductCategoryRequest;
+import com.devd.spring.bookstorecatalogservice.dto.UpdateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,7 +29,7 @@ public class ProductCategoryController {
     ProductCategoryService productCategoryService;
 
     @PostMapping("/productCategory")
-    public ResponseEntity<?> createProductCategory(@RequestBody @Valid CreateProductCategoryRequest createProductCategoryRequest){
+    public ResponseEntity<?> createProductCategory(@RequestBody @Valid CreateProductCategoryRequest createProductCategoryRequest) {
 
         String productCategory = productCategoryService.createProductCategory(createProductCategoryRequest);
 
@@ -38,10 +41,26 @@ public class ProductCategoryController {
     }
 
     @GetMapping("/productCategory/{productCategoryId}")
-    public ResponseEntity<ProductCategory> getProductCategory(@PathVariable("productCategoryId") String productCategoryId){
+    public ResponseEntity<ProductCategory> getProductCategory(@PathVariable("productCategoryId") String productCategoryId) {
 
         ProductCategory productCategory = productCategoryService.getProductCategory(productCategoryId);
 
         return ResponseEntity.ok(productCategory);
+    }
+
+    @DeleteMapping("/productCategory/{productCategoryId}")
+    public ResponseEntity<?> deleteProductCategory(@PathVariable("productCategoryId") String productCategoryId) {
+
+        productCategoryService.deleteProductCategory(productCategoryId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/productCategory")
+    public ResponseEntity<?> updateProductCategory(@RequestBody @Valid UpdateProductCategoryRequest updateProductCategoryRequest) {
+
+        productCategoryService.updateProductCategory(updateProductCategoryRequest);
+
+        return ResponseEntity.noContent().build();
     }
 }

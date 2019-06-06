@@ -1,7 +1,6 @@
 package com.devd.spring.bookstorecatalogservice.service;
 
 import com.devd.spring.bookstorecatalogservice.dto.CreateProductRequest;
-import com.devd.spring.bookstorecatalogservice.dto.ProductResponse;
 import com.devd.spring.bookstorecatalogservice.model.Product;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
@@ -50,15 +49,6 @@ public class ProductService {
                 productRepository.findById(productId);
 
         Product product = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
-
-//        ProductResponse productResponse = ProductResponse.builder()
-//                .productID(product.getProductID())
-//                .productName(product.getProductName())
-//                .productCategory(product.getProductCategory())
-//                .availableItemCount(product.getAvailableItemCount())
-//                .description(product.getDescription())
-//                .price(product.getPrice())
-//                .build();
 
         return product;
     }

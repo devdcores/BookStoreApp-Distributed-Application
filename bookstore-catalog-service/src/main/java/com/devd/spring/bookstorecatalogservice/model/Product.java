@@ -52,16 +52,4 @@ public class Product extends DateAudit {
     private ProductCategory productCategory;
 
     private int availableItemCount;
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productID='" + productID + '\'' +
-                ", productName='" + productName + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", productCategory=" + productCategory.getProductCategoryId() +
-                ", availableItemCount=" + availableItemCount +
-                '}';
-    }
 }

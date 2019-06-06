@@ -1,6 +1,7 @@
 package com.devd.spring.bookstorecatalogservice.service;
 
 import com.devd.spring.bookstorecatalogservice.dto.CreateProductCategoryRequest;
+import com.devd.spring.bookstorecatalogservice.dto.UpdateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,28 @@ public class ProductCategoryService {
         ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("Product Category doesn't exist!"));
 
         return productCategory;
+    }
+
+    public void deleteProductCategory(String productCategoryId) {
+
+        productCategoryRepository.deleteById(productCategoryId);
+
+    }
+
+    public void updateProductCategory(UpdateProductCategoryRequest updateProductCategoryRequest) {
+
+        //To check weather the ProductCategory exist.
+        ProductCategory getProductCategory =
+                this.getProductCategory(updateProductCategoryRequest.getProductCategoryId());
+
+        ProductCategory productCategory = ProductCategory.builder()
+                .productCategoryId(updateProductCategoryRequest.getProductCategoryId())
+                .productCategoryName(updateProductCategoryRequest.getProductCategoryName())
+                .description(updateProductCategoryRequest.getDescription())
+                .build();
+        productCategory.setCreatedAt(getProductCategory.getCreatedAt());
+
+        productCategoryRepository.save(productCategory);
+
     }
 }

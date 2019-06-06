@@ -47,18 +47,8 @@ public class ProductCategory extends DateAudit{
     @JsonManagedReference("productCategory-product")
     @OneToMany(
             mappedBy = "productCategory",
-            fetch = FetchType.LAZY
+            cascade = CascadeType.ALL
     )
     private List<Product> products;
     private String description;
-
-    @Override
-    public String toString() {
-        return "ProductCategory{" +
-                "productCategoryId='" + productCategoryId + '\'' +
-                ", productCategoryName='" + productCategoryName + '\'' +
-                ", products=" + products +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }
