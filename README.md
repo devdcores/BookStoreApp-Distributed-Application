@@ -23,4 +23,29 @@ password: `jwtpass`
 
 <br />
 
+> Catalog Service
+
+*Create ProductCategory*
+
+```json
+{
+   "productCategoryName": "DevdCategory",
+   "description": "desc"
+}
+```
+ 
+*Create Product*
+
+```json
+{
+   "productName": "PN",
+   "description": "pDesc",
+   "price": 1.0,
+   "productCategoryId": "402880e46b2erce9016b2d7d07c60002",
+   "availableItemCount": 122
+ }
+```
+
+ 
+ 
 ![Untitled Diagram](https://user-images.githubusercontent.com/14878408/58747472-a98e3580-8420-11e9-850f-c7fba99d8d1d.jpg)

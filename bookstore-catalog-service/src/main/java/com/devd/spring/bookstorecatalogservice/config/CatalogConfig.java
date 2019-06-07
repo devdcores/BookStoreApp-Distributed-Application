@@ -24,7 +24,7 @@ public class CatalogConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.devd.spring"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
