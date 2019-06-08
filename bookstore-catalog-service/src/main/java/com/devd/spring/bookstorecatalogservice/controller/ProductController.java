@@ -1,11 +1,16 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
 import com.devd.spring.bookstorecatalogservice.dto.CreateProductRequest;
-import com.devd.spring.bookstorecatalogservice.dto.UpdateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.dto.UpdateProductRequest;
 import com.devd.spring.bookstorecatalogservice.model.Product;
+import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -65,4 +71,17 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @GetMapping(value = "/products", produces = "application/json")
+    public ResponseEntity<?> getAllProducts(@RequestParam("orderBy") ProductOrderByEnum orderBy,
+                                            @RequestParam("direction") Sort.Direction direction,
+                                            @RequestParam("page") int page,
+                                            @RequestParam("size") int size,
+                                            PagedResourcesAssembler<Product> assembler) {
+
+        Page<Product> list = productService.getAllProducts(orderBy, direction, page, size);
+        PagedResources<Resource<Product>> resources = assembler.toResource(list);
+        return ResponseEntity.ok(resources);
+
+    }
 }

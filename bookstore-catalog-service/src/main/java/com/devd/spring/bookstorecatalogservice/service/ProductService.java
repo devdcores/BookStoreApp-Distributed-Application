@@ -4,9 +4,16 @@ import com.devd.spring.bookstorecatalogservice.dto.CreateProductRequest;
 import com.devd.spring.bookstorecatalogservice.dto.UpdateProductRequest;
 import com.devd.spring.bookstorecatalogservice.model.Product;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
+import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
 import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import com.devd.spring.bookstorecatalogservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -79,5 +86,27 @@ public class ProductService {
         product.setCreatedAt(productCategory.getCreatedAt());
 
         productRepository.save(product);
+    }
+
+    public Page<Product> findAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    public Page<Product> getAllProducts(ProductOrderByEnum orderBy, Sort.Direction direction, int page,
+                                                  int size) {
+
+
+//        Sort sort = null;
+//        if (direction.equals("ASC")) {
+//            sort = new Sort(new Sort.Order(Direction.ASC, orderBy));
+//        }
+//        if (direction.equals("DESC")) {
+//            sort = new Sort(new Sort.Order(Direction.DESC, orderBy));
+//        }
+        Pageable pageable = PageRequest.of(page, size, direction, orderBy.getOrderByCode());
+        Page<Product> data = productRepository.findAll(pageable);
+        return data;
+
+
     }
 }
