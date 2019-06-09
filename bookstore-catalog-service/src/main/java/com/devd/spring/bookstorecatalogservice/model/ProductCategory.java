@@ -44,7 +44,6 @@ public class ProductCategory extends DateAudit{
     @Column(name = "PRODUCT_CATEGORY_NAME", nullable = false)
     private String productCategoryName;
 
-    @JsonManagedReference("productCategory-product")
     @OneToMany(
             mappedBy = "productCategory",
             cascade = CascadeType.ALL
