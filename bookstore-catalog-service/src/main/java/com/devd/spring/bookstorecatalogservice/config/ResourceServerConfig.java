@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreaccountservice.config;
+package com.devd.spring.bookstorecatalogservice.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +32,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin").permitAll()
                 .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
+                .antMatchers(HttpMethod.GET, "/product**/**").permitAll()
                 .antMatchers("/**").authenticated();
     }
 }

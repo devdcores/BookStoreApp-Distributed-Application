@@ -2,9 +2,16 @@ package com.devd.spring.bookstorecatalogservice.service;
 
 import com.devd.spring.bookstorecatalogservice.dto.CreateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.dto.UpdateProductCategoryRequest;
+import com.devd.spring.bookstorecatalogservice.model.Product;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
+import com.devd.spring.bookstorecatalogservice.model.ProductCategoryOrderByEnum;
+import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
 import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -61,5 +68,11 @@ public class ProductCategoryService {
 
         productCategoryRepository.save(productCategory);
 
+    }
+
+    public Page<ProductCategory> getAllProductCategories(ProductCategoryOrderByEnum orderBy, Sort.Direction direction, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, direction, orderBy.getOrderByCode());
+        Page<ProductCategory> data = productCategoryRepository.findAll(pageable);
+        return data;
     }
 }

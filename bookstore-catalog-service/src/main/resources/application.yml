@@ -1,6 +1,13 @@
 server:
   port: ${SERVER_PORT:6001}
 
+security:
+  signing-key: devarajReddy
+  security-realm: Spring Boot JWT Realm
+  oauth2:
+    resource:
+      filter-order: 3
+
 spring:
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost}:9411

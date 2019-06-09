@@ -12,6 +12,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping("/product")
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> createProduct(@RequestBody @Valid CreateProductRequest createProductRequest){
 
         String product = productService.createProduct(createProductRequest);
@@ -56,6 +58,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/{productId}")
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> deleteProductCategory(@PathVariable("productId") String productId) {
 
         productService.deleteProduct(productId);
@@ -64,6 +67,7 @@ public class ProductController {
     }
 
     @PutMapping("/product")
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> updateProductCategory(@RequestBody @Valid UpdateProductRequest updateProductRequest) {
 
         productService.updateProduct(updateProductRequest);

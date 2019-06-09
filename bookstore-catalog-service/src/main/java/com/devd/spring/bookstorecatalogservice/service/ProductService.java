@@ -94,19 +94,8 @@ public class ProductService {
 
     public Page<Product> getAllProducts(ProductOrderByEnum orderBy, Sort.Direction direction, int page,
                                                   int size) {
-
-
-//        Sort sort = null;
-//        if (direction.equals("ASC")) {
-//            sort = new Sort(new Sort.Order(Direction.ASC, orderBy));
-//        }
-//        if (direction.equals("DESC")) {
-//            sort = new Sort(new Sort.Order(Direction.DESC, orderBy));
-//        }
         Pageable pageable = PageRequest.of(page, size, direction, orderBy.getOrderByCode());
         Page<Product> data = productRepository.findAll(pageable);
         return data;
-
-
     }
 }
