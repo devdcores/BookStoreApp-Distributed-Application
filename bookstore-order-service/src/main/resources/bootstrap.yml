@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: bookstore-order-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
