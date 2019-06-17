@@ -11,7 +11,30 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
-
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:devdb;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+#    schema: classpath:sql-scripts/schema.sql
+#    data: classpath:sql-scripts/data.sql
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
 eureka:
   client:
     serviceUrl:

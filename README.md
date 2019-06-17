@@ -1,4 +1,5 @@
-# BookStoreApp-Distributed-Application
+# BookStoreApp-Distributed-Application [![HitCount](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application.svg)](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application)
+
 
 > Account Service
 
