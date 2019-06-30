@@ -64,5 +64,4 @@ public class SwaggerConfig {
         return new ApiKey("Bearer", "Authorization", "header");
     }
 
-
 }

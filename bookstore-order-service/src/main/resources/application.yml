@@ -39,6 +39,8 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
+  main:
+    allow-bean-definition-overriding: true
 eureka:
   client:
     serviceUrl:

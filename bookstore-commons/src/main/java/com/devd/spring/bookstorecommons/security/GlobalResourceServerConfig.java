@@ -1,10 +1,11 @@
-package com.devd.spring.bookstoreorderservice.config;
+package com.devd.spring.bookstorecommons.security;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,20 +22,17 @@ import java.io.IOException;
 
 import static org.apache.commons.lang.CharEncoding.UTF_8;
 
+/**
+ * @author: Devaraj Reddy,
+ * Date : 2019-06-30
+ */
+
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class GlobalResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Value("${security.jwt.public-key}")
     private Resource publicKey;
-
-    @Autowired
-    private ResourceServerTokenServices tokenServices;
-
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId("web").tokenServices(tokenServices);
-    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -47,6 +45,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 
     @Bean
+    @Primary
     public DefaultTokenServices tokenServices(final TokenStore tokenStore) {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(tokenStore);
@@ -54,6 +53,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     @Bean
+    @Primary
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
@@ -61,7 +61,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setVerifierKey(getPublicKeyAsString());
+        String publicKeyAsString = getPublicKeyAsString();
+        converter.setVerifierKey(publicKeyAsString);
         return converter;
     }
 

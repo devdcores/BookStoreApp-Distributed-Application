@@ -30,8 +30,8 @@ import java.util.Set;
 public class Role extends DateAudit {
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "ROLE_ID", updatable = false, nullable = false)
     private String id;
 

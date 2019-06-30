@@ -34,9 +34,8 @@ import java.util.Set;
 public class User extends DateAudit {
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid",
-            strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "USER_ID", updatable = false, nullable = false)
     private String id;
 

@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
 
 /**
  * @author: Devaraj Reddy,
@@ -27,8 +26,8 @@ import java.util.List;
 public class OAuthClient extends DateAudit {
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "CLIENT_ID", updatable = false, nullable = false)
     private String client_id;
 
