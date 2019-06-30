@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreaccountservice.model;
+package com.devd.spring.bookstoreaccountservice.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class SignInRequest {
     @NotBlank
     private String usernameOrEmail;
 

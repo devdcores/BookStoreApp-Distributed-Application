@@ -1,11 +1,12 @@
 package com.devd.spring.bookstoreaccountservice.controller;
 
+import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
 import com.devd.spring.bookstoreaccountservice.exception.RunTimeExceptionPlaceHolder;
-import com.devd.spring.bookstoreaccountservice.model.JwtAuthenticationResponse;
-import com.devd.spring.bookstoreaccountservice.model.LoginRequest;
-import com.devd.spring.bookstoreaccountservice.model.OAuthClientRequest;
-import com.devd.spring.bookstoreaccountservice.model.Role;
-import com.devd.spring.bookstoreaccountservice.model.SignUpRequest;
+import com.devd.spring.bookstoreaccountservice.web.JwtAuthenticationResponse;
+import com.devd.spring.bookstoreaccountservice.web.SignInRequest;
+import com.devd.spring.bookstoreaccountservice.repository.dao.OAuthClient;
+import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
+import com.devd.spring.bookstoreaccountservice.web.SignUpRequest;
 import com.devd.spring.bookstoreaccountservice.repository.OAuthClientRepository;
 import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
@@ -83,24 +84,31 @@ public class AuthController {
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public ResponseEntity<Void> addClientId(@Valid @RequestBody OAuthClientRequest oAuthClientRequest) {
+    public ResponseEntity<Void> addClientId(@Valid @RequestBody CreateOAuthClientRequest createOAuthClientRequest) {
 
-        String encode = passwordEncoder.encode(oAuthClientRequest.getClient_secret());
-        oAuthClientRequest.setClient_secret(encode);
-        oAuthClientRequest.setScope("read,write");
+        String encode = passwordEncoder.encode(createOAuthClientRequest.getClient_secret());
 
-        oAuthClientRepository.save(oAuthClientRequest);
+        OAuthClient oAuthClient = OAuthClient.builder()
+                .client_id(createOAuthClientRequest.getClient_id())
+                .client_secret(encode)
+                .authorities(String.join(", ", createOAuthClientRequest.getAuthorities()))
+                .authorized_grant_types(String.join(", ", createOAuthClientRequest.getAuthorized_grant_types()))
+                .scope(String.join(", ", createOAuthClientRequest.getScope()))
+                .resource_ids(String.join(", ", createOAuthClientRequest.getResource_ids()))
+                .build();
+
+        oAuthClientRepository.save(oAuthClient);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody SignInRequest signInRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
-                        loginRequest.getPassword()
+                        signInRequest.getUsernameOrEmail(),
+                        signInRequest.getPassword()
                 )
         );
 
@@ -123,8 +131,8 @@ public class AuthController {
         }
 
         // Creating user's account
-        com.devd.spring.bookstoreaccountservice.model.User user =
-                new com.devd.spring.bookstoreaccountservice.model.User(
+        com.devd.spring.bookstoreaccountservice.repository.dao.User user =
+                new com.devd.spring.bookstoreaccountservice.repository.dao.User(
                         signUpRequest.getUserName(),
                         signUpRequest.getPassword(),
                         signUpRequest.getFirstName(),
@@ -138,7 +146,7 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
 
-        com.devd.spring.bookstoreaccountservice.model.User result = userRepository.save(user);
+        com.devd.spring.bookstoreaccountservice.repository.dao.User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")

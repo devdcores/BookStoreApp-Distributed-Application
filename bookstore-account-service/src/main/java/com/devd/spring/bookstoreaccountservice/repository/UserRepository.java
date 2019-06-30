@@ -1,7 +1,7 @@
 package com.devd.spring.bookstoreaccountservice.repository;
 
 
-import com.devd.spring.bookstoreaccountservice.model.User;
+import com.devd.spring.bookstoreaccountservice.repository.dao.User;
 import org.springframework.data.repository.CrudRepository;
 
 /**

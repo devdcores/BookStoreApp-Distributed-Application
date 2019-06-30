@@ -1,6 +1,6 @@
 package com.devd.spring.bookstoreaccountservice.service;
 
-import com.devd.spring.bookstoreaccountservice.model.User;
+import com.devd.spring.bookstoreaccountservice.repository.dao.User;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

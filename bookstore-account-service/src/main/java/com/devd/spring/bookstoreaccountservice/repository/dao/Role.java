@@ -1,7 +1,7 @@
-package com.devd.spring.bookstoreaccountservice.model;
+package com.devd.spring.bookstoreaccountservice.repository.dao;
 
+import com.devd.spring.bookstoreaccountservice.model.DateAudit;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,7 +27,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "ROLE")
-public class Role extends DateAudit{
+public class Role extends DateAudit {
 
     @Id
     @GeneratedValue(generator = "hibernate-uuid")

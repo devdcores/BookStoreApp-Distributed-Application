@@ -1,6 +1,5 @@
-package com.devd.spring.bookstoreaccountservice.model;
+package com.devd.spring.bookstoreaccountservice.web;
 
-import lombok.Data;
 import lombok.Value;
 
 /**
@@ -10,5 +9,4 @@ import lombok.Value;
 public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType = "Bearer";
-
 }

@@ -1,6 +1,6 @@
 package com.devd.spring.bookstoreaccountservice.repository;
 
-import com.devd.spring.bookstoreaccountservice.model.Role;
+import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

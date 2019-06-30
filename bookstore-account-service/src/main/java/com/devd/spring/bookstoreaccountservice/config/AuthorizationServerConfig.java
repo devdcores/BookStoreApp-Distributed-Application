@@ -33,12 +33,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     DataSource dataSource;
+
     @Autowired
     AppUserDetailsService appUserDetailsService;
+
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Value("${security.jwt.key-store}")
     private Resource keyStore;
 
@@ -53,8 +57,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients
-                .jdbc(dataSource);
+        clients.jdbc(dataSource);
     }
 
     @Override

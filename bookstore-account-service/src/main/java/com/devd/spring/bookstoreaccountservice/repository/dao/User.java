@@ -1,7 +1,8 @@
-package com.devd.spring.bookstoreaccountservice.model;
+package com.devd.spring.bookstoreaccountservice.repository.dao;
 
+import com.devd.spring.bookstoreaccountservice.model.DateAudit;
+import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,7 +31,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USER")
-public class User extends DateAudit{
+public class User extends DateAudit {
 
     @Id
     @GeneratedValue(generator = "hibernate-uuid")
