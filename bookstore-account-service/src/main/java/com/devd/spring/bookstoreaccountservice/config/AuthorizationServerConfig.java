@@ -3,19 +3,25 @@ package com.devd.spring.bookstoreaccountservice.config;
 import com.devd.spring.bookstoreaccountservice.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
+import java.security.KeyPair;
 
 /**
  * @author: Devaraj Reddy,
@@ -25,38 +31,76 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-	@Autowired
-	private TokenStore tokenStore;
+    @Autowired
+    DataSource dataSource;
+    @Autowired
+    AppUserDetailsService appUserDetailsService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Value("${security.jwt.key-store}")
+    private Resource keyStore;
 
-	@Autowired
-	private JwtAccessTokenConverter accessTokenConverter;
+    @Value("${security.jwt.key-store-password}")
+    private String keyStorePassword;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+    @Value("${security.jwt.key-pair-alias}")
+    private String keyPairAlias;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Value("${security.jwt.key-pair-password}")
+    private String keyPairPassword;
 
-	@Autowired
-	DataSource dataSource;
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients
+                .jdbc(dataSource);
+    }
 
-	@Autowired
-	AppUserDetailsService appUserDetailsService;
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.authenticationManager(this.authenticationManager)
+                .userDetailsService(appUserDetailsService)
+                .accessTokenConverter(jwtAccessTokenConverter())
+                .tokenStore(tokenStore());
+    }
 
-	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients
-				.jdbc(dataSource);
-	}
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(jwtAccessTokenConverter());
+    }
 
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-		enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter));
-		endpoints.tokenStore(tokenStore)
-				.authenticationManager(authenticationManager).userDetailsService(appUserDetailsService)
-		        .accessTokenConverter(accessTokenConverter)
-		        .tokenEnhancer(enhancerChain);
-	}
+    @Bean
+    public DefaultTokenServices tokenServices(final TokenStore tokenStore,
+                                              final ClientDetailsService clientDetailsService) {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setTokenStore(tokenStore);
+        tokenServices.setClientDetailsService(clientDetailsService);
+        return tokenServices;
+    }
 
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        KeyStoreKeyFactory keyStoreKeyFactory = keyStoreKeyFactory();
+        KeyPair keyPair = keyPair(keyStoreKeyFactory);
+        jwtAccessTokenConverter.setKeyPair(keyPair);
+        return jwtAccessTokenConverter;
+    }
+
+    @Override
+    public void configure(final AuthorizationServerSecurityConfigurer oauthServer) {
+        oauthServer.passwordEncoder(this.passwordEncoder).tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");
+    }
+
+    private KeyPair keyPair(KeyStoreKeyFactory keyStoreKeyFactory) {
+        return keyStoreKeyFactory.getKeyPair(keyPairAlias, keyPairPassword
+                .toCharArray());
+    }
+
+    private KeyStoreKeyFactory keyStoreKeyFactory() {
+        return new KeyStoreKeyFactory(keyStore, keyStorePassword.toCharArray());
+    }
 }

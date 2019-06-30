@@ -49,5 +49,41 @@ create table oauth_client_details (
     additional_information VARCHAR(4096),
     autoapprove VARCHAR(255),
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS oauth_client_token (
+    token_id VARCHAR(256),
+    token BLOB,
+    authentication_id VARCHAR(256) PRIMARY KEY,
+    user_name VARCHAR(256),
+    client_id VARCHAR(256),
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS oauth_access_token (
+    token_id VARCHAR(256),
+    token BLOB,
+    authentication_id VARCHAR(256),
+    user_name VARCHAR(256),
+    client_id VARCHAR(256),
+    authentication BLOB,
+    refresh_token VARCHAR(256),
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS oauth_refresh_token (
+    token_id VARCHAR(256),
+    token BLOB,
+    authentication BLOB,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS oauth_code (
+    code VARCHAR(256), authentication BLOB,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );

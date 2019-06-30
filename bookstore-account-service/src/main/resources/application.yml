@@ -2,11 +2,12 @@ server:
   port: ${SERVER_PORT:4001}
 
 security:
-  signing-key: devarajReddy
-  security-realm: Spring Boot JWT Realm
-  oauth2:
-    resource:
-      filter-order: 3
+  jwt:
+    key-store: classpath:JWTKeystore.p12
+    key-store-password: devdcorespass
+    key-pair-alias: jwt-key
+    key-pair-password: devdcorespass
+    public-key: classpath:jwt-signing-public-key.txt
 
 spring:
   zipkin:

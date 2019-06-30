@@ -11,8 +11,10 @@ import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.micrometer.core.instrument.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,13 +31,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * @author: Devaraj Reddy,
@@ -59,14 +63,27 @@ public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @Value("${security.signing-key}")
-    private String signingKey;
+    @Value("${security.jwt.key-store}")
+    private Resource keyStore;
+
+    @Value("${security.jwt.key-store-password}")
+    private String keyStorePassword;
+
+    @Value("${security.jwt.key-pair-alias}")
+    private String keyPairAlias;
+
+    @Value("${security.jwt.key-pair-password}")
+    private String keyPairPassword;
+
+    @Value("${security.jwt.public-key}")
+    private Resource publicKey;
+
 
     private int jwtExpirationInMs = 3000000;
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public ResponseEntity<Void> addClientId(@Valid @RequestBody OAuthClientRequest oAuthClientRequest){
+    public ResponseEntity<Void> addClientId(@Valid @RequestBody OAuthClientRequest oAuthClientRequest) {
 
         String encode = passwordEncoder.encode(oAuthClientRequest.getClient_secret());
         oAuthClientRequest.setClient_secret(encode);
@@ -142,7 +159,8 @@ public class AuthController {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
-        String singingKeyBase64Encoded = Base64.getEncoder().encodeToString(signingKey.getBytes());
+        String singingKeyBase64Encoded = getPublicKeyAsString();
+
         return Jwts.builder()
                 .claim("user_name", user.getUsername())
                 .claim("authorities", grantedAuthorityList)
@@ -152,6 +170,14 @@ public class AuthController {
                 .signWith(SignatureAlgorithm.HS256, singingKeyBase64Encoded)
                 .setHeaderParam("typ", "JWT")
                 .compact();
+    }
+
+    private String getPublicKeyAsString() {
+        try {
+            return IOUtils.toString(publicKey.getInputStream(), UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
