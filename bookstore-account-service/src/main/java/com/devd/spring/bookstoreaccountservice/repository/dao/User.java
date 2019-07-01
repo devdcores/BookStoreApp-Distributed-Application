@@ -58,7 +58,7 @@ public class User extends DateAudit {
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",
+    @JoinTable(name = "USER_ROLES",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") })
     Set<Role> roles;

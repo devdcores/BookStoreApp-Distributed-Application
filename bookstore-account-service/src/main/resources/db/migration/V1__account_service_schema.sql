@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS ROLE (
 CREATE UNIQUE INDEX ROLE_ID_INDEX ON ROLE (role_id);
 
 -- create user-roles mapping table
-CREATE TABLE IF NOT EXISTS user_roles (
+CREATE TABLE IF NOT EXISTS USER_ROLES (
 	user_id VARCHAR(255) NOT NULL,
 	role_id VARCHAR(255) NOT NULL,
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS user_roles (
 	CONSTRAINT USER_FK FOREIGN KEY (user_id) REFERENCES USER (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
 	CONSTRAINT ROLE_FK FOREIGN KEY (role_id) REFERENCES ROLE (role_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-CREATE INDEX USER_FK_INDEX ON user_roles (user_id);
-CREATE INDEX ROLE_FK_INDEX ON user_roles (role_id);
+CREATE INDEX USER_FK_INDEX ON USER_ROLES (user_id);
+CREATE INDEX ROLE_FK_INDEX ON USER_ROLES (role_id);
 
 -- create oauth_client_details table
 create table IF NOT EXISTS oauth_client_details (
@@ -48,42 +48,6 @@ create table IF NOT EXISTS oauth_client_details (
     refresh_token_validity INTEGER,
     additional_information VARCHAR(4096),
     autoapprove VARCHAR(255),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS oauth_client_token (
-    token_id VARCHAR(256),
-    token BLOB,
-    authentication_id VARCHAR(256) PRIMARY KEY,
-    user_name VARCHAR(256),
-    client_id VARCHAR(256),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS oauth_access_token (
-    token_id VARCHAR(256),
-    token BLOB,
-    authentication_id VARCHAR(256),
-    user_name VARCHAR(256),
-    client_id VARCHAR(256),
-    authentication BLOB,
-    refresh_token VARCHAR(256),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS oauth_refresh_token (
-    token_id VARCHAR(256),
-    token BLOB,
-    authentication BLOB,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS oauth_code (
-    code VARCHAR(256), authentication BLOB,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );

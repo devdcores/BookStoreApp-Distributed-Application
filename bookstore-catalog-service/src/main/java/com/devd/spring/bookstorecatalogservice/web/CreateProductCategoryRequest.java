@@ -1,4 +1,4 @@
-package com.devd.spring.bookstorecatalogservice.dto;
+package com.devd.spring.bookstorecatalogservice.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

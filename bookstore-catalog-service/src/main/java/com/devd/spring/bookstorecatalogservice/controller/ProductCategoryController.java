@@ -1,11 +1,9 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
-import com.devd.spring.bookstorecatalogservice.dto.CreateProductCategoryRequest;
-import com.devd.spring.bookstorecatalogservice.dto.UpdateProductCategoryRequest;
-import com.devd.spring.bookstorecatalogservice.model.Product;
+import com.devd.spring.bookstorecatalogservice.web.CreateProductCategoryRequest;
+import com.devd.spring.bookstorecatalogservice.web.UpdateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategoryOrderByEnum;
-import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
 import com.devd.spring.bookstorecatalogservice.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

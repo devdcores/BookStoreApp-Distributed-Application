@@ -1,11 +1,9 @@
 package com.devd.spring.bookstorecatalogservice.service;
 
-import com.devd.spring.bookstorecatalogservice.dto.CreateProductCategoryRequest;
-import com.devd.spring.bookstorecatalogservice.dto.UpdateProductCategoryRequest;
-import com.devd.spring.bookstorecatalogservice.model.Product;
+import com.devd.spring.bookstorecatalogservice.web.CreateProductCategoryRequest;
+import com.devd.spring.bookstorecatalogservice.web.UpdateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategoryOrderByEnum;
-import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
 import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,7 +62,8 @@ public class ProductCategoryService {
                 .productCategoryName(updateProductCategoryRequest.getProductCategoryName())
                 .description(updateProductCategoryRequest.getDescription())
                 .build();
-        productCategory.setCreatedAt(getProductCategory.getCreatedAt());
+
+        productCategory.setCreated_at(getProductCategory.getCreated_at());
 
         productCategoryRepository.save(productCategory);
 

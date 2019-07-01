@@ -1,7 +1,7 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
-import com.devd.spring.bookstorecatalogservice.dto.CreateProductRequest;
-import com.devd.spring.bookstorecatalogservice.dto.UpdateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
 import com.devd.spring.bookstorecatalogservice.model.Product;
 import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;

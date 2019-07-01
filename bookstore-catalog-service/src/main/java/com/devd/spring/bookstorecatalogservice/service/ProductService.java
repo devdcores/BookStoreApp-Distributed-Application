@@ -1,7 +1,7 @@
 package com.devd.spring.bookstorecatalogservice.service;
 
-import com.devd.spring.bookstorecatalogservice.dto.CreateProductRequest;
-import com.devd.spring.bookstorecatalogservice.dto.UpdateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
 import com.devd.spring.bookstorecatalogservice.model.Product;
 import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
@@ -12,8 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -72,7 +70,14 @@ public class ProductService {
         Optional<ProductCategory> productCategoryOptional =
                 productCategoryRepository.findById(updateProductRequest.getProductCategoryId());
 
+        //check weather product category exists
         ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
+
+        Optional<Product> productOptional =
+                productRepository.findById(updateProductRequest.getProductID());
+
+        //check weather product exists
+        final Product productExisting = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
 
         Product product = Product.builder()
                 .productID(updateProductRequest.getProductID())
@@ -83,7 +88,7 @@ public class ProductService {
                 .productCategory(productCategory)
                 .build();
 
-        product.setCreatedAt(productCategory.getCreatedAt());
+        product.setCreated_at(productExisting.getCreated_at());
 
         productRepository.save(product);
     }

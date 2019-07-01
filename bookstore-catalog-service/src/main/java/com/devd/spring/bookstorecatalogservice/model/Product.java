@@ -45,6 +45,7 @@ public class Product extends DateAudit {
     @JoinColumn(name = "PRODUCT_CATEGORY_ID")
     private ProductCategory productCategory;
 
+    @Column(name = "available_item_count")
     private int availableItemCount;
 
     public String getProductCategory() {
