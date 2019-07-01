@@ -10,6 +10,8 @@ security:
     public-key: classpath:jwt-signing-public-key.txt
 
 spring:
+  profiles:
+    active: mysql
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost}:9411
     enabled: true
@@ -19,6 +21,22 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
+  flyway:
+    table: account_service_flyway_history
+    baseline-on-migrate: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+    registerWithEureka: true
+  instance:
+    prefer-ip-address: false
+
+---
+
+spring:
+  profiles: h2
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     database: h2
@@ -32,11 +50,9 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:devdb;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:bookstore_db;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
-    schema: classpath:sql-scripts/schema.sql
-    data: classpath:sql-scripts/data.sql
   h2:
     console:
       enabled: true
@@ -44,10 +60,26 @@ spring:
         web-allow-others: true
       path: /h2-console
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
-    registerWithEureka: true
-  instance:
-    prefer-ip-address: false
+---
+
+spring:
+  profiles: mysql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    open-in-view: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: newpass

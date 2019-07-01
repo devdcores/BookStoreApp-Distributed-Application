@@ -61,10 +61,10 @@ public class UserRoleService {
 
         byUserNameOrEmail.setRoles(roles);
 
-        User updatedUser = userRepository.save(byUserNameOrEmail);
+        userRepository.save(byUserNameOrEmail);
 
         if (!errorResponse.getErrors().isEmpty()) {
-            throw new SuccessCodeWithErrorResponse(null, errorResponse);
+            throw new SuccessCodeWithErrorResponse(errorResponse);
         }
 
     }
@@ -91,10 +91,10 @@ public class UserRoleService {
                     .run();
         });
 
-        Role updatedRole = roleRepository.save(role);
+        roleRepository.save(role);
 
         if (!errorResponse.getErrors().isEmpty()) {
-            throw new SuccessCodeWithErrorResponse(null, errorResponse);
+            throw new SuccessCodeWithErrorResponse(errorResponse);
         }
     }
 }
