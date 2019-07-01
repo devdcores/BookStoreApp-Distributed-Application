@@ -3,6 +3,7 @@ package com.devd.spring.bookstoreaccountservice.repository.dao;
 import com.devd.spring.bookstoreaccountservice.model.DateAudit;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +32,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USER")
+@Builder
 public class User extends DateAudit {
 
     @Id

@@ -2,6 +2,7 @@ package com.devd.spring.bookstoreaccountservice.repository.dao;
 
 import com.devd.spring.bookstoreaccountservice.model.DateAudit;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -27,6 +29,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "ROLE")
+@Builder
 public class Role extends DateAudit {
 
     @Id
@@ -41,8 +44,18 @@ public class Role extends DateAudit {
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "roles")
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     @Column(name = "ROLE_DESCRIPTION")
     private String roleDescription;
+
+    public void addUser(User user) {
+        this.users.add(user);
+        user.getRoles().add(this);
+    }
+
+    public void removeUser(User user) {
+        this.users.remove(user);
+        user.getRoles().remove(this);
+    }
 }

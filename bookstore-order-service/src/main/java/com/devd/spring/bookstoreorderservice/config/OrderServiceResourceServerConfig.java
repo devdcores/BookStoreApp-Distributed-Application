@@ -13,7 +13,7 @@ public class OrderServiceResourceServerConfig extends GlobalResourceServerConfig
     private ResourceServerTokenServices tokenServices;
 
     @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    public void configure(ResourceServerSecurityConfigurer resources) {
         resources.resourceId("web").tokenServices(tokenServices);
     }
 }

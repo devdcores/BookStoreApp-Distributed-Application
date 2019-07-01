@@ -34,7 +34,6 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.devd.spring"))
                 .paths(PathSelectors.any())
-
                 .build()
                 .apiInfo(apiInfo())
                 ;

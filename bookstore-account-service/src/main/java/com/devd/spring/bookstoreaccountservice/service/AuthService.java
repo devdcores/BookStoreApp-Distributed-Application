@@ -128,9 +128,11 @@ public class AuthService {
             e.printStackTrace();
         }
 
+        //generate JWT token.
         return Jwts.builder()
                 .claim("user_name", user.getUsername())
                 .claim("authorities", grantedAuthorityList)
+                //TODO get correct claims from DB
                 .claim("aud", Arrays.asList("web"))
                 .setExpiration(expiryDate)
                 .setIssuedAt(new Date())

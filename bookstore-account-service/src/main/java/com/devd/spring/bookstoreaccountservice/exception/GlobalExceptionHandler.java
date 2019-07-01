@@ -6,8 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Arrays;
+import java.net.URI;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -24,8 +25,24 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = populateErrorResponse("400", ex.getMessage());
         log.error("Something went wrong, Exception : "+ex.getMessage());
+        ex.printStackTrace();
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 
+    }
+
+    @ExceptionHandler(SuccessCodeWithErrorResponse.class)
+    public ResponseEntity<ErrorResponse> handleCustomException(SuccessCodeWithErrorResponse ex) {
+        if(ex.getId()!=null){
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(ex.getId()).toUri();
+
+            ErrorResponse errorResponse = ex.getErrorResponse();
+            return ResponseEntity.created(location).body(errorResponse);
+        }else{
+            ErrorResponse errorResponse = ex.getErrorResponse();
+            return ResponseEntity.ok().body(errorResponse);
+        }
     }
 
     @ExceptionHandler(InvalidFormatException.class)
@@ -33,6 +50,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = populateErrorResponse("400", ex.getMessage());
         log.error("Something went wrong, Exception : "+ex.getMessage());
+        ex.printStackTrace();
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 
     }
@@ -43,6 +61,7 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = populateErrorResponse("500", "Something went wring, Internal Server Error, " +
                 "Exception : "+ex.getMessage());
         log.error("Something went wrong, Exception : "+ex.getMessage());
+        ex.printStackTrace();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
