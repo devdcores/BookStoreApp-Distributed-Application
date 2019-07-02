@@ -1,6 +1,14 @@
 package com.devd.spring.bookstoreorderservice.controller;
 
+import com.devd.spring.bookstoreorderservice.feign.CatalogFeignClient;
+import com.devd.spring.bookstoreorderservice.web.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,17 +27,26 @@ public class CartItemController {
 //    @Autowired
 //    private CustomerService customerService;
 //
-//    @RequestMapping("/cart/add/{productId}")
-//    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-//    public void addCartItem(@PathVariable(value = "productId") String productId) {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    @Autowired
+    CatalogFeignClient catalogFeignClient;
+
+    @PostMapping("/cart/add/{productId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void addCartItem(@PathVariable(value = "productId") String productId) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
 //        String emailId = user.getUsername();
 //        Customer customer = customerService.getCustomerByemailId(emailId);
 //        System.out.println("Customer : " + customer.getUsers().getEmailId());
 //        Cart cart = customer.getCart();
 //        System.out.println(cart);
 //        List<CartItem> cartItems = cart.getCartItem();
-//        Product product = productService.getProductById(productId);
+
+        Product product = catalogFeignClient.getProduct(productId);
+        System.out.println(product.toString());
+
+//
 //        for (int i = 0; i < cartItems.size(); i++) {
 //            CartItem cartItem = cartItems.get(i);
 //            if (product.getProductId().equals(cartItem.getProduct().getProductId())) {
@@ -45,7 +62,7 @@ public class CartItemController {
 //        cartItem.setPrice(product.getProductPrice() * 1);
 //        cartItem.setCart(cart);
 //        cartItemService.addCartItem(cartItem);
-//    }
+    }
 //
 //    @RequestMapping("/cart/removeCartItem/{cartItemId}")
 //    @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -61,6 +78,7 @@ public class CartItemController {
 //    }
 
     @GetMapping("/cart")
+    @PreAuthorize("hasAuthority('ROLE_COMMERCE_CART_READ')")
     public String getRes() {
         return "Result from CartItem";
     }

@@ -6,6 +6,8 @@ security:
     public-key: classpath:jwt-signing-public-key.txt
 
 spring:
+  profiles:
+    active: mysql
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost}:9411
     enabled: true
@@ -15,12 +17,64 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
+  flyway:
+    table: order_service_flyway_history
+    baseline-on-migrate: true
+    baseline-version: 0.9
+    enabled: false
+  main:
+    allow-bean-definition-overriding: true
+
+
+eureka:
+  instance:
+    prefer-ip-address: false
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+    registerWithEureka: true
+    fetch-registry: true
+
+logging.level.com.devd.spring: DEBUG
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 10000
+  eureka:
+    enabled: true
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+  metrics:
+    enabled: true
+  shareSecurityContext: true
+#feign:
+#  hystrix:
+#    enabled: true
+
+
+management:
+  endpoint:
+    hystrix:
+      stream:
+        enabled: true
+
+---
+
+spring:
+  profiles: h2
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     database: h2
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true
@@ -28,38 +82,36 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:devdb;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:bookstore_db;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
-#    schema: classpath:sql-scripts/schema.sql
-#    data: classpath:sql-scripts/data.sql
   h2:
     console:
       enabled: true
       settings:
         web-allow-others: true
       path: /h2-console
-  main:
-    allow-bean-definition-overriding: true
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
-    registerWithEureka: true
-  instance:
-    prefer-ip-address: false
 
-logging.level.com.lmi.spring: DEBUG
+---
 
-hystrix:
-  metrics:
-    enabled: true
-feign:
-  hystrix:
-    enabled: true
-
-management:
-  endpoint:
-    hystrix:
-      stream:
-        enabled: true
+spring:
+  profiles: mysql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    open-in-view: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: newpass

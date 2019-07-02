@@ -21,19 +21,23 @@ spring:
     table: catalog_service_flyway_history
     baseline-on-migrate: true
     baseline-version: 0.9
-  #    baseline-version: V1
   main:
     allow-bean-definition-overriding: true
 
 eureka:
+  instance:
+    prefer-ip-address: false
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
   client:
     serviceUrl:
       defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
-    registerWithEureka: true
-  instance:
-    prefer-ip-address: false
+    healthcheck:
+      enabled: true
+      lease:
+        duration: 5
 
-logging.level.com.lmi.spring: DEBUG
+logging.level.com.devd.spring: DEBUG
 
 ---
 
