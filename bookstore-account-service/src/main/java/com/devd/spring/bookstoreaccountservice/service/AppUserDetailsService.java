@@ -1,7 +1,7 @@
 package com.devd.spring.bookstoreaccountservice.service;
 
-import com.devd.spring.bookstoreaccountservice.repository.dao.User;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
+import com.devd.spring.bookstoreaccountservice.repository.dao.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: Devaraj Reddy,
@@ -25,12 +26,13 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userNameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
 
-        if(user == null) {
-            throw new UsernameNotFoundException(String.format("The username or email Id %s doesn't exist",
-                    userNameOrEmail));
-        }
+        Optional<User> userOptional = userRepository.findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
+
+        User user = userOptional.orElseThrow(() ->
+                new UsernameNotFoundException(String.format("The username or email Id %s doesn't exist",
+                        userNameOrEmail))
+        );
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> {

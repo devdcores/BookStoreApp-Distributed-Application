@@ -96,6 +96,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.devd.spring</groupId>
+			<artifactId>bookstore-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+
     </dependencies>
 
 	<build>

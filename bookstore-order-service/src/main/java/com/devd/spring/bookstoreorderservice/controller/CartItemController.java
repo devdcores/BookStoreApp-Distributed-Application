@@ -1,15 +1,22 @@
 package com.devd.spring.bookstoreorderservice.controller;
 
+import com.devd.spring.bookstoreorderservice.feign.AccountFeignClient;
 import com.devd.spring.bookstoreorderservice.feign.CatalogFeignClient;
+import com.devd.spring.bookstoreorderservice.model.CartItem;
+import com.devd.spring.bookstoreorderservice.model.User;
 import com.devd.spring.bookstoreorderservice.web.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author: Devaraj Reddy,
@@ -29,13 +36,17 @@ public class CartItemController {
 //
 
     @Autowired
+    AccountFeignClient accountFeignClient;
+
+    @Autowired
     CatalogFeignClient catalogFeignClient;
 
     @PostMapping("/cart/add/{productId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void addCartItem(@PathVariable(value = "productId") String productId) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        String userName = (String) authentication.getPrincipal();
 //        String emailId = user.getUsername();
 //        Customer customer = customerService.getCustomerByemailId(emailId);
 //        System.out.println("Customer : " + customer.getUsers().getEmailId());
@@ -43,6 +54,9 @@ public class CartItemController {
 //        System.out.println(cart);
 //        List<CartItem> cartItems = cart.getCartItem();
 
+        User user = accountFeignClient.getUser(userName);
+        System.out.println("USER : "+user.toString());
+        
         Product product = catalogFeignClient.getProduct(productId);
         System.out.println(product.toString());
 

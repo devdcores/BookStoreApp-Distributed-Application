@@ -2,6 +2,7 @@ package com.devd.spring.bookstoreaccountservice.repository.dao;
 
 import com.devd.spring.bookstoreaccountservice.model.DateAudit;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -61,7 +62,11 @@ public class User extends DateAudit {
     @JoinTable(name = "USER_ROLES",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    @JsonIgnore
     Set<Role> roles;
+
+    @Column(name = "CART_ID", nullable = false)
+    private String cartId;
 
     public User(String userName, String password, String firstName, String lastName, String email) {
         this.userName = userName;

@@ -1,6 +1,7 @@
 package com.devd.spring.bookstoreaccountservice.repository.dao;
 
 import com.devd.spring.bookstoreaccountservice.model.DateAudit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +45,7 @@ public class Role extends DateAudit {
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "roles")
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     @Column(name = "ROLE_DESCRIPTION")

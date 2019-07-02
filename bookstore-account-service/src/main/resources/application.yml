@@ -8,7 +8,6 @@ security:
     key-pair-alias: jwt-key
     key-pair-password: devdcorespass
     public-key: classpath:jwt-signing-public-key.txt
-
 spring:
   profiles:
     active: mysql
@@ -25,6 +24,8 @@ spring:
     table: account_service_flyway_history
     baseline-on-migrate: true
     baseline-version: 0.9
+  main:
+    allow-bean-definition-overriding: true
 
 eureka:
   client:

@@ -2,8 +2,8 @@ package com.devd.spring.bookstoreaccountservice.service;
 
 import com.devd.spring.bookstoreaccountservice.exception.Error;
 import com.devd.spring.bookstoreaccountservice.exception.ErrorResponse;
-import com.devd.spring.bookstoreaccountservice.exception.SuccessCodeWithErrorResponse;
 import com.devd.spring.bookstoreaccountservice.exception.RunTimeExceptionPlaceHolder;
+import com.devd.spring.bookstoreaccountservice.exception.SuccessCodeWithErrorResponse;
 import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -75,14 +76,26 @@ public class UserService {
                 .lastName(createUserRequest.getLastName())
                 .password(encodedPassword)
                 .roles(new HashSet<>(validRoles))
+                .cartId("234")
                 .build();
 
         User savedUser = userRepository.save(user);
 
-        if(!errorResponse.getErrors().isEmpty()){
+        if (!errorResponse.getErrors().isEmpty()) {
             throw new SuccessCodeWithErrorResponse(savedUser.getId(), errorResponse);
         }
 
         return savedUser.getId();
+    }
+
+    public User getUserByUserName(String userName) {
+
+        Optional<User> userserNameOrEmailOptional = userRepository.findByUserNameOrEmail(userName, userName);
+
+        User user = userserNameOrEmailOptional.orElseThrow(() ->
+                new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
+        );
+
+        return user;
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,13 +33,13 @@ public class UserRoleService {
 
     public void mapUserToRoles(String userNameOrEmail, MapUserToRolesRequest mapUserToRolesRequest) {
 
-        User byUserNameOrEmail = userRepository.findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
+        Optional<User> userNameOrEmailOptional = userRepository.findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
 
-        if (byUserNameOrEmail == null) {
-            throw new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!");
-        }
+        User user = userNameOrEmailOptional.orElseThrow(() ->
+                new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!")
+        );
 
-        Set<Role> roles = byUserNameOrEmail.getRoles();
+        Set<Role> roles = user.getRoles();
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .uuid(UUID.randomUUID())
@@ -59,9 +60,9 @@ public class UserRoleService {
                     .run();
         });
 
-        byUserNameOrEmail.setRoles(roles);
+        user.setRoles(roles);
 
-        userRepository.save(byUserNameOrEmail);
+        userRepository.save(user);
 
         if (!errorResponse.getErrors().isEmpty()) {
             throw new SuccessCodeWithErrorResponse(errorResponse);
