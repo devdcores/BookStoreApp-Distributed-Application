@@ -4,6 +4,7 @@ import com.devd.spring.bookstoreaccountservice.exception.Error;
 import com.devd.spring.bookstoreaccountservice.exception.ErrorResponse;
 import com.devd.spring.bookstoreaccountservice.exception.RunTimeExceptionPlaceHolder;
 import com.devd.spring.bookstoreaccountservice.exception.SuccessCodeWithErrorResponse;
+import com.devd.spring.bookstoreaccountservice.feign.OrderFeignClient;
 import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
@@ -34,6 +35,7 @@ public class UserService {
 
     @Autowired
     RoleRepository roleRepository;
+
 
     public String createUser(CreateUserRequest createUserRequest) {
 
@@ -76,7 +78,6 @@ public class UserService {
                 .lastName(createUserRequest.getLastName())
                 .password(encodedPassword)
                 .roles(new HashSet<>(validRoles))
-                .cartId("234")
                 .build();
 
         User savedUser = userRepository.save(user);
@@ -90,9 +91,8 @@ public class UserService {
 
     public User getUserByUserName(String userName) {
 
-        Optional<User> userserNameOrEmailOptional = userRepository.findByUserNameOrEmail(userName, userName);
-
-        User user = userserNameOrEmailOptional.orElseThrow(() ->
+        Optional<User> userNameOrEmailOptional = userRepository.findByUserNameOrEmail(userName, userName);
+        User user = userNameOrEmailOptional.orElseThrow(() ->
                 new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
         );
 

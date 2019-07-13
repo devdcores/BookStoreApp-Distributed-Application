@@ -64,6 +64,8 @@ management:
     hystrix:
       stream:
         enabled: true
+logging:
+  level:
 
 ---
 
@@ -102,7 +104,7 @@ spring:
     open-in-view: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:

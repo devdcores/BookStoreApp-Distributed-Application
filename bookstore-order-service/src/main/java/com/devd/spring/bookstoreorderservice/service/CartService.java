@@ -8,6 +8,10 @@ import com.devd.spring.bookstoreorderservice.model.Cart;
  */
 public interface CartService {
 
-    Cart getCartByCartId(String CartId);
+    Cart getCartByCartId(String cartId);
+
+    String createCart();
+
+    Cart getCartByUserName(String userName);
 
 }

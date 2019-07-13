@@ -20,7 +20,7 @@ create table cartitem (
        cartItemId varchar(255) not null,
         price double precision not null,
         productId varchar(255),
-        quality integer not null,
+        quantity integer not null,
         cartId varchar(255),
         primary key (cartItemId)
     ) engine=InnoDB

@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreorderservice.config;
+package com.devd.spring.bookstoreaccountservice.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

@@ -1,6 +1,5 @@
 package com.devd.spring.bookstoreorderservice.service;
 
-import com.devd.spring.bookstoreorderservice.model.Cart;
 import com.devd.spring.bookstoreorderservice.model.CartItem;
 
 /**
@@ -9,8 +8,9 @@ import com.devd.spring.bookstoreorderservice.model.CartItem;
  */
 public interface CartItemService {
 
-    void addCartItem(CartItem cartItem);
-    void removeCartItem(String CartItemId);
-    void removeAllCartItems(Cart cart);
+    void addCartItem(String productId);
+    void removeCartItem(String cartItemId);
+    CartItem getCartItem(String cartItemId);
+    void removeAllCartItems(String cartId);
 
 }

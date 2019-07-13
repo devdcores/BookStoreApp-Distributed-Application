@@ -1,5 +1,6 @@
 package com.devd.spring.bookstoreaccountservice.controller;
 
+import com.devd.spring.bookstoreaccountservice.feign.OrderFeignClient;
 import com.devd.spring.bookstoreaccountservice.service.AuthService;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
 import com.devd.spring.bookstoreaccountservice.web.JwtAuthenticationResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Map;
 
 /**
  * @author: Devaraj Reddy,
@@ -26,6 +28,9 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
+
+    @Autowired
+    OrderFeignClient orderFeignClient;
 
     @PostMapping("/client")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
@@ -39,6 +44,7 @@ public class AuthController {
     public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody SignInRequest signInRequest) {
 
         String accessToken = authService.authenticateUser(signInRequest);
+//        orderFeignClient.createCart();
         return ResponseEntity.ok(new JwtAuthenticationResponse(accessToken));
     }
 
@@ -47,9 +53,7 @@ public class AuthController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
-
         String userName = authService.registerUser(signUpRequest);
-
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(userName).toUri();
