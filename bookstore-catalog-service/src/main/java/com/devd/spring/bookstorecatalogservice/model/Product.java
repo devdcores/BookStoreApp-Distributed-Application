@@ -32,7 +32,7 @@ public class Product extends DateAudit {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "PRODUCT_ID", updatable = false, nullable = false)
-    private String productID;
+    private String productId;
 
     @Column(name = "PRODUCT_NAME", nullable = false)
     private String productName;

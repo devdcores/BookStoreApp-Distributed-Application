@@ -9,16 +9,16 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
 @Configuration
-public class CatalogServiceResourceServerConfig extends GlobalResourceServerConfig {
-
+public class ResourceServerConfig extends GlobalResourceServerConfig {
+    
     @Autowired
     private ResourceServerTokenServices tokenServices;
-
+    
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources.resourceId("web").tokenServices(tokenServices);
     }
-
+    
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http

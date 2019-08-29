@@ -1,14 +1,14 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
+import com.devd.spring.bookstorecatalogservice.model.ProductCategoriesPagedResponse;
+import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
+import com.devd.spring.bookstorecatalogservice.service.ProductCategoryService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductCategoryRequest;
-import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
-import com.devd.spring.bookstorecatalogservice.model.ProductCategoryOrderByEnum;
-import com.devd.spring.bookstorecatalogservice.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
@@ -76,15 +76,43 @@ public class ProductCategoryController {
     }
 
     @GetMapping(value = "/productCategories", produces = "application/json")
-    public ResponseEntity<?> getAllProductCategories(@RequestParam("orderBy") ProductCategoryOrderByEnum orderBy,
-                                            @RequestParam("direction") Sort.Direction direction,
-                                            @RequestParam("page") int page,
-                                            @RequestParam("size") int size,
-                                            PagedResourcesAssembler<ProductCategory> assembler) {
-
-        Page<ProductCategory> list = productCategoryService.getAllProductCategories(orderBy, direction, page, size);
-        PagedResources<Resource<ProductCategory>> resources = assembler.toResource(list);
-        return ResponseEntity.ok(resources);
+    public ResponseEntity<?> getAllProductCategories(@RequestParam(value = "sort", required = false) String sort,
+                                                     @RequestParam(value = "page", required = false) Integer page,
+                                                     @RequestParam(value = "size", required = false) Integer size,
+                                                     PagedResourcesAssembler<ProductCategory> assembler) {
+    
+        Page<ProductCategory> list = productCategoryService.getAllProductCategories(sort, page, size);
+    
+        Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest()
+                                                        .build()
+                                                        .toUriString());
+    
+        PagedResources<Resource<ProductCategory>> resource = assembler.toResource(list, link);
+    
+        ProductCategoriesPagedResponse productCategoriesPagedResponse = new ProductCategoriesPagedResponse();
+        productCategoriesPagedResponse.setPage(list);
+    
+        if (resource.hasLink("first")) {
+            productCategoriesPagedResponse.get_links().put("first", resource.getLink("first").getHref());
+        }
+    
+        if (resource.hasLink("prev")) {
+            productCategoriesPagedResponse.get_links().put("prev", resource.getLink("prev").getHref());
+        }
+    
+        if (resource.hasLink("self")) {
+            productCategoriesPagedResponse.get_links().put("self", resource.getLink("self").getHref());
+        }
+    
+        if (resource.hasLink("next")) {
+            productCategoriesPagedResponse.get_links().put("next", resource.getLink("next").getHref());
+        }
+    
+        if (resource.hasLink("last")) {
+            productCategoriesPagedResponse.get_links().put("last", resource.getLink("last").getHref());
+        }
+    
+        return ResponseEntity.ok(productCategoriesPagedResponse);
 
     }
 }

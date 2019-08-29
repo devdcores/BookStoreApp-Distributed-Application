@@ -17,8 +17,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class UpdateProductRequest {
 
-    @NotNull(message = "productID should not be null!")
-    @NotEmpty(message = "productID should not be empty!")
+    @NotNull(message = "productId should not be null!")
+    @NotEmpty(message = "productId should not be empty!")
     private String productID;
 
     @NotNull(message = "productName should not be null!")

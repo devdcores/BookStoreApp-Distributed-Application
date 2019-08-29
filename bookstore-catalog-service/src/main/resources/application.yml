@@ -23,6 +23,8 @@ spring:
     baseline-version: 0.9
   main:
     allow-bean-definition-overriding: true
+  hateoas:
+    use-hal-as-default-json-media-type: false
 
 eureka:
   instance:

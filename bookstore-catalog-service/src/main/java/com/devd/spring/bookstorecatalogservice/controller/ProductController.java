@@ -1,14 +1,14 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
+import com.devd.spring.bookstorecatalogservice.model.Product;
+import com.devd.spring.bookstorecatalogservice.model.ProductsPagedResponse;
+import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
-import com.devd.spring.bookstorecatalogservice.model.Product;
-import com.devd.spring.bookstorecatalogservice.model.ProductOrderByEnum;
-import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
@@ -77,15 +77,42 @@ public class ProductController {
 
 
     @GetMapping(value = "/products", produces = "application/json")
-    public ResponseEntity<?> getAllProducts(@RequestParam("orderBy") ProductOrderByEnum orderBy,
-                                            @RequestParam("direction") Sort.Direction direction,
-                                            @RequestParam("page") int page,
-                                            @RequestParam("size") int size,
+    public ResponseEntity<?> getAllProducts(@RequestParam(value = "sort", required = false) String sort,
+                                            @RequestParam(value = "page", required = false) Integer page,
+                                            @RequestParam(value = "size", required = false) Integer size,
                                             PagedResourcesAssembler<Product> assembler) {
-
-        Page<Product> list = productService.getAllProducts(orderBy, direction, page, size);
-        PagedResources<Resource<Product>> resources = assembler.toResource(list);
-        return ResponseEntity.ok(resources);
+    
+        Page<Product> list = productService.getAllProducts(sort, page, size);
+    
+        Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest().build()
+                                                        .toUriString());
+    
+        PagedResources<Resource<Product>> resource = assembler.toResource(list, link);
+    
+        ProductsPagedResponse productsPagedResponse = new ProductsPagedResponse();
+        productsPagedResponse.setPage(list);
+    
+        if (resource.hasLink("first")) {
+            productsPagedResponse.get_links().put("first", resource.getLink("first").getHref());
+        }
+    
+        if (resource.hasLink("prev")) {
+            productsPagedResponse.get_links().put("prev", resource.getLink("prev").getHref());
+        }
+    
+        if (resource.hasLink("self")) {
+            productsPagedResponse.get_links().put("self", resource.getLink("self").getHref());
+        }
+    
+        if (resource.hasLink("next")) {
+            productsPagedResponse.get_links().put("next", resource.getLink("next").getHref());
+        }
+    
+        if (resource.hasLink("last")) {
+            productsPagedResponse.get_links().put("last", resource.getLink("last").getHref());
+        }
+    
+        return ResponseEntity.ok(productsPagedResponse);
 
     }
 }

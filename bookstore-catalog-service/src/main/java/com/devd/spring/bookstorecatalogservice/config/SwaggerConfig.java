@@ -1,5 +1,6 @@
-package com.devd.spring.bookstorecommons.config;
+package com.devd.spring.bookstorecatalogservice.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -25,21 +26,12 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
+    
+    @Autowired
+    ApiInfo apiInfo;
+    
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .securitySchemes(Arrays.asList(apiKey()))
-                .securityContexts(Collections.singletonList(securityContext()))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.devd.spring"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo())
-                ;
-    }
-
-    private ApiInfo apiInfo() {
+    ApiInfo apiInfo() {
         return new ApiInfo(
                 "Catalog Service REST Api's",
                 "",
@@ -48,19 +40,31 @@ public class SwaggerConfig {
                 new Contact("Devaraj Reddy", "https://github.com/devdcores", "devarajreddy.gdr@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList());
     }
-
+    
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                       .securitySchemes(Arrays.asList(apiKey()))
+                       .securityContexts(Collections.singletonList(securityContext()))
+                       .select()
+                       .apis(RequestHandlerSelectors.basePackage("com.devd.spring"))
+                       .paths(PathSelectors.any())
+                       .build()
+                       .apiInfo(apiInfo);
+    }
+    
     private SecurityContext securityContext() {
         return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.regex("/.*")).build();
     }
-
+    
     private List<SecurityReference> defaultAuth() {
         final AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         final AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{authorizationScope};
         return Collections.singletonList(new SecurityReference("Bearer", authorizationScopes));
     }
-
+    
     private ApiKey apiKey() {
         return new ApiKey("Bearer", "Authorization", "header");
     }
-
+    
 }

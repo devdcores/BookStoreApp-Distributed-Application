@@ -1,10 +1,9 @@
 package com.devd.spring.bookstorecatalogservice.service;
 
+import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
+import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductCategoryRequest;
-import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
-import com.devd.spring.bookstorecatalogservice.model.ProductCategoryOrderByEnum;
-import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -68,10 +67,39 @@ public class ProductCategoryService {
         productCategoryRepository.save(productCategory);
 
     }
-
-    public Page<ProductCategory> getAllProductCategories(ProductCategoryOrderByEnum orderBy, Sort.Direction direction, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, direction, orderBy.getOrderByCode());
-        Page<ProductCategory> data = productCategoryRepository.findAll(pageable);
-        return data;
+    
+    public Page<ProductCategory> getAllProductCategories(String sort, Integer page, Integer size) {
+        
+        //set defaults
+        if (size == null || size == 0) {
+            size = 20;
+        }
+        
+        //set defaults
+        if (page == null || page == 0) {
+            page = 0;
+        }
+        
+        Pageable pageable;
+        
+        if (sort == null) {
+            pageable = PageRequest.of(page, size);
+        } else {
+            Sort.Order order;
+            
+            try {
+                String[] split = sort.split(",");
+                
+                Sort.Direction sortDirection = Sort.Direction.fromString(split[1]);
+                order = new Sort.Order(sortDirection, split[0]).ignoreCase();
+                pageable = PageRequest.of(page, size, Sort.by(order));
+                
+            } catch (Exception e) {
+                throw new RuntimeException("Not a valid sort value, It should be 'fieldName,direction', example : 'productCategoryName,asc");
+            }
+            
+        }
+        
+        return productCategoryRepository.findAll(pageable);
     }
 }
