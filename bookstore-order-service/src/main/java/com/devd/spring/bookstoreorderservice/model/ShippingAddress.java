@@ -31,8 +31,6 @@ public class ShippingAddress {
     private String state;
     private String zipcode;
     private String country;
-
-    @OneToOne(mappedBy = "shippingAddress")
-    private Customer customer;
-
+    
+    //User details field needed
 }

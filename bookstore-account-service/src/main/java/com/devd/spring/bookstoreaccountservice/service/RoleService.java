@@ -6,6 +6,8 @@ import com.devd.spring.bookstoreaccountservice.web.CreateRoleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author: Devaraj Reddy,
  * Date : 2019-06-30
@@ -26,5 +28,10 @@ public class RoleService {
 
         Role savedRole = roleRepository.save(role);
         return savedRole.getId();
+    }
+    
+    public List<Role> getAllRoles() {
+        List<Role> allRoles = roleRepository.findAll();
+        return allRoles;
     }
 }

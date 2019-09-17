@@ -62,7 +62,7 @@ public class User extends DateAudit {
     @JoinTable(name = "USER_ROLES",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") })
-    @JsonIgnore
+//    @JsonIgnore
     Set<Role> roles;
 
     @Column(name = "CART_ID", nullable = false)

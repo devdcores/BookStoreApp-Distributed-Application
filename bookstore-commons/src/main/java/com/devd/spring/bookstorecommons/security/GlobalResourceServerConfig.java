@@ -34,6 +34,12 @@ public class GlobalResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
+                .headers()
+                .frameOptions()
+                .disable()
+                .and()
+                .requestMatchers()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin").permitAll()
                 .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()

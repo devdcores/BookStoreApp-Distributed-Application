@@ -30,8 +30,6 @@ public class BillingAddress {
     private String state;
     private String zipcode;
     private String country;
-
-    @OneToOne(mappedBy = "billingAddress")
-    private Customer customer;
+    //User details field needed
 
 }
