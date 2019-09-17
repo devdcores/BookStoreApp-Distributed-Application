@@ -10,7 +10,7 @@ security:
     public-key: classpath:jwt-signing-public-key.txt
 spring:
   profiles:
-    active: mysql
+    active: h2
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost}:9411
     enabled: true
