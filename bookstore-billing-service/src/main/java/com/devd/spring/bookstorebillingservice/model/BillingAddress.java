@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreorderservice.model;
+package com.devd.spring.bookstorebillingservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,30 +16,20 @@ import javax.persistence.Table;
  * Date : 2019-06-17
  */
 @Entity
-@Table(name = "customerorder")
+@Table(name = "billingAddress")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class BillingAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String customerOrderId;
-
-    @OneToOne
-    @JoinColumn(name = "cartId")
-    private Cart cart;
-
+    private String billindAddressId;
+    private String address;
+    private String city;
+    private String state;
+    private String zipcode;
+    private String country;
     private String userName;
-
-    @OneToOne
-    @JoinColumn(name = "shippingAddressId")
-    private ShippingAddress shippingAddress;
-
-    @OneToOne
-    @JoinColumn(name = "billingAddressId")
-    private BillingAddress billingAddress;
-
-
 
 }

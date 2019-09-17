@@ -9,7 +9,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,23 +27,23 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 public class CartItem {
-
+    
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String cartItemId;
-
+    
     private int quantity;
-
+    
     private double price;
-
+    
     private String productId;
-
+    
     @ManyToOne
     @JoinColumn(name = "cartId")
     @JsonIgnore
     private Cart cart;
-
+    
     @PreRemove
     public void dismissParent() {
         this.cart.dismissChild(this); //SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP

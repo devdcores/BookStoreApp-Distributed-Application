@@ -7,6 +7,7 @@ import com.devd.spring.bookstoreorderservice.model.CartItem;
 import com.devd.spring.bookstoreorderservice.repository.CartItemRepository;
 import com.devd.spring.bookstoreorderservice.service.CartItemService;
 import com.devd.spring.bookstoreorderservice.service.CartService;
+import com.devd.spring.bookstoreorderservice.web.CartItemRequest;
 import com.devd.spring.bookstoreorderservice.web.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,7 +37,7 @@ public class CartItemServiceImpl implements CartItemService {
     AccountFeignClient accountFeignClient;
 
     @Override
-    public void addCartItem(String productId) {
+    public void addCartItem(CartItemRequest cartItemRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = (String) authentication.getPrincipal();
@@ -47,13 +48,15 @@ public class CartItemServiceImpl implements CartItemService {
             cartService.createCart();
             cartByUserName = cartService.getCartByUserName(userName);
         }
-
-        Product product = catalogFeignClient.getProduct(productId);
+    
+        Product product = catalogFeignClient.getProduct(cartItemRequest.getProductId());
 
         //If the product already exists in the cart, update its quantity and price.
+    
         if (cartByUserName.getCartItem() != null) {
             for (CartItem ci : cartByUserName.getCartItem()) {
-                if (product.getProductID().equals(ci.getProductId())) {
+    
+                if (product.getProductId().equals(ci.getProductId())) {
                     ci.setQuantity(ci.getQuantity() + 1);
                     ci.setPrice(ci.getQuantity() * product.getPrice());
                     cartItemRepository.save(ci);
@@ -64,11 +67,11 @@ public class CartItemServiceImpl implements CartItemService {
 
         //If cart doesn't have any cartItems, then create cartItem.
         CartItem cartItem = CartItem.builder()
-                .cart(cartByUserName)
-                .price(product.getPrice())
-                .quantity(1)
-                .productId(product.getProductID())
-                .build();
+                                    .cart(cartByUserName)
+                                    .price(product.getPrice())
+                                    .quantity(1)
+                                    .productId(product.getProductId())
+                                    .build();
 
         cartItemRepository.save(cartItem);
     }

@@ -73,13 +73,13 @@ public class ProductService {
         ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
 
         Optional<Product> productOptional =
-                productRepository.findById(updateProductRequest.getProductID());
+                productRepository.findById(updateProductRequest.getProductId());
 
         //check weather product exists
         final Product productExisting = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
 
         Product product = Product.builder()
-                                 .productId(updateProductRequest.getProductID())
+                                 .productId(updateProductRequest.getProductId())
                                  .productName(updateProductRequest.getProductName())
                                  .description(updateProductRequest.getDescription())
                                  .availableItemCount(updateProductRequest.getAvailableItemCount())

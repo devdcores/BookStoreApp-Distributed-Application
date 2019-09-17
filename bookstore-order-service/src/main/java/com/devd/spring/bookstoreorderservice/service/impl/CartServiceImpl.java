@@ -1,6 +1,7 @@
 package com.devd.spring.bookstoreorderservice.service.impl;
 
 import com.devd.spring.bookstoreorderservice.model.Cart;
+import com.devd.spring.bookstoreorderservice.model.CartItem;
 import com.devd.spring.bookstoreorderservice.repository.CartRepository;
 import com.devd.spring.bookstoreorderservice.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,28 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Override
+    public Cart getCart() {
+    
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = (String) authentication.getPrincipal();
+    
+        Cart cartByUserName = cartRepository.findCartByUserName(userName);
+    
+        if (cartByUserName == null) {
+            throw new RuntimeException("cart doesn't exist for this userName");
+        }
+    
+        double totalPrice = cartByUserName.getCartItem()
+                                          .stream()
+                                          .mapToDouble(CartItem::getPrice)
+                                          .sum();
+    
+        cartByUserName.setTotalPrice(totalPrice);
+    
+        return cartByUserName;
+    }
+    
     @Override
     public Cart getCartByCartId(String cartId) {
         Optional<Cart> byCartId = cartRepository.findByCartId(cartId);

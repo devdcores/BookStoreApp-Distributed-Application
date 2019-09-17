@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:9001}
+  port: ${SERVER_PORT:9009}
 
 spring:
   zipkin:

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Product extends DateAudit {
 
-    private String productID;
+    private String productId;
     private String productName;
     private String description;
     private double price;
