@@ -1,26 +1,61 @@
-CREATE TABLE IF NOT EXISTS BILLINGADDRESS (
-       billindAddressId varchar(255) not null,
-        address varchar(255),
-        city varchar(255),
-        country varchar(255),
-        state varchar(255),
-        zipcode varchar(255),
-        primary key (billindAddressId)
-    );
+-- create billing address table
+CREATE TABLE IF NOT EXISTS BILLING_ADDRESS (
+    BILLING_ADDRESS_ID VARCHAR(255) NOT NULL,
+    ADDRESS VARCHAR(255),
+    CITY VARCHAR(255),
+    COUNTRY VARCHAR(255),
+    STATE VARCHAR(255),
+    ZIPCODE VARCHAR(255),
+    PRIMARY KEY (BILLING_ADDRESS_ID)
+);
 
+-- create shipping address table
+CREATE TABLE IF NOT EXISTS SHIPPING_ADDRESS (
+    SHIPPING_ADDRESS_ID VARCHAR(255) NOT NULL,
+    ADDRESS VARCHAR(255),
+    CITY VARCHAR(255),
+    COUNTRY VARCHAR(255),
+    STATE VARCHAR(255),
+    ZIPCODE VARCHAR(255),
+    PRIMARY KEY (SHIPPING_ADDRESS_ID)
+);
+
+-- create cart table
 CREATE TABLE IF NOT EXISTS CART (
-       cartId varchar(255) not null,
-        totalPrice double not null,
-        userName varchar(255) not null,
-        primary key (cartId)
-    );
+    CART_ID VARCHAR(255) NOT NULL,
+    TOTAL_PRICE DOUBLE NOT NULL,
+    USER_NAME VARCHAR(255) NOT NULL,
+    PRIMARY KEY (CART_ID)
+);
 
+-- create cart item table
+CREATE TABLE IF NOT EXISTS CART_ITEM (
+    CART_ITEM_ID VARCHAR(255) NOT NULL,
+    PRICE DOUBLE NOT NULL,
+    PRODUCT_ID VARCHAR(255),
+    QUANTITY INTEGER NOT NULL,
+    CART_ID VARCHAR(255),
+    PRIMARY KEY (CART_ITEM_ID),
+    CONSTRAINT CART_FK FOREIGN KEY (CART_ID) REFERENCES CART (CART_ID) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
 
-CREATE TABLE IF NOT EXISTS CARTITEM (
-       cartItemId varchar(255) not null,
-        price double not null,
-        productId varchar(255),
-        quantity integer not null,
-        cartId varchar(255),
-        primary key (cartItemId)
-    );
+-- create order table
+CREATE TABLE IF NOT EXISTS ORDER_TABLE (
+    ORDER_ID VARCHAR(255) NOT NULL,
+    TOTAL_ORDER_PRICE DOUBLE NOT NULL,
+    USER_NAME VARCHAR(255) NOT NULL,
+    BILLING_ADDRESS_ID VARCHAR(255),
+    SHIPPING_ADDRESS_ID VARCHAR(255),
+    PRIMARY KEY (ORDER_ID)
+);
+
+-- create order item table
+CREATE TABLE IF NOT EXISTS ORDER_ITEM (
+    ORDER_ITEM_ID VARCHAR(255) NOT NULL,
+    ORDER_ITEM_PRICE DOUBLE NOT NULL,
+    PRODUCT_ID VARCHAR(255) NOT NULL,
+    QUANTITY INTEGER NOT NULL,
+    ORDER_ID VARCHAR(255) NOT NULL,
+    PRIMARY KEY (ORDER_ITEM_ID),
+    CONSTRAINT ORDER_FK FOREIGN KEY (ORDER_ID) REFERENCES ORDER_TABLE (ORDER_ID) ON DELETE RESTRICT ON UPDATE RESTRICT
+);

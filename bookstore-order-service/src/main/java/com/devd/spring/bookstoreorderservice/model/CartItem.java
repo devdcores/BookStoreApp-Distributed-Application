@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "cartitem")
+@Table(name = "CART_ITEM")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,16 +32,18 @@ public class CartItem {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "CART_ITEM_ID", updatable = false, nullable = false)
     private String cartItemId;
     
     private int quantity;
     
     private double price;
     
+    @Column(name = "PRODUCT_ID", nullable = false)
     private String productId;
     
     @ManyToOne
-    @JoinColumn(name = "cartId")
+    @JoinColumn(name = "CART_ID")
     @JsonIgnore
     private Cart cart;
     
@@ -48,5 +51,15 @@ public class CartItem {
     public void dismissParent() {
         this.cart.dismissChild(this); //SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP
         this.cart = null;
+    }
+    
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                       "cartItemId='" + cartItemId + '\'' +
+                       ", quantity=" + quantity +
+                       ", price=" + price +
+                       ", productId='" + productId + '\'' +
+                       '}';
     }
 }
