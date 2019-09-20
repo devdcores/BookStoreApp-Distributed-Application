@@ -1,12 +1,12 @@
 
-INSERT INTO USER (user_id, first_name, last_name, password, user_name, email) VALUES (1, 'John', 'Doe', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'john.doe', 'john.doe@gmail.com');
-INSERT INTO USER (user_id, first_name, last_name, password, user_name, email) VALUES (2, 'Admin', 'Admin', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'admin.admin', 'admin@gmail.com');
+INSERT INTO USER (USER_ID, FIRST_NAME, LAST_NAME, PASSWORD, USER_NAME, EMAIL, CART_ID)  VALUES (1, 'John', 'Doe', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'john.doe', 'john.doe@gmail.com', null);
+INSERT INTO USER (USER_ID, FIRST_NAME, LAST_NAME, PASSWORD, USER_NAME, EMAIL, CART_ID)  VALUES (2, 'Admin', 'Admin', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'admin.admin', 'admin@gmail.com', null);
 
-INSERT INTO ROLE (role_id, role_name, role_description) VALUES (1, 'STANDARD_USER', 'Standard User - Has no admin rights');
-INSERT INTO ROLE (role_id, role_name, role_description) VALUES (2, 'ADMIN_USER', 'Admin User - Has permission to perform admin tasks');
+INSERT INTO ROLE (ROLE_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (1, 'STANDARD_USER', 'Standard User - Has no admin rights');
+INSERT INTO ROLE (ROLE_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (2, 'ADMIN_USER', 'Admin User - Has permission to perform admin tasks');
 
-INSERT INTO USER_ROLES(user_id, role_id) VALUES(1,1);
-INSERT INTO USER_ROLES(user_id, role_id) VALUES(2,1);
-INSERT INTO USER_ROLES(user_id, role_id) VALUES(2,2);
+INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES(1,1);
+INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES(2,1);
+INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES(2,2);
 
-INSERT INTO oauth_client_details (client_id, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove, resource_ids) VALUES  ('defaultfirstclientid','$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'read,write',  'password,authorization_code,refresh_token,client_credentials', null, null, 36000, 10000, null, true,'web');
+INSERT INTO OAUTH_CLIENT_DETAILS (CLIENT_ID, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, WEB_SERVER_REDIRECT_URI, AUTHORITIES, ACCESS_TOKEN_VALIDITY, REFRESH_TOKEN_VALIDITY, ADDITIONAL_INFORMATION, AUTOAPPROVE, RESOURCE_IDS) VALUES  ('defaultfirstclientid','$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'read,write',  'password,authorization_code,refresh_token,client_credentials', null, null, 36000, 10000, null, true,'web');

@@ -65,7 +65,7 @@ public class User extends DateAudit {
 //    @JsonIgnore
     Set<Role> roles;
 
-    @Column(name = "CART_ID", nullable = false)
+    @Column(name = "CART_ID")
     private String cartId;
 
     public User(String userName, String password, String firstName, String lastName, String email) {
