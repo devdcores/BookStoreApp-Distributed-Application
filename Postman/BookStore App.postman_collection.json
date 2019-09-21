@@ -1,0 +1,1232 @@
+{
+	"info": {
+		"_postman_id": "13f53f44-33a4-460c-86a3-2d264b19c725",
+		"name": "BookStore App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Catalog Service",
+			"item": [
+				{
+					"name": "Create Product Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"productCategoryName\": \"TechBooks\",\n   \"description\": \"This category has books related to technology.\"\n}"
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/productCategory",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"productCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"productCategoryId\" : \"ff8080816d3e127f016d3e8bc4990001\",\n   \"productCategoryName\": \"Tech Categories\",\n   \"description\": \"update the name of tech category.\"\n}"
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/productCategory",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"productCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product Category",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/productCategory/ff8080816d3e127f016d3e8bc4990001",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"productCategory",
+								"ff8080816d3e127f016d3e8bc4990001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product Categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX25hbWUiOiJkZXZkMTIzNCIsImF1dGhvcml0aWVzIjpbIkFETUlOX1VTRVIiLCJTVEFOREFSRF9VU0VSIl0sImF1ZCI6WyJ3ZWIiXSwiZXhwIjoxNTY2OTAyNDQ3LCJpYXQiOjE1NjY4OTk0NDd9.G_7np2LRxNBHmOHkig02J7kP4tKsDAectdzQHfoDH4nN_ip_ycNiKqnFPV_chzTYHFy7DQ0VcXaGJ9tKQLckZ2LGqpGGuPo2uaL-rZRs6MofV3HzriaySUwKFQ1VJohTRGsHsOdXqH4cMnvppUpT8eWE2U2mlkUn42CVTe90qsuaeDJxIGH4mwWKf5MpqUR0m7vJQUwMNB-bcvmbi51MGH8t4hbOCFqo609ggVCvfxDLqtWgYhhVxRmrYxUXDDHBxiwaTQbh-QPO_mkmz9w7k1ekDQ8d_abstqmSHV8CZ3JsjonLVYjo92XmNddSEe4f8b9LsqTJ_PX79fzKeYQrRw"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/productCategories?direction=ASC&orderBy=PRODUCTCATEGORYNAME&page=0&size=3",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"productCategories"
+							],
+							"query": [
+								{
+									"key": "direction",
+									"value": "ASC"
+								},
+								{
+									"key": "orderBy",
+									"value": "PRODUCTCATEGORYNAME"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product Category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/productCategory/8a631cc36b30ab59016b3121eee70003",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"productCategory",
+								"8a631cc36b30ab59016b3121eee70003"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"productName\": \"PN\",\n   \"description\": \"pDesc\",\n   \"price\": 1.0,\n   \"productCategoryId\": \"402880e46b2erce9016b2d7d07c60002\",\n   \"availableItemCount\": 122\n }"
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/product",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"productID\": \"8a631cc36b30ab59016b312d0cd50006\",\n   \"productName\": \"PName\",\n   \"description\": \"pDesc\",\n   \"price\": 1.0,\n   \"productCategoryId\": \"402880e46b2erce9016b2d7d07c60002\",\n   \"availableItemCount\": 122\n }"
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/product",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/product/8a631cc36b30ab59016b312d0cd50006",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"product",
+								"8a631cc36b30ab59016b312d0cd50006"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/product/402880e46b2d7ce9016b2d7d28350001",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"product",
+								"402880e46b2d7ce9016b2d7d28350001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2e0403ba-7836-49db-add7-f4e8d5396a6a",
+								"exec": [
+									"pm.test(\"Get data from response\", function () {",
+									"    responseFromGet = pm.response.json();",
+									"    console.log(responseFromGet);",
+									"    ",
+									"    console.log(responseFromGet.page.content.length)",
+									"    ",
+									"        for(var i=0; i<responseFromGet.page.content.length; i++){",
+									"            ",
+									"             const echoPostRequest = {",
+									"              url: 'localhost:4001/user',",
+									"              method: 'POST',",
+									"              header: { ",
+									"                'Accept': 'application/json',",
+									"                'Content-Type': 'application/json',",
+									"                'Authorization': 'Bearer '+pm.environment.get('accessToken')",
+									"               },",
+									"              body: {",
+									"                mode: 'raw',",
+									"                raw: JSON.stringify({",
+									"                     \"userId\": \"1234\",",
+									"                     \"userName\": \"uid\"+\"12\"+i,",
+									"                     \"password\": \"devdpass\",",
+									"                     \"firstName\": \"devd\",",
+									"                     \"lastName\": \"reddy\",",
+									"                     \"email\": \"devd\"+\"1\"+i+'@d.com',",
+									"                     \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\",\"asdasdas\",\"Asdasdasd\"]",
+									"                })",
+									"              }",
+									"        };",
+									"",
+									"",
+									"    pm.sendRequest(echoPostRequest, function (err, res) {",
+									"        pm.expect(res).to.have.property('code', 201);",
+									"    });",
+									"",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX25hbWUiOiJkZXZkMTIzNCIsImF1dGhvcml0aWVzIjpbIkFETUlOX1VTRVIiLCJTVEFOREFSRF9VU0VSIl0sImF1ZCI6WyJ3ZWIiXSwiZXhwIjoxNTY2OTAyNDQ3LCJpYXQiOjE1NjY4OTk0NDd9.G_7np2LRxNBHmOHkig02J7kP4tKsDAectdzQHfoDH4nN_ip_ycNiKqnFPV_chzTYHFy7DQ0VcXaGJ9tKQLckZ2LGqpGGuPo2uaL-rZRs6MofV3HzriaySUwKFQ1VJohTRGsHsOdXqH4cMnvppUpT8eWE2U2mlkUn42CVTe90qsuaeDJxIGH4mwWKf5MpqUR0m7vJQUwMNB-bcvmbi51MGH8t4hbOCFqo609ggVCvfxDLqtWgYhhVxRmrYxUXDDHBxiwaTQbh-QPO_mkmz9w7k1ekDQ8d_abstqmSHV8CZ3JsjonLVYjo92XmNddSEe4f8b9LsqTJ_PX79fzKeYQrRw"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{catalogServiceUrl}}/products?direction=ASC&orderBy=AVAILABLEITEMCOUNT&page=0&size=3",
+							"host": [
+								"{{catalogServiceUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "direction",
+									"value": "ASC"
+								},
+								{
+									"key": "orderBy",
+									"value": "AVAILABLEITEMCOUNT"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth ",
+			"item": [
+				{
+					"name": "Get OAuth Token - ADMIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5c2d94aa-e3c4-4bcb-b295-2554dc8de2fe",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"accessToken\", jsonData.access_token);",
+									"",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "jwtpass",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "defaultfirstclientid",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin.admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "jwtpass",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/oauth/token",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User (Admin uses this api to create user in the system)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81500078-67fc-489b-a61f-550d772f58cd",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"devarajreddy\",\n  \"password\": \"pass@1234\",\n  \"firstName\": \"devaraj\",\n  \"lastName\": \"reddy\",\n  \"email\": \"devaraj.reddy@gmail.com\",\n  \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\"]\n}"
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/user",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignIn",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81500078-67fc-489b-a61f-550d772f58cd",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"accessToken\", jsonData.accessToken);",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usernameOrEmail\": \"devarajreddy\",\n  \"password\": \"pass@1234\"\n}"
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/signin",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81500078-67fc-489b-a61f-550d772f58cd",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"devd\",\n  \"password\": \"pass@1234\",\n  \"firstName\": \"devd\",\n  \"lastName\": \"reddy\",\n  \"email\": \"devd.reddy@gmail.com\"\n}"
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/signup",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by UserId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by UserName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81500078-67fc-489b-a61f-550d772f58cd",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"",
+									"var uid = '';",
+									"",
+									"pm.test(\"Get data from response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    console.log(jsonData.firstName);",
+									"    uid = jsonData.id;",
+									"    ",
+									"    for(var i=0; i<3; i++){",
+									"        const echoPostRequest = {",
+									"  url: 'localhost:4001/user',",
+									"  method: 'POST',",
+									"  header: { ",
+									"            'Accept': 'application/json',",
+									"            'Content-Type': 'application/json',",
+									"            'Authorization': 'Bearer '+pm.environment.get('accessToken')",
+									"           },",
+									"  body: {",
+									"    mode: 'raw',",
+									"    raw: JSON.stringify({",
+									"         \"userId\": \"1234\",",
+									"        \"userName\": \"devdabcd\"+i,",
+									"        \"password\": \"devdpass\",",
+									"        \"firstName\": \"devd\",",
+									"        \"lastName\": \"reddy\",",
+									"        \"email\": uid+i+'@d.com',",
+									"        \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\",\"asdasdas\",\"Asdasdasd\"]",
+									"    })",
+									"  }",
+									"};",
+									"    }",
+									"    ",
+									"    pm.sendRequest(echoPostRequest, function (err, res) {",
+									"   pm.expect(res).to.have.property('code', 201);",
+									"});",
+									"",
+									"});",
+									"",
+									"// const echoPostRequest = {",
+									"//   url: 'localhost:4001/user',",
+									"//   method: 'POST',",
+									"//   header: { ",
+									"//             'Accept': 'application/json',",
+									"//             'Content-Type': 'application/json',",
+									"//             'Authorization': 'Bearer '+pm.environment.get('accessToken')",
+									"//           },",
+									"//   body: {",
+									"//     mode: 'raw',",
+									"//     raw: JSON.stringify({",
+									"//          \"userId\": \"1234\",",
+									"//         \"userName\": uid+\"1\",",
+									"//         \"password\": \"devdpass\",",
+									"//         \"firstName\": \"devd\",",
+									"//         \"lastName\": \"reddy\",",
+									"//         \"email\": uid+\"1\"+'@d.com',",
+									"//         \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\",\"asdasdas\",\"Asdasdasd\"]",
+									"//     })",
+									"//   }",
+									"// };",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/user?userName=devarajreddy",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "devarajreddy"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create OAuth Client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81500078-67fc-489b-a61f-550d772f58cd",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": \"clientIdFromController\",\n  \"client_secret\": \"clientSecret\",\n  \"authorized_grant_types\": [\n    \"password\",\n    \"authorization_code\",\n    \"refresh_token\",\n    \"client_credentials\"\n  ],\n  \"authorities\": [\n    \"\"\n  ],\n  \"scope\": [\n    \"read\",\n    \"write\"\n  ],\n  \"resource_ids\": [\n    \"web\",\n    \"db\"\n  ]\n}\n"
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/client",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81500078-67fc-489b-a61f-550d772f58cd",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"roleName\": \"SELLER_ROLE\",\n  \"roleDescription\": \"This role is for sellers, who want to list and sell products.\"\n}"
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/role",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Roles to User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"roleNames\": [\n    \"SELLER_ROLE\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/user/devarajreddy/roles",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"user",
+								"devarajreddy",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Users to Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userNames\": [\n    \"devarajreddy\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/role/SELLER_ROLE/users",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"role",
+								"SELLER_ROLE",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{accountServiceUrl}}/roles",
+							"host": [
+								"{{accountServiceUrl}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Service",
+			"item": [
+				{
+					"name": "Create Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{orderServiceUrl}}/cart",
+							"host": [
+								"{{orderServiceUrl}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{orderServiceUrl}}/cart",
+							"host": [
+								"{{orderServiceUrl}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add CartItem to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": \"402880e46b2d7ce9016b2d7d28350001\"\n}"
+						},
+						"url": {
+							"raw": "{{orderServiceUrl}}/cart/cartItem",
+							"host": [
+								"{{orderServiceUrl}}"
+							],
+							"path": [
+								"cart",
+								"cartItem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete CartItem",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{orderServiceUrl}}/cart/cartItem/ff8080816cdcfb4f016cdcff309a0001",
+							"host": [
+								"{{orderServiceUrl}}"
+							],
+							"path": [
+								"cart",
+								"cartItem",
+								"ff8080816cdcfb4f016cdcff309a0001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{orderServiceUrl}}/order",
+							"host": [
+								"{{orderServiceUrl}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Billing Service",
+			"item": [
+				{
+					"name": "Create Billing Address",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"addressLine1\": \"MG Road\",\n  \"addressLine2\": \"Lido Mall\",\n  \"city\": \"Bangalore\",\n  \"state\": \"Karnataka\",\n  \"postalCode\": \"560008\",\n  \"country\": \"IN\",\n  \"phone\": \"9988776655\"\n}"
+						},
+						"url": {
+							"raw": "{{billingServiceUrl}}/billingAddress",
+							"host": [
+								"{{billingServiceUrl}}"
+							],
+							"path": [
+								"billingAddress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Billing Address",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{billingServiceUrl}}/billingAddress",
+							"host": [
+								"{{billingServiceUrl}}"
+							],
+							"path": [
+								"billingAddress"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0de36da7-8f6d-4e9f-8e77-bbe2c18e3ca6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "d0abd1e3-5d30-46b4-9c96-260e678ac9a2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
