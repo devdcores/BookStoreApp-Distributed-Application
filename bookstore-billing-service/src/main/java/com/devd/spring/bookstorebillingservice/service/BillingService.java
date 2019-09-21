@@ -37,6 +37,10 @@ public class BillingService {
         
         User userById = accountFeignClient.getUserByUserName(userName);
         
+        if(billingAddressRepository.existsByUserId(userById.getUserId())){
+            throw new RuntimeException("Billing Address already exists for this User!");
+        }
+        
         BillingAddressDao billingAddressDao = BillingAddressDao.builder()
                                                                .addressLine1(createBillingAddressRequest.getAddressLine1())
                                                                .addressLine2(createBillingAddressRequest.getAddressLine2())

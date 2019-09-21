@@ -13,4 +13,6 @@ public interface BillingAddressRepository extends CrudRepository<BillingAddressD
 
     Optional<BillingAddressDao> findByUserId(String userId);
     
+    Boolean existsByUserId(String userId);
+    
 }
