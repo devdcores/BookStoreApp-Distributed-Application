@@ -1,6 +1,7 @@
 package com.devd.spring.bookstorebillingservice.repository.dao;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -22,6 +23,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class BillingAddressDao {
     
     @Id

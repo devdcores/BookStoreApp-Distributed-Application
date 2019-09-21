@@ -6,6 +6,8 @@ security:
     public-key: classpath:jwt-signing-public-key.txt
 
 spring:
+  profiles:
+    active: h2
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost}:9411
     enabled: true
@@ -15,6 +17,10 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
+  flyway:
+    table: billing_service_flyway_history
+    baseline-on-migrate: true
+    baseline-version: 0.9
 
 eureka:
   client:
@@ -49,3 +55,55 @@ management:
 #logging:
 #  level: debug
 
+---
+
+spring:
+  profiles: h2
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    open-in-view: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:bookstore_db;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+
+---
+
+spring:
+  profiles: mysql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    open-in-view: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: newpass
