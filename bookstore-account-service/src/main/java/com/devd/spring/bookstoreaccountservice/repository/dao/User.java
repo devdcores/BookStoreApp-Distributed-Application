@@ -40,7 +40,7 @@ public class User extends DateAudit {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "USER_ID", updatable = false, nullable = false)
-    private String id;
+    private String userId;
 
     @Column(name = "USER_NAME", updatable = false, nullable = false)
     private String userName;

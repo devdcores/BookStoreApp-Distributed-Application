@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleCustomException(SuccessCodeWithErrorResponse ex) {
         if(ex.getId()!=null){
             URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest().path("/{id}")
+                    .fromCurrentRequest().path("/{userId}")
                     .buildAndExpand(ex.getId()).toUri();
 
             ErrorResponse errorResponse = ex.getErrorResponse();

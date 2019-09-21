@@ -1,6 +1,6 @@
-package com.devd.spring.bookstoreorderservice.feign;
+package com.devd.spring.bookstorebillingservice.feign;
 
-import com.devd.spring.bookstoreorderservice.model.User;
+import com.devd.spring.bookstorebillingservice.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AccountFeignClient {
     
     @GetMapping("/user")
-    User getUser(@RequestParam("userName") String userName);
-
+    User getUserByUserName(@RequestParam("userName") String userName);
+    
+    @GetMapping("/user")
+    User getUserById(@RequestParam("userId") String userId);
+    
 }

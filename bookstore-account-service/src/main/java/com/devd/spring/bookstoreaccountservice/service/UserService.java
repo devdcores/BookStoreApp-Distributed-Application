@@ -4,7 +4,6 @@ import com.devd.spring.bookstoreaccountservice.exception.Error;
 import com.devd.spring.bookstoreaccountservice.exception.ErrorResponse;
 import com.devd.spring.bookstoreaccountservice.exception.RunTimeExceptionPlaceHolder;
 import com.devd.spring.bookstoreaccountservice.exception.SuccessCodeWithErrorResponse;
-import com.devd.spring.bookstoreaccountservice.feign.OrderFeignClient;
 import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
@@ -83,10 +82,10 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         if (!errorResponse.getErrors().isEmpty()) {
-            throw new SuccessCodeWithErrorResponse(savedUser.getId(), errorResponse);
+            throw new SuccessCodeWithErrorResponse(savedUser.getUserId(), errorResponse);
         }
-
-        return savedUser.getId();
+    
+        return savedUser.getUserId();
     }
 
     public User getUserByUserName(String userName) {
@@ -96,6 +95,15 @@ public class UserService {
                 new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
         );
 
+        return user;
+    }
+    
+    public User getUserByUserId(String userId) {
+        Optional<User> userIdOptional = userRepository.findByUserId(userId);
+        User user = userIdOptional.orElseThrow(() ->
+                                                                new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
+                                                       );
+        
         return user;
     }
 }

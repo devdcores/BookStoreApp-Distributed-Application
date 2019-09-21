@@ -1,6 +1,10 @@
 server:
   port: ${SERVER_PORT:9009}
 
+security:
+  jwt:
+    public-key: classpath:jwt-signing-public-key.txt
+
 spring:
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost}:9411
@@ -20,17 +24,28 @@ eureka:
   instance:
     prefer-ip-address: false
 
-logging.level.com.lmi.spring: DEBUG
+logging.level.com.devd.spring.*: DEBUG
 
 hystrix:
-  metrics:
-    enabled: true
-feign:
-  hystrix:
-    enabled: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+#hystrix:
+#  metrics:
+#    enabled: true
+#feign:
+#  hystrix:
+#    enabled: true
 
 management:
   endpoint:
     hystrix:
       stream:
         enabled: true
+#logging:
+#  level: debug
+

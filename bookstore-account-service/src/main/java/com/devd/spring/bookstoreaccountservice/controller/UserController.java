@@ -7,14 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
 
 /**
  * @author: Devaraj Reddy,
@@ -38,16 +39,20 @@ public class UserController {
 
         return ResponseEntity.created(location).build();
     }
-
-    @GetMapping("/user/{userName}")
+    
+    @GetMapping("/user")
     @PreAuthorize("hasAuthority('STANDARD_USER')")
-    public ResponseEntity<User> getUserByUserName(@PathVariable("userName") String userName) {
-
-        User user = userService.getUserByUserName(userName);
-
+    public ResponseEntity<User> getUser(@RequestParam("userName") Optional<String> userName
+            , @RequestParam("userId") Optional<String> userId) {
+        
+        User user = null;
+        if (userName.isPresent()) {
+            user = userService.getUserByUserName(userName.get());
+        } else if (userId.isPresent()) {
+            user = userService.getUserByUserId(userId.get());
+        }
         return ResponseEntity.ok(user);
     }
-
 
     //TODO CRUD for user
 }
