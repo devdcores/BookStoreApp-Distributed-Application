@@ -37,6 +37,8 @@ public class BillingAddressDao {
     
     @Column(name = "ADDRESS_LINE1", nullable = false)
     private String addressLine1;
+    
+    @Column(name = "ADDRESS_LINE2")
     private String addressLine2;
     
     @Column(name = "CITY", nullable = false)
@@ -44,6 +46,7 @@ public class BillingAddressDao {
     
     private String state;
     
+    @Column(name = "POSTAL_CODE")
     private String postalCode;
     
     @Pattern(regexp = "[A-Z]{2}", message = "2-letter ISO country code required")

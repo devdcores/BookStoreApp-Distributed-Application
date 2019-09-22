@@ -1,6 +1,6 @@
 package com.devd.spring.bookstorebillingservice.controller;
 
-import com.devd.spring.bookstorebillingservice.service.BillingService;
+import com.devd.spring.bookstorebillingservice.service.BillingAddressService;
 import com.devd.spring.bookstorebillingservice.web.CreateBillingAddressRequest;
 import com.devd.spring.bookstorebillingservice.web.GetBillingAddressResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
  * Date : 2019-06-04
  */
 @RestController
-public class BillingController {
+public class BillingAddressController {
     
     @Autowired
-    BillingService billingService;
+    BillingAddressService billingAddressService;
     
     @PostMapping("/billingAddress")
     public ResponseEntity<Object> createBillingAddress(@RequestBody CreateBillingAddressRequest createBillingAddressRequest) {
         
-        billingService.createBillingAddress(createBillingAddressRequest);
+        billingAddressService.createBillingAddress(createBillingAddressRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
         
     }
@@ -32,7 +32,7 @@ public class BillingController {
     @GetMapping("/billingAddress")
     public ResponseEntity<GetBillingAddressResponse> getBillingAddress(){
     
-        GetBillingAddressResponse billingAddress = billingService.getBillingAddress();
+        GetBillingAddressResponse billingAddress = billingAddressService.getBillingAddress();
         return ResponseEntity.ok(billingAddress);
     }
     

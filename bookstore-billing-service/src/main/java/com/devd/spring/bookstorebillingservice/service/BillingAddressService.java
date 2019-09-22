@@ -19,13 +19,10 @@ import java.util.Optional;
  * Date : 2019-09-20
  */
 @Service
-public class BillingService {
+public class BillingAddressService {
     
     @Autowired
     AccountFeignClient accountFeignClient;
-    
-    @Autowired
-    CatalogFeignClient catalogFeignClient;
     
     @Autowired
     BillingAddressRepository billingAddressRepository;
