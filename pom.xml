@@ -18,6 +18,8 @@
     </properties>
 
     <modules>
+        <module>bookstore-commons</module>
+        <module>bookstore-feign</module>
         <module>bookstore-api-gateway-service</module>
         <module>bookstore-eureka-discovery-service</module>
         <module>bookstore-account-service</module>

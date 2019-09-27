@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreorderservice.web;
+package com.devd.spring.bookstoreorderservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

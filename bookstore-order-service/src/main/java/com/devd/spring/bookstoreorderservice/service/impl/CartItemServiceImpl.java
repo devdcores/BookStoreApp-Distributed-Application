@@ -1,14 +1,14 @@
 package com.devd.spring.bookstoreorderservice.service.impl;
 
-import com.devd.spring.bookstoreorderservice.feign.AccountFeignClient;
-import com.devd.spring.bookstoreorderservice.feign.CatalogFeignClient;
+import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
+import com.devd.spring.bookstorecommons.feign.CatalogFeignClient;
+import com.devd.spring.bookstorecommons.web.GetProductResponse;
 import com.devd.spring.bookstoreorderservice.model.Cart;
 import com.devd.spring.bookstoreorderservice.model.CartItem;
 import com.devd.spring.bookstoreorderservice.repository.CartItemRepository;
 import com.devd.spring.bookstoreorderservice.service.CartItemService;
 import com.devd.spring.bookstoreorderservice.service.CartService;
-import com.devd.spring.bookstoreorderservice.web.CartItemRequest;
-import com.devd.spring.bookstoreorderservice.web.Product;
+import com.devd.spring.bookstoreorderservice.dto.CartItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,16 +49,16 @@ public class CartItemServiceImpl implements CartItemService {
             cartByUserName = cartService.getCartByUserName(userName);
         }
     
-        Product product = catalogFeignClient.getProduct(cartItemRequest.getProductId());
+        GetProductResponse getProductResponse = catalogFeignClient.getProduct(cartItemRequest.getProductId());
 
         //If the product already exists in the cart, update its quantity and price.
     
         if (cartByUserName.getCartItem() != null) {
             for (CartItem ci : cartByUserName.getCartItem()) {
     
-                if (product.getProductId().equals(ci.getProductId())) {
+                if (getProductResponse.getProductId().equals(ci.getProductId())) {
                     ci.setQuantity(ci.getQuantity() + 1);
-                    ci.setPrice(ci.getQuantity() * product.getPrice());
+                    ci.setPrice(ci.getQuantity() * getProductResponse.getPrice());
                     cartItemRepository.save(ci);
                     return;
                 }
@@ -68,9 +68,9 @@ public class CartItemServiceImpl implements CartItemService {
         //If cart doesn't have any cartItems, then create cartItem.
         CartItem cartItem = CartItem.builder()
                                     .cart(cartByUserName)
-                                    .price(product.getPrice())
+                                    .price(getProductResponse.getPrice())
                                     .quantity(1)
-                                    .productId(product.getProductId())
+                                    .productId(getProductResponse.getProductId())
                                     .build();
 
         cartItemRepository.save(cartItem);

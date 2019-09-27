@@ -1,6 +1,5 @@
-package com.devd.spring.bookstoreorderservice.web;
+package com.devd.spring.bookstorecommons.web;
 
-import com.devd.spring.bookstoreorderservice.model.DateAudit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product extends DateAudit {
+public class GetProductResponse extends DateAudit {
 
     private String productId;
     private String productName;
@@ -24,4 +23,5 @@ public class Product extends DateAudit {
     private double price;
     private String productCategory;
     private int availableItemCount;
+
 }

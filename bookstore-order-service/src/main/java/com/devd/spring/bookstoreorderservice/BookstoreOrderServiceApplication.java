@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.devd.spring"})
 //, excludeFilters={
 //		@ComponentScan.Filter(type=FilterType.ASSIGNABLE_TYPE, value=GlobalSecurityConfig.class)})
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.devd.spring"})
 @EnableEurekaClient
 public class BookstoreOrderServiceApplication {
 

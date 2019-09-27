@@ -1,6 +1,6 @@
-package com.devd.spring.bookstoreorderservice.feign;
+package com.devd.spring.bookstorecommons.feign;
 
-import com.devd.spring.bookstoreorderservice.web.Product;
+import com.devd.spring.bookstorecommons.web.GetProductResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CatalogFeignClient {
 
     @GetMapping("/product/{productId}")
-    Product getProduct(@PathVariable("productId") String productId);
+    GetProductResponse getProduct(@PathVariable("productId") String productId);
 
 }

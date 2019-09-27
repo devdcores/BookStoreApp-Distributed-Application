@@ -19,9 +19,4 @@ public class OrderServiceConfig {
         return new RestTemplate();
     }
 
-    @Bean
-    Logger.Level feignLoggerLevel() {
-        return Logger.Level.FULL;
-    }
-
 }
