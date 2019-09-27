@@ -13,26 +13,26 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    @Autowired
-    private ResourceServerTokenServices tokenServices;
+  @Autowired
+  private ResourceServerTokenServices tokenServices;
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId("web").tokenServices(tokenServices);
-    }
+  @Override
+  public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    resources.resourceId("web").tokenServices(tokenServices);
+  }
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
-                .requestMatchers()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin").permitAll()
-                .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
-                .antMatchers("/**").authenticated();
-    }
+  @Override
+  public void configure(HttpSecurity http) throws Exception {
+    http
+        .headers()
+        .frameOptions()
+        .disable()
+        .and()
+        .requestMatchers()
+        .and()
+        .authorizeRequests()
+        .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin").permitAll()
+        .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
+        .antMatchers("/**").authenticated();
+  }
 }

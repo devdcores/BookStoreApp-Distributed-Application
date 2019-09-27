@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author: Devaraj Reddy,
- * Date : 2019-06-17
+ * @author: Devaraj Reddy, Date : 2019-06-17
  */
 
 @Data
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Cart {
 
-    private String cartId;
-    private User user;
+  private String cartId;
+  private User user;
 
 }

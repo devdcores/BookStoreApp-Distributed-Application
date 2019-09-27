@@ -1,11 +1,12 @@
 package com.devd.spring.bookstoreaccountservice.controller;
 
-import com.devd.spring.bookstoreaccountservice.feign.OrderFeignClient;
 import com.devd.spring.bookstoreaccountservice.service.AuthService;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
 import com.devd.spring.bookstoreaccountservice.web.JwtAuthenticationResponse;
 import com.devd.spring.bookstoreaccountservice.web.SignInRequest;
 import com.devd.spring.bookstoreaccountservice.web.SignUpRequest;
+import java.net.URI;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,49 +16,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.Map;
-
 /**
- * @author: Devaraj Reddy,
- * Date : 2019-05-18
+ * @author: Devaraj Reddy, Date : 2019-05-18
  */
 @RestController
 public class AuthController {
 
-    @Autowired
-    AuthService authService;
+  @Autowired
+  AuthService authService;
 
-    @Autowired
-    OrderFeignClient orderFeignClient;
+  @PostMapping("/client")
+  @PreAuthorize("hasAuthority('ADMIN_USER')")
+  public ResponseEntity<Void> createOAuthClient(
+      @Valid @RequestBody CreateOAuthClientRequest createOAuthClientRequest) {
 
-    @PostMapping("/client")
-    @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public ResponseEntity<Void> createOAuthClient(@Valid @RequestBody CreateOAuthClientRequest createOAuthClientRequest) {
+    authService.createOAuthClient(createOAuthClientRequest);
+    return new ResponseEntity<>(HttpStatus.CREATED);
+  }
 
-        authService.createOAuthClient(createOAuthClientRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+  @PostMapping("/signin")
+  public ResponseEntity<JwtAuthenticationResponse> authenticateUser(
+      @Valid @RequestBody SignInRequest signInRequest) {
 
-    @PostMapping("/signin")
-    public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody SignInRequest signInRequest) {
+    String accessToken = authService.authenticateUser(signInRequest);
+    return ResponseEntity.ok(new JwtAuthenticationResponse(accessToken));
+  }
 
-        String accessToken = authService.authenticateUser(signInRequest);
-//        orderFeignClient.createCart();
-        return ResponseEntity.ok(new JwtAuthenticationResponse(accessToken));
-    }
+  @PostMapping("/signup")
+  @PreAuthorize("hasAuthority('ADMIN_USER')")
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
+    String userName = authService.registerUser(signUpRequest);
+    URI location = ServletUriComponentsBuilder
+        .fromCurrentContextPath().path("/users/{username}")
+        .buildAndExpand(userName).toUri();
 
-    @PostMapping("/signup")
-    @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-
-        String userName = authService.registerUser(signUpRequest);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/{username}")
-                .buildAndExpand(userName).toUri();
-
-        return ResponseEntity.created(location).build();
-    }
+    return ResponseEntity.created(location).build();
+  }
 }
