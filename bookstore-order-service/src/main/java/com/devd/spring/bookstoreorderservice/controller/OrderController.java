@@ -1,6 +1,6 @@
 package com.devd.spring.bookstoreorderservice.controller;
 
-import com.devd.spring.bookstoreorderservice.dto.CreateOrderResponse;
+import com.devd.spring.bookstoreorderservice.web.CreateOrderResponse;
 import com.devd.spring.bookstoreorderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

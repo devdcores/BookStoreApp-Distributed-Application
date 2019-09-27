@@ -1,4 +1,4 @@
-package com.devd.spring.bookstorecatalogservice.model;
+package com.devd.spring.bookstorecatalogservice.repository.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

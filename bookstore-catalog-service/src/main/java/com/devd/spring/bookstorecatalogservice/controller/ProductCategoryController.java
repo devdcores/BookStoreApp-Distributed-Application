@@ -1,7 +1,7 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
-import com.devd.spring.bookstorecatalogservice.model.ProductCategoriesPagedResponse;
-import com.devd.spring.bookstorecatalogservice.model.ProductCategory;
+import com.devd.spring.bookstorecatalogservice.web.ProductCategoriesPagedResponse;
+import com.devd.spring.bookstorecatalogservice.repository.dao.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.service.ProductCategoryService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductCategoryRequest;

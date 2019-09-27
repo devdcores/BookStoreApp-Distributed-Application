@@ -1,5 +1,6 @@
-package com.devd.spring.bookstorecatalogservice.model;
+package com.devd.spring.bookstorecatalogservice.web;
 
+import com.devd.spring.bookstorecatalogservice.repository.dao.ProductCategory;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 

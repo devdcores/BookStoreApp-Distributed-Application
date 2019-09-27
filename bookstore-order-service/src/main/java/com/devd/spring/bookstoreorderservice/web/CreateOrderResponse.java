@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreorderservice.dto;
+package com.devd.spring.bookstoreorderservice.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author: Devaraj Reddy,
- * Date : 2019-07-13
+ * Date : 2019-09-20
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateCartResponse {
-    private String cartId;
+public class CreateOrderResponse {
+    private String orderId;
 }

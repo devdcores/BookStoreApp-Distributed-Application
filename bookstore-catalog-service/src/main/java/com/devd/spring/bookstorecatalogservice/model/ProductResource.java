@@ -1,5 +1,6 @@
 package com.devd.spring.bookstorecatalogservice.model;
 
+import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
 import lombok.Data;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;

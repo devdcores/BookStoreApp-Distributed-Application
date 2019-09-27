@@ -1,7 +1,7 @@
 package com.devd.spring.bookstoreorderservice.controller;
 
 import com.devd.spring.bookstoreorderservice.service.CartItemService;
-import com.devd.spring.bookstoreorderservice.dto.CartItemRequest;
+import com.devd.spring.bookstoreorderservice.web.CartItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

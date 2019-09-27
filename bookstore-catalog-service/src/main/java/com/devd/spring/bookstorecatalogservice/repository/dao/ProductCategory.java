@@ -1,5 +1,7 @@
-package com.devd.spring.bookstorecatalogservice.model;
+package com.devd.spring.bookstorecatalogservice.repository.dao;
 
+import com.devd.spring.bookstorecatalogservice.repository.dao.DateAudit;
+import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +29,7 @@ import java.util.List;
 @Entity
 @Table(name = "PRODUCT_CATEGORY")
 @Builder
-public class ProductCategory extends DateAudit{
+public class ProductCategory extends DateAudit {
 
     @Id
     @GeneratedValue(generator="system-uuid")

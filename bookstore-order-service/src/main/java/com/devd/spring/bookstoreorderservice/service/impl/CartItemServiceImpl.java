@@ -8,7 +8,7 @@ import com.devd.spring.bookstoreorderservice.repository.dao.CartItem;
 import com.devd.spring.bookstoreorderservice.repository.CartItemRepository;
 import com.devd.spring.bookstoreorderservice.service.CartItemService;
 import com.devd.spring.bookstoreorderservice.service.CartService;
-import com.devd.spring.bookstoreorderservice.dto.CartItemRequest;
+import com.devd.spring.bookstoreorderservice.web.CartItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
