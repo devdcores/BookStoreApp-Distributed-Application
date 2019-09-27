@@ -3,7 +3,7 @@ server:
 
 spring:
   zipkin:
-    base-url: http://${ZIPKIN_HOST:localhost}:9411
+    base-url: http://${ZIPKIN_HOST:localhost:9411}
     enabled: true
     service:
       name: bookstore-api-gateway-service
@@ -13,18 +13,26 @@ spring:
       probability: 1.0
 
 zuul:
+  sensitiveHeaders:
   host:
     connect-timeout-millis: 10000
     socket-timeout-millis: 20000
     connection-request-timeout-millis: 10000
   prefix: /api
   routes:
-    address:
-      path: /catalog/**
-      serviceId: bookstore-catalog-service
-    users:
+    billing:
       path: /billing/**
       serviceId: bookstore-billing-service
+    catalog:
+      path: /catalog/**
+      serviceId: bookstore-catalog-service
+    account:
+      path: /account/**
+      serviceId: bookstore-account-service
+    order:
+      path: /order/**
+      serviceId: bookstore-order-service
+
   ribbon:
     eager-load:
       enabled: true
@@ -32,7 +40,7 @@ zuul:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
     registerWithEureka: true
   instance:
     prefer-ip-address: false
@@ -47,4 +55,4 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 20000
+            timeoutInMilliseconds: 40000

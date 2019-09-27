@@ -9,7 +9,7 @@ spring:
   profiles:
     active: h2
   zipkin:
-    base-url: http://${ZIPKIN_HOST:localhost}:9411
+    base-url: http://${ZIPKIN_HOST:localhost:9411}
     enabled: true
     service:
       name: bookstore-billing-service
@@ -25,12 +25,14 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
     registerWithEureka: true
   instance:
     prefer-ip-address: false
 
-logging.level.com.devd.spring.*: DEBUG
+logging:
+  level:
+    com.devd.spring.*: DEBUG
 
 hystrix:
   command:

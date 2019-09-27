@@ -27,21 +27,35 @@ services:
       - bookstore-app-network
     environment:
       - SERVER_PORT=8765
-      - EUREKA_HOST=eureka-server
-      - ZIPKIN_HOST=zipkin-server
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
     depends_on:
       - eureka-server
 
   account-service:
     image: account-service
     ports:
-      - "7001:7001"
+      - "4001:4001"
     networks:
       - bookstore-app-network
     environment:
-      - SERVER_PORT=7001
-      - EUREKA_HOST=eureka-server
-      - ZIPKIN_HOST=zipkin-server
+      - SERVER_PORT=4001
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
+    depends_on:
+      - gateway-server
+      - eureka-server
+
+  billing-service:
+    image: billing-service
+    ports:
+      - "5001:5001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=5001
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
     depends_on:
       - gateway-server
       - eureka-server
@@ -54,22 +68,22 @@ services:
       - bookstore-app-network
     environment:
       - SERVER_PORT=6001
-      - EUREKA_HOST=eureka-server
-      - ZIPKIN_HOST=zipkin-server
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
     depends_on:
       - gateway-server
       - eureka-server
 
-  billing-service:
-    image: billing-service
+  order-service:
+    image: order-service
     ports:
-      - "9001:9001"
+      - "7001:7001"
     networks:
       - bookstore-app-network
     environment:
-      - SERVER_PORT=9001
-      - EUREKA_HOST=eureka-server
-      - ZIPKIN_HOST=zipkin-server
+      - SERVER_PORT=7001
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
     depends_on:
       - gateway-server
       - eureka-server
