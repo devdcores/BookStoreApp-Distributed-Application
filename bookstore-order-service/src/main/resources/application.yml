@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:5001}
+  port: ${SERVER_PORT:7001}
 
 security:
   jwt:
@@ -26,22 +26,16 @@ spring:
 
 
 eureka:
-  instance:
-    prefer-ip-address: false
   client:
     serviceUrl:
       defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
     registerWithEureka: true
-    fetch-registry: true
+  instance:
+    prefer-ip-address: false
 
-logging.level.com.devd.spring: DEBUG
-
-ribbon:
-  ConnectTimeout: 10000
-  ReadTimeout: 10000
-  eureka:
-    enabled: true
-
+logging:
+  level:
+    com.devd.spring.*: DEBUG
 
 hystrix:
   command:
@@ -50,21 +44,19 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 20000
-  metrics:
-    enabled: true
-  shareSecurityContext: true
+
+#hystrix:
+#  metrics:
+#    enabled: true
 #feign:
 #  hystrix:
 #    enabled: true
-
 
 management:
   endpoint:
     hystrix:
       stream:
         enabled: true
-logging:
-  level:
 
 ---
 

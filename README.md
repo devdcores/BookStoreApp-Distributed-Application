@@ -38,14 +38,20 @@ Below is the AWS Architecture diagram for better understanding.
 
 
 ## Run this project in local machine
+
+Since all are Spring boot projects we can use maven to build jar and run those jars.
+
 >Using Docker
 
 Start Docker Engine in your machine.
+
 Run `mvn clean install` to build all the microservices jars.
+
 Run `sh oneTouchDockerImageBuilder.sh` script to package microservice jars into docker images.
+
 Run `docker-compose up` to start all the containers.
 
-Use the Postman Api collection in the Postman directory. To make request to various services.
+Use the `Postman Api collection` in the Postman directory. To make request to various services.
 
 Services will be exposed in this ports
 

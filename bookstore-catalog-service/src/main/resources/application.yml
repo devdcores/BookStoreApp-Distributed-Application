@@ -27,19 +27,16 @@ spring:
     use-hal-as-default-json-media-type: false
 
 eureka:
-  instance:
-    prefer-ip-address: false
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
   client:
     serviceUrl:
       defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
-    healthcheck:
-      enabled: true
-      lease:
-        duration: 5
+    registerWithEureka: true
+  instance:
+    prefer-ip-address: false
 
-logging.level.com.devd.spring: DEBUG
+logging:
+  level:
+    com.devd.spring.*: DEBUG
 
 ---
 
