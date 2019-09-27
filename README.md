@@ -1,6 +1,6 @@
 # BookStoreApp-Distributed-Application [![HitCount](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application.svg)](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application)
 
-##About this project
+## About this project
 This is an Ecommerce project, where users can adds books to the cart and buy those books.
 
 
@@ -8,7 +8,7 @@ Application is being developed using Java, Spring and React.
 
 Using Spring Cloud Microservices and Spring Boot Framework extensively to make this application distributed. 
 
-##Architecture of this project
+## Architecture of this project
 All the Microservices are developed using spring boot. 
 This spring boot applications will be registered with eureka discovery server.
 
@@ -18,7 +18,7 @@ NGINX server redirects the requests to Zuul API Gateway.
 Zuul will route the requests to microservice
 based on the url route. Zuul also registers with eureka and gets the ip/domain from eureka for microservice while routing the request. 
 
-##Deployment of this project
+## Deployment of this project
 AWS is the cloud provider will be using to deploy this project.
 
 Project wil deployed in multiple Regions and multiple Availability Zones. 
@@ -37,7 +37,7 @@ Below is the AWS Architecture diagram for better understanding.
 
 
 
-##Run this project in local machine
+## Run this project in local machine
 >Using Docker
 
 Start Docker Engine in your machine.
