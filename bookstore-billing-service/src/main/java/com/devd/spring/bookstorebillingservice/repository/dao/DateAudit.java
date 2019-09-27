@@ -1,4 +1,4 @@
-package com.devd.spring.bookstorebillingservice.model;
+package com.devd.spring.bookstorebillingservice.repository.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

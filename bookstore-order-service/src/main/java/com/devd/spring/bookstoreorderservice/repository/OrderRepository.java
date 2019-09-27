@@ -1,6 +1,6 @@
 package com.devd.spring.bookstoreorderservice.repository;
 
-import com.devd.spring.bookstoreorderservice.model.Order;
+import com.devd.spring.bookstoreorderservice.repository.dao.Order;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -8,6 +8,5 @@ import org.springframework.data.repository.CrudRepository;
  * Date : 2019-09-18
  */
 public interface OrderRepository extends CrudRepository<Order, String> {
-
 
 }

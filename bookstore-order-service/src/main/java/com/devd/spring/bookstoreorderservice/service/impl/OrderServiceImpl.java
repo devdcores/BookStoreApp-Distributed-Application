@@ -1,8 +1,8 @@
 package com.devd.spring.bookstoreorderservice.service.impl;
 
-import com.devd.spring.bookstoreorderservice.model.Cart;
-import com.devd.spring.bookstoreorderservice.model.Order;
-import com.devd.spring.bookstoreorderservice.model.OrderItem;
+import com.devd.spring.bookstoreorderservice.repository.dao.Cart;
+import com.devd.spring.bookstoreorderservice.repository.dao.Order;
+import com.devd.spring.bookstoreorderservice.repository.dao.OrderItem;
 import com.devd.spring.bookstoreorderservice.repository.OrderItemRepository;
 import com.devd.spring.bookstoreorderservice.repository.OrderRepository;
 import com.devd.spring.bookstoreorderservice.service.CartService;

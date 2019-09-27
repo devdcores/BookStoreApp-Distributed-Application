@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient("bookstore-account-service")
 public interface AccountFeignClient {
-    
+
     @GetMapping("/user")
-    GetUserResponse getUser(@RequestParam("userName") String userName);
+    GetUserResponse getUserByUserName(@RequestParam("userName") String userName);
+
+    @GetMapping("/user")
+    GetUserResponse getUserById(@RequestParam("userId") String userId);
 
 }

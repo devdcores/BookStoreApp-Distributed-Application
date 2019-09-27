@@ -1,7 +1,7 @@
 package com.devd.spring.bookstoreorderservice.service.impl;
 
-import com.devd.spring.bookstoreorderservice.model.Cart;
-import com.devd.spring.bookstoreorderservice.model.CartItem;
+import com.devd.spring.bookstoreorderservice.repository.dao.Cart;
+import com.devd.spring.bookstoreorderservice.repository.dao.CartItem;
 import com.devd.spring.bookstoreorderservice.repository.CartRepository;
 import com.devd.spring.bookstoreorderservice.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;

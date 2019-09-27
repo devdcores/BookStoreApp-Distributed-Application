@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.devd.spring"})
 @EnableCircuitBreaker
 @EnableHystrixDashboard
 public class BookstoreBillingServiceApplication {

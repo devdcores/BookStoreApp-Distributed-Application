@@ -1,6 +1,6 @@
 package com.devd.spring.bookstoreorderservice.service;
 
-import com.devd.spring.bookstoreorderservice.model.Cart;
+import com.devd.spring.bookstoreorderservice.repository.dao.Cart;
 
 /**
  * @author: Devaraj Reddy,

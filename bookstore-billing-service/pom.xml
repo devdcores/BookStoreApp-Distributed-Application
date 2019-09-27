@@ -74,6 +74,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.devd.spring</groupId>
+            <artifactId>bookstore-feign</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>

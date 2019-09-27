@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreorderservice.model;
+package com.devd.spring.bookstoreorderservice.repository.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

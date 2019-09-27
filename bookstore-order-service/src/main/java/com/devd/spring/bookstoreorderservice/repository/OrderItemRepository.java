@@ -1,6 +1,6 @@
 package com.devd.spring.bookstoreorderservice.repository;
 
-import com.devd.spring.bookstoreorderservice.model.OrderItem;
+import com.devd.spring.bookstoreorderservice.repository.dao.OrderItem;
 import org.springframework.data.repository.CrudRepository;
 
 /**
