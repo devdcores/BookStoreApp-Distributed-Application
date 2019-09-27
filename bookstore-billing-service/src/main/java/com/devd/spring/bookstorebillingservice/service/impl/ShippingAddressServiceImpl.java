@@ -1,7 +1,8 @@
-package com.devd.spring.bookstorebillingservice.service;
+package com.devd.spring.bookstorebillingservice.service.impl;
 
 import com.devd.spring.bookstorebillingservice.repository.ShippingAddressRepository;
 import com.devd.spring.bookstorebillingservice.repository.dao.ShippingAddressDao;
+import com.devd.spring.bookstorebillingservice.service.ShippingAddressService;
 import com.devd.spring.bookstorebillingservice.web.CreateShippingAddressRequest;
 import com.devd.spring.bookstorebillingservice.web.GetShippingAddressResponse;
 import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
