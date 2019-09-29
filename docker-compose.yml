@@ -19,6 +19,24 @@ services:
     networks:
       - bookstore-app-network
 
+  prometheus:
+    image: "prom/prometheus"
+    ports:
+      - "9090:9090"
+    volumes:
+      - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
+    container_name: prometheus
+    networks:
+      - bookstore-app-network
+
+  grafana:
+    image: "grafana/grafana"
+    ports:
+      - "3030:3000"
+    container_name: grafana
+    networks:
+      - bookstore-app-network
+
   gateway-server:
     image: gateway-server
     ports:
@@ -90,3 +108,4 @@ services:
 
 networks:
   bookstore-app-network:
+    driver: bridge

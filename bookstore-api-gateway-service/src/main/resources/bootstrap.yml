@@ -1,3 +1,9 @@
 spring:
   application:
     name: bookstore-api-gateway-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
