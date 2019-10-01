@@ -3,12 +3,11 @@
 ## About this project
 This is an Ecommerce project, where users can adds books to the cart and buy those books.
 
-
 Application is being developed using Java, Spring and React.
 
 Using Spring Cloud Microservices and Spring Boot Framework extensively to make this application distributed. 
 
-## Architecture of this project
+## Architecture
 All the Microservices are developed using spring boot. 
 This spring boot applications will be registered with eureka discovery server.
 
@@ -18,7 +17,7 @@ NGINX server redirects the requests to Zuul API Gateway.
 Zuul will route the requests to microservice
 based on the url route. Zuul also registers with eureka and gets the ip/domain from eureka for microservice while routing the request. 
 
-## Deployment of this project
+## Deployment
 AWS is the cloud provider will be using to deploy this project.
 
 Project wil deployed in multiple Regions and multiple Availability Zones. 
@@ -36,12 +35,50 @@ Below is the AWS Architecture diagram for better understanding.
 ![Bookstore Final](https://user-images.githubusercontent.com/14878408/65784998-000e4500-e171-11e9-96d7-b7c199e74c4c.jpg)
 
 
+## Monitoring
+Using Docker images of Prometheus, Graphana and Zipkin for monitoring microservices, 
+using docker images makes setting up graphana, zipkin, prometheus very easy. Just run docker images of those and
+send or pull metrics from monitoring containers.
+
+`docker-compose` will take care of bringing all this monitoring containers up.
+
+>To Setup Prometheus
+
+Copy prometheus.yml to your path(where docker can mount as volume).
+
+Change the volume path for prometheus container in docker-compose.yml file.
+More details at this link : https://www.callicoder.com/spring-boot-actuator-metrics-monitoring-dashboard-prometheus-grafana/
+
+Dashboards are available at below ports
+
+```
+Graphana   : 3030
+Zipkin     : 9411
+Prometheus : 9090
+```
+
+**Screenshots of Monitoring in Graphana.**
+
+<img width="500" alt="API Gateway Metrics" src="https://user-images.githubusercontent.com/14878408/65935653-7c39ae80-e437-11e9-884e-8e2e0dce5b8c.png">
+<img width="500" alt="API Gateway Metrics2" src="https://user-images.githubusercontent.com/14878408/65935715-bb67ff80-e437-11e9-8e22-ce94d64cfb87.png">
+
+
+**Screenshots of Tracing in Zipkin.**
+
+<img width="500" alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939069-6b426a80-e442-11e9-90fd-d54b60786d41.png">
+<img width="500" alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939165-bb213180-e442-11e9-9ad7-5cfd4fa121ef.png">
+
 
 ## Run this project in local machine
 
-Since all are Spring boot projects we can use maven to build jar and run those jars.
+>Using Intellij/Eclipse or Command Line
 
->Using Docker
+Import this project into IDE and run all Spring boot projects or 
+build all the jars running `mvn clean install` command in root parent pom, which builds all jars.
+Monitoring will be very difficult by running services this way, 
+Use docker to run all services, monitoring all will be taking care using zipkin, Grahana.
+
+>Using Docker(Recommended)
 
 Start Docker Engine in your machine.
 
@@ -56,12 +93,12 @@ Use the `Postman Api collection` in the Postman directory. To make request to va
 Services will be exposed in this ports
 
 ```
-Api Gateway Service : 8765
-Eureka Discovery Service : 8761
-Account Service : 4001
-Billing Service : 5001
-Catalog Service : 6001
-Order Service : 7001
+Api Gateway Service       : 8765
+Eureka Discovery Service  : 8761
+Account Service           : 4001
+Billing Service           : 5001
+Catalog Service           : 6001
+Order Service             : 7001
 ```
 
 > Account Service
