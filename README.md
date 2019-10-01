@@ -59,14 +59,16 @@ Prometheus : 9090
 
 **Screenshots of Monitoring in Graphana.**
 
-<img width="500" alt="API Gateway Metrics" src="https://user-images.githubusercontent.com/14878408/65935653-7c39ae80-e437-11e9-884e-8e2e0dce5b8c.png">
-<img width="500" alt="API Gateway Metrics2" src="https://user-images.githubusercontent.com/14878408/65935715-bb67ff80-e437-11e9-8e22-ce94d64cfb87.png">
+<img alt="API Gateway Metrics" src="https://user-images.githubusercontent.com/14878408/65935653-7c39ae80-e437-11e9-884e-8e2e0dce5b8c.png">
+<hr>
+<img alt="API Gateway Metrics2" src="https://user-images.githubusercontent.com/14878408/65935715-bb67ff80-e437-11e9-8e22-ce94d64cfb87.png">
 
 
 **Screenshots of Tracing in Zipkin.**
 
-<img width="500" alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939069-6b426a80-e442-11e9-90fd-d54b60786d41.png">
-<img width="500" alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939165-bb213180-e442-11e9-9ad7-5cfd4fa121ef.png">
+<img alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939069-6b426a80-e442-11e9-90fd-d54b60786d41.png">
+<hr>
+<img alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939165-bb213180-e442-11e9-9ad7-5cfd4fa121ef.png">
 
 
 ## Run this project in local machine
