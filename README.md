@@ -84,11 +84,9 @@ Use docker to run all services, monitoring all will be taking care using zipkin,
 
 Start Docker Engine in your machine.
 
-Run `mvn clean install` to build all the microservices jars.
+Run `mvn clean install` at root of project to build all the microservices jars.
 
-Run `sh oneTouchDockerImageBuilder.sh` script to package microservice jars into docker images.
-
-Run `docker-compose up` to start all the containers.
+Run `docker-compose up --build` to start all the containers.
 
 Use the `Postman Api collection` in the Postman directory. To make request to various services.
 

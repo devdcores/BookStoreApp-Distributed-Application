@@ -1,7 +1,13 @@
-version: "3"
+version: "3.4"
+
 services:
 
   eureka-server:
+    build:
+      context: ./bookstore-eureka-discovery-service
+      args:
+        JAR_FILE: bookstore-eureka-discovery-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
     image: eureka-server
     ports:
       - "8761:8761"
@@ -9,6 +15,100 @@ services:
       - bookstore-app-network
     environment:
       - SERVER_PORT=8761
+
+  gateway-server:
+    build:
+      context: ./bookstore-api-gateway-service
+      args:
+        JAR_FILE: bookstore-api-gateway-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: gateway-server
+    ports:
+      - "8765:8765"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=8765
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
+    depends_on:
+      - eureka-server
+
+  account-service:
+    build:
+      context: ./bookstore-account-service
+      args:
+        JAR_FILE: bookstore-account-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: account-service
+    ports:
+      - "4001:4001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=4001
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
+    depends_on:
+      - gateway-server
+      - eureka-server
+
+  billing-service:
+    build:
+      context: ./bookstore-billing-service
+      args:
+        JAR_FILE: bookstore-billing-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: billing-service
+    ports:
+      - "5001:5001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=5001
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
+    depends_on:
+      - gateway-server
+      - eureka-server
+
+  catalog-service:
+    build:
+      context: ./bookstore-catalog-service
+      args:
+        JAR_FILE: bookstore-catalog-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: catalog-service
+    ports:
+      - "6001:6001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=6001
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
+    depends_on:
+      - gateway-server
+      - eureka-server
+
+  order-service:
+    build:
+      context: ./bookstore-order-service
+      args:
+        JAR_FILE: bookstore-order-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: order-service
+    ports:
+      - "7001:7001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=7001
+      - EUREKA_HOST=eureka-server:8761
+      - ZIPKIN_HOST=zipkin-server:9411
+    depends_on:
+      - gateway-server
+      - eureka-server
 
   zipkin-server:
     image: openzipkin/zipkin
@@ -36,75 +136,6 @@ services:
     container_name: grafana
     networks:
       - bookstore-app-network
-
-  gateway-server:
-    image: gateway-server
-    ports:
-      - "8765:8765"
-    networks:
-      - bookstore-app-network
-    environment:
-      - SERVER_PORT=8765
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
-    depends_on:
-      - eureka-server
-
-  account-service:
-    image: account-service
-    ports:
-      - "4001:4001"
-    networks:
-      - bookstore-app-network
-    environment:
-      - SERVER_PORT=4001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
-    depends_on:
-      - gateway-server
-      - eureka-server
-
-  billing-service:
-    image: billing-service
-    ports:
-      - "5001:5001"
-    networks:
-      - bookstore-app-network
-    environment:
-      - SERVER_PORT=5001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
-    depends_on:
-      - gateway-server
-      - eureka-server
-
-  catalog-service:
-    image: catalog-service
-    ports:
-      - "6001:6001"
-    networks:
-      - bookstore-app-network
-    environment:
-      - SERVER_PORT=6001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
-    depends_on:
-      - gateway-server
-      - eureka-server
-
-  order-service:
-    image: order-service
-    ports:
-      - "7001:7001"
-    networks:
-      - bookstore-app-network
-    environment:
-      - SERVER_PORT=7001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
-    depends_on:
-      - gateway-server
-      - eureka-server
 
 networks:
   bookstore-app-network:
