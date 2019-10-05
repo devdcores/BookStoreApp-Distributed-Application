@@ -120,12 +120,20 @@ services:
       - bookstore-app-network
 
   prometheus:
-    image: "prom/prometheus"
+    image: "devdcores/bookstore-prometheus"
     ports:
       - "9090:9090"
     volumes:
       - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
     container_name: prometheus
+    networks:
+      - bookstore-app-network
+
+  influx:
+    image: "influxdb"
+    ports:
+      - "8086:8086"
+    container_name: influx
     networks:
       - bookstore-app-network
 

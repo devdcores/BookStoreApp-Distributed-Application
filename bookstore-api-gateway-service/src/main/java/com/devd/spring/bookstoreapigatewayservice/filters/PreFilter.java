@@ -5,14 +5,12 @@ import com.netflix.zuul.context.RequestContext;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
-import org.springframework.stereotype.Component;
 
 /**
  * @author: Devaraj Reddy,
  * Date : 2019-05-14 22:12
  */
 @Slf4j
-@Component
 public class PreFilter extends ZuulFilter {
 
     @Override
