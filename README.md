@@ -129,3 +129,10 @@ password: `jwtpass`
 ```curl defaultfirstclientid:jwtpass@localhost:4001/oauth/token -d grant_type=password -d username=admin.admin -d password=jwtpass```
 
 <br />
+<hr>
+
+## Roadmap
+
+1. Start Bookstore-react frontend project.
+2. Start Bookstore-payment-service.
+3. Start DevOps CICD using Terraform/Ansible/Cloudformation.(Least Priority)
