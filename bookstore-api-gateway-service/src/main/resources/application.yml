@@ -2,6 +2,8 @@ server:
   port: ${SERVER_PORT:8765}
 
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost:9411}
     enabled: true
@@ -11,11 +13,6 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
 
 zuul:
   sensitiveHeaders:
@@ -61,6 +58,16 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 40000
+
+---
+
+spring:
+  profiles: local
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
 
 ---
 

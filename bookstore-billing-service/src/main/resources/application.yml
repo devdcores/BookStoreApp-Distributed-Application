@@ -7,7 +7,7 @@ security:
 
 spring:
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:h2}
+    active: ${SPRING_PROFILES_ACTIVE:local}
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost:9411}
     enabled: true
@@ -42,25 +42,16 @@ hystrix:
           thread:
             timeoutInMilliseconds: 20000
 
-#hystrix:
-#  metrics:
-#    enabled: true
-#feign:
-#  hystrix:
-#    enabled: true
-
 management:
   endpoint:
     hystrix:
       stream:
         enabled: true
-#logging:
-#  level: debug
 
 ---
 
 spring:
-  profiles: h2
+  profiles: local
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     database: h2
@@ -85,6 +76,12 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
+
 
 ---
 
@@ -109,6 +106,12 @@ spring:
     url: jdbc:mysql://localhost:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: bookstoreDBA
     password: PaSSworD
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
+
 
 ---
 
