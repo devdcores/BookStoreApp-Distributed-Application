@@ -31,6 +31,7 @@ services:
       - SERVER_PORT=8765
       - EUREKA_HOST=eureka-server:8761
       - ZIPKIN_HOST=zipkin-server:9411
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - eureka-server
 
@@ -49,6 +50,7 @@ services:
       - SERVER_PORT=4001
       - EUREKA_HOST=eureka-server:8761
       - ZIPKIN_HOST=zipkin-server:9411
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - gateway-server
       - eureka-server
@@ -68,6 +70,7 @@ services:
       - SERVER_PORT=5001
       - EUREKA_HOST=eureka-server:8761
       - ZIPKIN_HOST=zipkin-server:9411
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - gateway-server
       - eureka-server
@@ -87,6 +90,7 @@ services:
       - SERVER_PORT=6001
       - EUREKA_HOST=eureka-server:8761
       - ZIPKIN_HOST=zipkin-server:9411
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - gateway-server
       - eureka-server
@@ -106,6 +110,7 @@ services:
       - SERVER_PORT=7001
       - EUREKA_HOST=eureka-server:8761
       - ZIPKIN_HOST=zipkin-server:9411
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - gateway-server
       - eureka-server
@@ -120,11 +125,12 @@ services:
       - bookstore-app-network
 
   prometheus:
-    image: "devdcores/bookstore-prometheus"
+    build:
+      context: ./bookstore-prometheus
+      dockerfile: Dockerfile
+    image: "prometheus"
     ports:
       - "9090:9090"
-    volumes:
-      - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
     container_name: prometheus
     networks:
       - bookstore-app-network
@@ -144,6 +150,27 @@ services:
     container_name: grafana
     networks:
       - bookstore-app-network
+
+  bookstore-mysql-db:
+    container_name: bookstore-mysql-db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'bookstore_db'
+      MYSQL_USER: 'bookstoreDBA'
+      MYSQL_PASSWORD: 'PaSSworD'
+      MYSQL_ROOT_PASSWORD: 'r00tPaSSworD'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - bookstore-db-volume:/var/lib/mysql
+    networks:
+      - bookstore-app-network
+
+volumes:
+  bookstore-db-volume:
 
 networks:
   bookstore-app-network:

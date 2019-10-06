@@ -11,6 +11,11 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
 
 zuul:
   sensitiveHeaders:
@@ -56,3 +61,20 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 40000
+
+---
+
+spring:
+  profiles: docker
+
+management:
+  metrics:
+    export:
+      influx:
+        db: bookstore_influxdb_monitoring_metrics
+        uri: http://influx:8086
+        auto-create-db: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

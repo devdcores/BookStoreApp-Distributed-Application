@@ -9,3 +9,11 @@ eureka:
     waitTimeInMsWhenSyncEmpty: 0    #wait time for subsequent sync
   instance:
     prefer-ip-address: false
+
+#Excluding influx auto config, because we are not sending eureka metrics to influx.
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration

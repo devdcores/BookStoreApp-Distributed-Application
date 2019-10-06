@@ -7,7 +7,7 @@ security:
 
 spring:
   profiles:
-    active: h2
+    active: ${SPRING_PROFILES_ACTIVE:h2}
   zipkin:
     base-url: http://${ZIPKIN_HOST:localhost:9411}
     enabled: true
@@ -108,5 +108,41 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: root
-    password: newpass
+    username: bookstoreDBA
+    password: PaSSworD
+
+---
+
+spring:
+  profiles: docker
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    open-in-view: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://bookstore-mysql-db:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: bookstoreDBA
+    password: PaSSworD
+
+management:
+  metrics:
+    export:
+      influx:
+        db: bookstore_influxdb_monitoring_metrics
+        uri: http://influx:8086
+        auto-create-db: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -89,6 +89,11 @@
             <artifactId>micrometer-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-influx</artifactId>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
