@@ -23,8 +23,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class OAuthClient extends DateAudit {
 
   @Id
-  @GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid")
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
   @Column(name = "CLIENT_ID", updatable = false, nullable = false)
   private String client_id;
 

@@ -30,8 +30,8 @@ import javax.persistence.Table;
 public class CartItem {
     
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "CART_ITEM_ID", updatable = false, nullable = false)
     private String cartItemId;
     

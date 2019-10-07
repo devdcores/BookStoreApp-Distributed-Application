@@ -39,8 +39,8 @@ public class User extends DateAudit {
   Set<Role> roles;
 
   @Id
-  @GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid")
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
   @Column(name = "USER_ID", updatable = false, nullable = false)
   private String userId;
 

@@ -26,8 +26,8 @@ import javax.persistence.Table;
 public class OrderItem {
     
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "ORDER_ITEM_ID", updatable = false, nullable = false)
     private String orderItemId;
     

@@ -32,8 +32,8 @@ import java.util.List;
 public class ProductCategory extends DateAudit {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "PRODUCT_CATEGORY_ID", updatable = false, nullable = false)
     private String productCategoryId;
 

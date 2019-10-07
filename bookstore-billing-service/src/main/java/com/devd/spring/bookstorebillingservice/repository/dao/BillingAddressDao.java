@@ -26,8 +26,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class BillingAddressDao {
     
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "BILLING_ADDRESS_ID", updatable = false, nullable = false)
     private String billingAddressId;
     
