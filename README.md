@@ -1,11 +1,15 @@
 # BookStoreApp-Distributed-Application [![HitCount](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application.svg)](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application)
 
+<hr>
+
 ## About this project
 This is an Ecommerce project, where users can adds books to the cart and buy those books.
 
 Application is being developed using Java, Spring and React.
 
 Using Spring Cloud Microservices and Spring Boot Framework extensively to make this application distributed. 
+
+<hr>
 
 ## Architecture
 All the Microservices are developed using spring boot. 
@@ -16,6 +20,8 @@ NGINX server redirects the requests to Zuul API Gateway.
 
 Zuul will route the requests to microservice
 based on the url route. Zuul also registers with eureka and gets the ip/domain from eureka for microservice while routing the request. 
+
+<hr>
 
 ## Run this project in Local Machine
 
@@ -51,6 +57,16 @@ Catalog Service           : 6001
 Order Service             : 7001
 ```
 
+<hr>
+
+###Troubleshooting
+
+If any issue while starting up services or any api failing.
+It may be because of new columns or new tables, at this point of time i am not worried much about DB migrations.
+
+So any issues, **clear/drop bookstore_db**, things may start working again.
+
+<hr>
 
 ## Deployment(In Future It will be deployed like this)
 AWS is the cloud provider will be using to deploy this project.
@@ -69,6 +85,7 @@ Below is the AWS Architecture diagram for better understanding.
 
 ![Bookstore Final](https://user-images.githubusercontent.com/14878408/65784998-000e4500-e171-11e9-96d7-b7c199e74c4c.jpg)
 
+<hr>
 
 ## Monitoring
 Using Docker images of Prometheus, Graphana and Zipkin for monitoring microservices, 
@@ -105,30 +122,36 @@ Prometheus : 9090
 <hr>
 <img alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939165-bb213180-e442-11e9-9ad7-5cfd4fa121ef.png">
 
-
+<hr>
 
 > Account Service
 
-There are 2 users in the system currently. 
-ADMIN, USER
-
 To Get `access_token` for the user, you need `clientId` and `clientSecret`
 
-clientId : `defaultfirstclientid` <br />
-clientSecret : `jwtpass` <br />
-<br />
-Admin userName: `admin.admin`  <br />
-password: `jwtpass`<br />
-<br />
-Normal User userName: `john.doe`<br />
-password: `jwtpass`
-<br />
+```
+clientId : '93ed453e-b7ac-4192-a6d4-c45fae0d99ac'
+clientSecret : 'client.devd123'
+```
+
+There are 2 users in the system currently. 
+ADMIN, NORMAL USER
+
+```
+Admin 
+userName: 'admin.admin'
+password: 'admin.devd123'
+```
+
+```
+Normal User 
+userName: 'devd.cores'
+password: 'cores.devd123'
+```
 
 *To get the accessToken (Admin User)* 
 
-```curl defaultfirstclientid:jwtpass@localhost:4001/oauth/token -d grant_type=password -d username=admin.admin -d password=jwtpass```
+```curl 93ed453e-b7ac-4192-a6d4-c45fae0d99ac:client.devd123@localhost:4001/oauth/token -d grant_type=password -d username=admin.admin -d password=admin.devd123```
 
-<br />
 <hr>
 
 ## Roadmap

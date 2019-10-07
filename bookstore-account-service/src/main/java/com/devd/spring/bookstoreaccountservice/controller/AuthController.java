@@ -3,6 +3,7 @@ package com.devd.spring.bookstoreaccountservice.controller;
 import com.devd.spring.bookstoreaccountservice.service.AuthService;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientResponse;
+import com.devd.spring.bookstoreaccountservice.web.CreateUserResponse;
 import com.devd.spring.bookstoreaccountservice.web.JwtAuthenticationResponse;
 import com.devd.spring.bookstoreaccountservice.web.SignInRequest;
 import com.devd.spring.bookstoreaccountservice.web.SignUpRequest;
@@ -47,11 +48,8 @@ public class AuthController {
   @PreAuthorize("hasAuthority('ADMIN_USER')")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
-    String userName = authService.registerUser(signUpRequest);
-    URI location = ServletUriComponentsBuilder
-        .fromCurrentContextPath().path("/users/{username}")
-        .buildAndExpand(userName).toUri();
+    CreateUserResponse createUserResponse = authService.registerUser(signUpRequest);
 
-    return ResponseEntity.created(location).build();
+    return new ResponseEntity<>(createUserResponse, HttpStatus.CREATED);
   }
 }

@@ -9,6 +9,7 @@ import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import com.devd.spring.bookstoreaccountservice.service.AuthService;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientResponse;
+import com.devd.spring.bookstoreaccountservice.web.CreateUserResponse;
 import com.devd.spring.bookstoreaccountservice.web.SignInRequest;
 import com.devd.spring.bookstoreaccountservice.web.SignUpRequest;
 import io.jsonwebtoken.Jwts;
@@ -153,7 +154,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
-  public String registerUser(SignUpRequest signUpRequest) {
+  public CreateUserResponse registerUser(SignUpRequest signUpRequest) {
 
     if (userRepository.existsByUserName(signUpRequest.getUserName())) {
       throw new RunTimeExceptionPlaceHolder("Username is already taken!!");
@@ -182,7 +183,10 @@ public class AuthServiceImpl implements AuthService {
     com.devd.spring.bookstoreaccountservice.repository.dao.User savedUser =
         userRepository.save(user);
 
-    return savedUser.getUserName();
+    return CreateUserResponse.builder()
+        .userId(savedUser.getUserId())
+        .userName(savedUser.getUserName())
+        .build();
 
   }
 }
