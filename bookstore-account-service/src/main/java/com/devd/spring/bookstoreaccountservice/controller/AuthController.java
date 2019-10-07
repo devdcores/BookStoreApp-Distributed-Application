@@ -2,6 +2,7 @@ package com.devd.spring.bookstoreaccountservice.controller;
 
 import com.devd.spring.bookstoreaccountservice.service.AuthService;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
+import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientResponse;
 import com.devd.spring.bookstoreaccountservice.web.JwtAuthenticationResponse;
 import com.devd.spring.bookstoreaccountservice.web.SignInRequest;
 import com.devd.spring.bookstoreaccountservice.web.SignUpRequest;
@@ -27,11 +28,11 @@ public class AuthController {
 
   @PostMapping("/client")
   @PreAuthorize("hasAuthority('ADMIN_USER')")
-  public ResponseEntity<Void> createOAuthClient(
+  public ResponseEntity<CreateOAuthClientResponse> createOAuthClient(
       @Valid @RequestBody CreateOAuthClientRequest createOAuthClientRequest) {
 
-    authService.createOAuthClient(createOAuthClientRequest);
-    return new ResponseEntity<>(HttpStatus.CREATED);
+    CreateOAuthClientResponse oAuthClient = authService.createOAuthClient(createOAuthClientRequest);
+    return new ResponseEntity<>(oAuthClient, HttpStatus.CREATED);
   }
 
   @PostMapping("/signin")

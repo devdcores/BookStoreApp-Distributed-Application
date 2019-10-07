@@ -8,6 +8,7 @@ import com.devd.spring.bookstoreaccountservice.repository.dao.OAuthClient;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import com.devd.spring.bookstoreaccountservice.service.AuthService;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
+import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientResponse;
 import com.devd.spring.bookstoreaccountservice.web.SignInRequest;
 import com.devd.spring.bookstoreaccountservice.web.SignUpRequest;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,21 +77,28 @@ public class AuthServiceImpl implements AuthService {
   private int jwtExpirationInMs = 3000000;
 
   @Override
-  public void createOAuthClient(CreateOAuthClientRequest createOAuthClientRequest) {
+  public CreateOAuthClientResponse createOAuthClient(
+      CreateOAuthClientRequest createOAuthClientRequest) {
 
-    String encode = passwordEncoder.encode(createOAuthClientRequest.getClient_secret());
+    //Generate client secret.
+    String clientSecret = UUID.randomUUID().toString();
+    String encode = passwordEncoder.encode(clientSecret);
 
     OAuthClient oAuthClient = OAuthClient.builder()
-        .client_id(createOAuthClientRequest.getClient_id())
         .client_secret(encode)
-        .authorities(String.join(", ", createOAuthClientRequest.getAuthorities()))
+        .authorities(String.join(",", createOAuthClientRequest.getAuthorities()))
         .authorized_grant_types(
-            String.join(", ", createOAuthClientRequest.getAuthorized_grant_types()))
-        .scope(String.join(", ", createOAuthClientRequest.getScope()))
-        .resource_ids(String.join(", ", createOAuthClientRequest.getResource_ids()))
+            String.join(",", createOAuthClientRequest.getAuthorized_grant_types()))
+        .scope(String.join(",", createOAuthClientRequest.getScope()))
+        .resource_ids(String.join(",", createOAuthClientRequest.getResource_ids()))
         .build();
 
-    oAuthClientRepository.save(oAuthClient);
+    OAuthClient saved = oAuthClientRepository.save(oAuthClient);
+
+    return CreateOAuthClientResponse.builder()
+        .client_id(saved.getClient_id())
+        .client_secret(clientSecret)
+        .build();
 
   }
 
