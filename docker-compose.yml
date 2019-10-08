@@ -144,10 +144,15 @@ services:
       - bookstore-app-network
 
   grafana:
-    image: "grafana/grafana"
+    build:
+      context: ./bookstore-graphana
+      dockerfile: Dockerfile
+    image: "graphana"
     ports:
       - "3030:3000"
     container_name: grafana
+    volumes:
+      - bookstore-graphana-dashboards:/var/lib/grafana
     networks:
       - bookstore-app-network
 
@@ -171,6 +176,7 @@ services:
 
 volumes:
   bookstore-db-volume:
+  bookstore-graphana-dashboards:
 
 networks:
   bookstore-app-network:

@@ -59,7 +59,7 @@ Order Service             : 7001
 
 <hr>
 
-##Troubleshooting
+### Troubleshooting
 
 If any issue while starting up services or any api failing.
 It may be because of new columns or new tables, at this point of time i am not worried much about DB migrations.
@@ -94,11 +94,6 @@ send or pull metrics from monitoring containers.
 
 `docker-compose` will take care of bringing all this monitoring containers up.
 
->To Setup Prometheus
-
-Copy prometheus.yml to your path(where docker can mount as volume).
-
-Change the volume path for prometheus container in docker-compose.yml file.
 More details at this link : https://www.callicoder.com/spring-boot-actuator-metrics-monitoring-dashboard-prometheus-grafana/
 
 Dashboards are available at below ports
