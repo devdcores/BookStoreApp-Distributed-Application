@@ -1,12 +1,14 @@
 package com.devd.spring.bookstoreaccountservice.controller;
 
-import com.devd.spring.bookstoreaccountservice.repository.dao.User;
 import com.devd.spring.bookstoreaccountservice.service.UserService;
 import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;
+import com.devd.spring.bookstoreaccountservice.web.GetUserInfoResponse;
+import com.devd.spring.bookstoreaccountservice.web.GetUserResponse;
 import java.net.URI;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,17 +41,24 @@ public class UserController {
   }
 
   @GetMapping("/user")
-  @PreAuthorize("hasAuthority('STANDARD_USER')")
-  public ResponseEntity<User> getUser(@RequestParam("userName") Optional<String> userName
+  @PreAuthorize("hasAuthority('ADMIN_USER')")
+  public ResponseEntity<GetUserResponse> getUser(
+      @RequestParam("userName") Optional<String> userName
       , @RequestParam("userId") Optional<String> userId) {
 
-    User user = null;
+    GetUserResponse user = null;
     if (userName.isPresent()) {
       user = userService.getUserByUserName(userName.get());
     } else if (userId.isPresent()) {
       user = userService.getUserByUserId(userId.get());
     }
     return ResponseEntity.ok(user);
+  }
+
+  @GetMapping("/userInfo")
+  public ResponseEntity<GetUserInfoResponse> getUserInfo() {
+    GetUserInfoResponse userInfo = userService.getUserInfo();
+    return new ResponseEntity<>(userInfo, HttpStatus.OK);
   }
 
   //TODO CRUD for user

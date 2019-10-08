@@ -10,12 +10,16 @@ import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import com.devd.spring.bookstoreaccountservice.repository.dao.User;
 import com.devd.spring.bookstoreaccountservice.service.UserService;
 import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;
+import com.devd.spring.bookstoreaccountservice.web.GetUserInfoResponse;
+import com.devd.spring.bookstoreaccountservice.web.GetUserResponse;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -89,24 +93,56 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User getUserByUserName(String userName) {
+  public GetUserResponse getUserByUserName(String userName) {
 
     Optional<User> userNameOrEmailOptional = userRepository
         .findByUserNameOrEmail(userName, userName);
-    User user = userNameOrEmailOptional.orElseThrow(() ->
+    User userByUserName = userNameOrEmailOptional.orElseThrow(() ->
         new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
     );
 
-    return user;
+    return GetUserResponse.builder()
+        .userId(userByUserName.getUserId())
+        .userName(userByUserName.getUserName())
+        .firstName(userByUserName.getFirstName())
+        .lastName(userByUserName.getLastName())
+        .email(userByUserName.getEmail())
+        .roles(userByUserName.getRoles())
+        .build();
   }
 
   @Override
-  public User getUserByUserId(String userId) {
+  public GetUserResponse getUserByUserId(String userId) {
     Optional<User> userIdOptional = userRepository.findByUserId(userId);
-    User user = userIdOptional.orElseThrow(() ->
+    User userById = userIdOptional.orElseThrow(() ->
         new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
     );
 
-    return user;
+    return GetUserResponse.builder()
+        .userId(userById.getUserId())
+        .userName(userById.getUserName())
+        .firstName(userById.getFirstName())
+        .lastName(userById.getLastName())
+        .email(userById.getEmail())
+        .roles(userById.getRoles())
+        .build();
   }
+
+  @Override
+  public GetUserInfoResponse getUserInfo() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String userName = (String) authentication.getPrincipal();
+
+    GetUserResponse userByUserName = getUserByUserName(userName);
+
+    return GetUserInfoResponse.builder()
+        .userId(userByUserName.getUserId())
+        .userName(userByUserName.getUserName())
+        .firstName(userByUserName.getFirstName())
+        .lastName(userByUserName.getLastName())
+        .email(userByUserName.getEmail())
+        .build();
+
+  }
+
 }

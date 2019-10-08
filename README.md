@@ -59,12 +59,12 @@ Order Service             : 7001
 
 <hr>
 
-###Troubleshooting
+##Troubleshooting
 
 If any issue while starting up services or any api failing.
 It may be because of new columns or new tables, at this point of time i am not worried much about DB migrations.
 
-So any issues, **clear/drop bookstore_db**, things may start working again.
+So any issues, **clear/drop bookstore_db**, things may start working agai, if not **raise a Issue in Github** i will help.
 
 <hr>
 
