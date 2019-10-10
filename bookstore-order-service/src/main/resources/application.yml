@@ -24,25 +24,9 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
-    registerWithEureka: true
-  instance:
-    prefer-ip-address: false
-
 logging:
   level:
     com.devd.spring.*: DEBUG
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 20000
 
 management:
   endpoint:
@@ -78,11 +62,6 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
 
 ---
 
@@ -107,11 +86,6 @@ spring:
     url: jdbc:mysql://localhost:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: bookstoreDBA
     password: PaSSworD
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
 
 ---
 
@@ -136,15 +110,3 @@ spring:
     url: jdbc:mysql://bookstore-mysql-db:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: bookstoreDBA
     password: PaSSworD
-
-management:
-  metrics:
-    export:
-      influx:
-        db: bookstore_influxdb_monitoring_metrics
-        uri: http://influx:8086
-        auto-create-db: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"

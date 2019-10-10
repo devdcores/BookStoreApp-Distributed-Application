@@ -2,163 +2,154 @@ version: "3.4"
 
 services:
 
-  eureka-server:
-    build:
-      context: ./bookstore-eureka-discovery-service
-      args:
-        JAR_FILE: bookstore-eureka-discovery-service-0.0.1-SNAPSHOT.jar
-      dockerfile: Dockerfile
-    image: eureka-server
+  bookstore-consul-discovery:
+    hostname: bookstore-consul-discovery
+    image: consul
+    container_name: bookstore-consul-discovery
+    restart: always
     ports:
-      - "8761:8761"
+      - '8500:8500'
     networks:
       - bookstore-app-network
-    environment:
-      - SERVER_PORT=8761
 
-  gateway-server:
+  bookstore-zuul-api-gateway-server:
     build:
       context: ./bookstore-api-gateway-service
       args:
         JAR_FILE: bookstore-api-gateway-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: gateway-server
+    image: bookstore-zuul-api-gateway-server
+    container_name: bookstore-zuul-api-gateway-server
+    hostname: bookstore-zuul-api-gateway-server
     ports:
       - "8765:8765"
     networks:
       - bookstore-app-network
     environment:
       - SERVER_PORT=8765
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
+      - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - eureka-server
 
-  account-service:
+  bookstore-account-service:
     build:
       context: ./bookstore-account-service
       args:
         JAR_FILE: bookstore-account-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: account-service
+    image: bookstore-account-service
+    container_name: bookstore-account-service
+    hostname: bookstore-account-service
     ports:
       - "4001:4001"
     networks:
       - bookstore-app-network
     environment:
       - SERVER_PORT=4001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
+      - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - gateway-server
-      - eureka-server
 
-  billing-service:
+  bookstore-billing-service:
     build:
       context: ./bookstore-billing-service
       args:
         JAR_FILE: bookstore-billing-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: billing-service
+    image: bookstore-billing-service
+    container_name: bookstore-billing-service
+    hostname: bookstore-billing-service
     ports:
       - "5001:5001"
     networks:
       - bookstore-app-network
     environment:
       - SERVER_PORT=5001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
+      - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - gateway-server
-      - eureka-server
 
-  catalog-service:
+  bookstore-catalog-service:
     build:
       context: ./bookstore-catalog-service
       args:
         JAR_FILE: bookstore-catalog-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: catalog-service
+    image: bookstore-catalog-service
+    container_name: bookstore-catalog-service
+    hostname: bookstore-catalog-service
     ports:
       - "6001:6001"
     networks:
       - bookstore-app-network
     environment:
       - SERVER_PORT=6001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
+      - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - gateway-server
-      - eureka-server
 
-  order-service:
+  bookstore-order-service:
     build:
       context: ./bookstore-order-service
       args:
         JAR_FILE: bookstore-order-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: order-service
+    image: bookstore-order-service
+    container_name: bookstore-order-service
+    hostname: bookstore-order-service
     ports:
       - "7001:7001"
     networks:
       - bookstore-app-network
     environment:
       - SERVER_PORT=7001
-      - EUREKA_HOST=eureka-server:8761
-      - ZIPKIN_HOST=zipkin-server:9411
+      - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - gateway-server
-      - eureka-server
 
-  zipkin-server:
+  bookstore-zipkin:
     image: openzipkin/zipkin
-    container_name: zipkin-server
-    hostname: zipkin-host
+    container_name: bookstore-zipkin
+    hostname: bookstore-zipkin
     ports:
       - "9411:9411"
     networks:
       - bookstore-app-network
 
-  prometheus:
+  bookstore-prometheus:
     build:
       context: ./bookstore-prometheus
       dockerfile: Dockerfile
-    image: "prometheus"
+    image: bookstore-prometheus
+    container_name: bookstore-prometheus
+    hostname: bookstore-prometheus
     ports:
       - "9090:9090"
-    container_name: prometheus
     networks:
       - bookstore-app-network
 
-  influx:
-    image: "influxdb"
+  bookstore-influxdb:
+    image: influxdb
+    container_name: bookstore-influxdb
+    hostname: bookstore-influxdb
     ports:
       - "8086:8086"
-    container_name: influx
     networks:
       - bookstore-app-network
 
-  grafana:
+  bookstore-grafana:
     build:
       context: ./bookstore-graphana
       dockerfile: Dockerfile
-    image: "graphana"
+    image: graphana
+    container_name: bookstore-graphana
+    hostname: bookstore-graphana
     ports:
       - "3030:3000"
-    container_name: grafana
     volumes:
       - bookstore-graphana-dashboards:/var/lib/grafana
     networks:
       - bookstore-app-network
 
   bookstore-mysql-db:
-    container_name: bookstore-mysql-db
     image: mysql:5.7
+    container_name: bookstore-mysql-db
+    hostname: bookstore-mysql-db
     restart: always
     environment:
       MYSQL_DATABASE: 'bookstore_db'

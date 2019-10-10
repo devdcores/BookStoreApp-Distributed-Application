@@ -8,6 +8,7 @@ security:
     key-pair-alias: jwt-key
     key-pair-password: devdcorespass
     public-key: classpath:jwt-signing-public-key.txt
+
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
@@ -27,13 +28,15 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
-    registerWithEureka: true
-  instance:
-    prefer-ip-address: false
+logging:
+  level:
+    com.devd.spring.*: DEBUG
+
+management:
+  endpoint:
+    hystrix:
+      stream:
+        enabled: true
 
 ---
 
@@ -63,12 +66,6 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
-
 
 ---
 
@@ -93,11 +90,6 @@ spring:
     url: jdbc:mysql://localhost:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: bookstoreDBA
     password: PaSSworD
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
 
 ---
 
@@ -122,15 +114,3 @@ spring:
     url: jdbc:mysql://bookstore-mysql-db:3306/bookstore_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: bookstoreDBA
     password: PaSSworD
-
-management:
-  metrics:
-    export:
-      influx:
-        db: bookstore_influxdb_monitoring_metrics
-        uri: http://influx:8086
-        auto-create-db: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"

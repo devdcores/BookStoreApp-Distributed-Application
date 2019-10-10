@@ -1,3 +1,9 @@
 spring:
   application:
     name: bookstore-eureka-discovery-service
+
+management:
+  metrics:
+    export:
+      influx:
+        enabled: false #influx metrics not pushing

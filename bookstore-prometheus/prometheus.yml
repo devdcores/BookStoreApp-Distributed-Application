@@ -20,12 +20,12 @@ rule_files:
 # Here it's Prometheus itself.
 scrape_configs:
   # Added to get services from Eureka-Consul-Adapter
-  - job_name: 'eureka'
+  - job_name: 'bookstore-consul-discovery'
     metrics_path: '/actuator/prometheus'
     scrape_interval: 5s
     static_configs:
     consul_sd_configs:
-      - server: 'eureka-server:8761' # Host Ip where Eureka is running.
+      - server: 'bookstore-consul-discovery:8500' # Host Ip where Consul is running.
     relabel_configs:
       - source_labels: ['__meta_consul_tags']
         action: keep

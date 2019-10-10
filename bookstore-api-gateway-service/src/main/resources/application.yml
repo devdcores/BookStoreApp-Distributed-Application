@@ -17,9 +17,8 @@ spring:
 zuul:
   sensitiveHeaders:
   host:
-    connect-timeout-millis: 10000
-    socket-timeout-millis: 20000
-    connection-request-timeout-millis: 10000
+    socket-timeout-millis: 30000
+    connect-timeout-millis: 30000
   prefix: /api
   routes:
     billing:
@@ -34,22 +33,14 @@ zuul:
     order:
       path: /order/**
       serviceId: bookstore-order-service
-
   ribbon:
     eager-load:
       enabled: true
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
-    registerWithEureka: true
-  instance:
-    prefer-ip-address: false
+  ribbon-isolation-strategy: THREAD
 
 ribbon:
   ConnectTimeout: 10000
-  ReadTimeout: 10000
+  ReadTimeout: 60000
 
 hystrix:
   command:
@@ -58,30 +49,3 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 40000
-
----
-
-spring:
-  profiles: local
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration
-
----
-
-spring:
-  profiles: docker
-
-management:
-  metrics:
-    export:
-      influx:
-        db: bookstore_influxdb_monitoring_metrics
-        uri: http://influx:8086
-        auto-create-db: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"
