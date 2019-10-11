@@ -124,9 +124,9 @@
 			<artifactId>spring-boot-test</artifactId>
 		</dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 
 	</dependencies>

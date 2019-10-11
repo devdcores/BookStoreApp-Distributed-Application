@@ -127,6 +127,8 @@ services:
     image: influxdb
     container_name: bookstore-influxdb
     hostname: bookstore-influxdb
+    volumes:
+      - booksture-influxdb-volume:/var/lib/influxdb
     ports:
       - "8086:8086"
     networks:
@@ -142,7 +144,7 @@ services:
     ports:
       - "3030:3000"
     volumes:
-      - bookstore-graphana-dashboards:/var/lib/grafana
+      - bookstore-graphana-volume:/var/lib/grafana
     networks:
       - bookstore-app-network
 
@@ -165,9 +167,55 @@ services:
     networks:
       - bookstore-app-network
 
+  bookstore-telegraf:
+    build:
+      context: ./bookstore-telegraph
+      dockerfile: Dockerfile
+    image: bookstore-telegraf
+    container_name: bookstore-telegraf
+    hostname: bookstore-telegraf
+    environment:
+      HOSTNAME: "bookstore-telegraf"
+    ports:
+      - "8125:8125/udp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - bookstore-app-network
+
+  bookstore-chronograf:
+    image: chronograf:1.7.3
+    container_name: bookstore-chronograf
+    hostname: bookstore-chronograf
+    environment:
+      INFLUXDB_URL: http://bookstore-influxdb:8086
+      KAPACITOR_URL: http://bookstore-kapacitor:9092
+    volumes:
+      - booksture-chronograf-volume:/var/lib/chronograf
+    ports:
+      - "8888:8888"
+    restart: always
+    networks:
+      - bookstore-app-network
+
+  bookstore-kapacitor:
+    image: kapacitor
+    container_name: bookstore-kapacitor
+    hostname: bookstore-kapacitor
+    environment:
+      KAPACITOR_HOSTNAME: bookstore-kapacitor
+      KAPACITOR_INFLUXDB_0_URLS_0: http://bookstore-influxdb:8086
+    ports:
+      - "9092:9092"
+    networks:
+      - bookstore-app-network
+
 volumes:
   bookstore-db-volume:
-  bookstore-graphana-dashboards:
+  bookstore-graphana-volume:
+  booksture-telegraph-volume:
+  booksture-chronograf-volume:
+  booksture-influxdb-volume:
 
 networks:
   bookstore-app-network:

@@ -50,6 +50,10 @@ spring:
 management:
   metrics:
     export:
+      statsd:
+        enabled: true
+        flavor: telegraf
+        port: 8125
       influx: #pushing influx metrics.
         db: bookstore_influxdb_monitoring_metrics
         uri: http://bookstore-influxdb:8086
@@ -58,6 +62,7 @@ management:
     web:
       exposure:
         include: "*"
+
 eureka:
   client:
     enabled: false #eureka discovery set false, in this profile consul discovery is enabled.
