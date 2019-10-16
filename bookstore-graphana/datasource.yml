@@ -36,6 +36,50 @@ datasources:
   jsonData:
     httpMode: GET
 
+- name: InfluxDB Internal
+  # <string, required> datasource type. Required
+  type: influxdb
+  # <string, required> access mode. proxy or direct (Server or Browser in the UI). Required
+  access: direct
+  # <int> org id. will default to orgId 1 if not specified
+  orgId: 1
+  # <string> url
+  url: http://localhost:8086
+  # <string> Deprecated, use secureJsonData.password
+  password:
+  # <string> database user, if used
+  user:
+  # <string> database name, if used
+  database: _internal
+  # <string> json object of data that will be encrypted.
+  version: 1
+  # <bool> allow users to edit datasources from the UI.
+  editable: true
+  jsonData:
+    httpMode: GET
+
+- name: InfluxDB Telegraf
+  # <string, required> datasource type. Required
+  type: influxdb
+  # <string, required> access mode. proxy or direct (Server or Browser in the UI). Required
+  access: direct
+  # <int> org id. will default to orgId 1 if not specified
+  orgId: 1
+  # <string> url
+  url: http://localhost:8086
+  # <string> Deprecated, use secureJsonData.password
+  password:
+  # <string> database user, if used
+  user:
+  # <string> database name, if used
+  database: telegraf
+  # <string> json object of data that will be encrypted.
+  version: 1
+  # <bool> allow users to edit datasources from the UI.
+  editable: true
+  jsonData:
+    httpMode: GET
+
 - name: Prometheus
   # <string, required> datasource type. Required
   type: prometheus

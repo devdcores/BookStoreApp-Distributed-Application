@@ -51,11 +51,23 @@ Services will be exposed in this ports
 ```
 Api Gateway Service       : 8765
 Eureka Discovery Service  : 8761
+Consul Discovery          : 8500
 Account Service           : 4001
 Billing Service           : 5001
 Catalog Service           : 6001
 Order Service             : 7001
 ```
+
+<hr>
+
+### Service Discovery
+This project uses Eureka or Consul as Discovery service.
+
+While running services in local, then using eureka as service discovery.
+
+While running using docker, then consul is the service discovery. 
+
+Reason to use Consul is it has better features and support compared to Eureka. Running services individually in local uses Eureka as service discovery because dont want to run consul agent and set it up as it becomes extra overhead to manage. Since docker-compose manages all consul stuff hence using Consul while running services in docker.
 
 <hr>
 
@@ -88,13 +100,16 @@ Below is the AWS Architecture diagram for better understanding.
 <hr>
 
 ## Monitoring
-Using Docker images of Prometheus, Graphana and Zipkin for monitoring microservices, 
-using docker images makes setting up graphana, zipkin, prometheus very easy. Just run docker images of those and
-send or pull metrics from monitoring containers.
+There are 2 setups for monitoring
+
+1. Prometheus and Graphana.
+2. TICK stack monitoring.
+
+Both the setups are very powerful, where prometheus works on pull model. we have to provide target hosts where the prometheus can pull the metrics from. If we specify target hosts using individual hostname/ip its not feasible at end because it will be like hard coded hostnames/ip. So we use Consul discovery to provide target hosts dynamically. By this way when more instances added for same service no need to worry about adding to prometheus target hosts because consul will dynamically add this target in prometheus.
+
+TICK(Telegraf, InfluxDB, Chronograf, Kapacitor) This setup is getting more attention due to its push and pull model. InfluxDB is a time series database, bookstore services push the metrics to influxDB(push model), In Telegraf we specify the targets to pull metrics(pull model). Chronograf/Graphana can be used to view the graph/charts. Kapacitor is used to configure rules for alarms.
 
 `docker-compose` will take care of bringing all this monitoring containers up.
-
-More details at this link : https://www.callicoder.com/spring-boot-actuator-metrics-monitoring-dashboard-prometheus-grafana/
 
 Dashboards are available at below ports
 
@@ -102,20 +117,45 @@ Dashboards are available at below ports
 Graphana   : 3030
 Zipkin     : 9411
 Prometheus : 9090
+Telegraf   : 8125
+InfluxDb   : 8086
+Chronograf : 8888
+Kapacitor  : 9092 
+
 ```
 
-**Screenshots of Monitoring in Graphana.**
+```
+First time login to Graphana use below credentials
 
-<img alt="API Gateway Metrics" src="https://user-images.githubusercontent.com/14878408/65935653-7c39ae80-e437-11e9-884e-8e2e0dce5b8c.png">
+Username : admin  
+Password : admin
+
+```
+
 <hr>
-<img alt="API Gateway Metrics2" src="https://user-images.githubusercontent.com/14878408/65935715-bb67ff80-e437-11e9-8e22-ce94d64cfb87.png">
-
 
 **Screenshots of Tracing in Zipkin.**
 
 <img alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939069-6b426a80-e442-11e9-90fd-d54b60786d41.png">
 <hr>
 <img alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939165-bb213180-e442-11e9-9ad7-5cfd4fa121ef.png">
+
+<hr>
+
+**Screenshots of Monitoring in Graphana.**
+
+<img width="1680" alt="Screen Shot 2019-10-16 at 9 16 21 PM" src="https://user-images.githubusercontent.com/14878408/66936473-65ac6d80-f05b-11e9-9e7d-9652059438cd.png">
+
+
+<img width="1680" alt="Screen Shot 2019-10-16 at 9 16 12 PM" src="https://user-images.githubusercontent.com/14878408/66936524-79f06a80-f05b-11e9-8898-1002813aad8e.png">
+
+<hr>
+
+**Screenshots of Monitoring in Chronograf(TICK).**
+
+![Screen Shot 2019-10-16 at 12 44 20 PM](https://user-images.githubusercontent.com/14878408/66934353-f8e3a400-f057-11e9-82ab-eda7a230c09d.png)
+
+![Screen Shot 2019-10-16 at 12 52 08 PM](https://user-images.githubusercontent.com/14878408/66934482-2e888d00-f058-11e9-8dea-f1f275765265.png)
 
 <hr>
 

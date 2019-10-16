@@ -2,13 +2,34 @@ version: "3.4"
 
 services:
 
+  # Database
+  bookstore-mysql-db:
+    image: mysql:5.7
+    container_name: bookstore-mysql-db
+    hostname: bookstore-mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'bookstore_db'
+      MYSQL_USER: 'bookstoreDBA'
+      MYSQL_PASSWORD: 'PaSSworD'
+      MYSQL_ROOT_PASSWORD: 'r00tPaSSworD'
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - bookstore-db-volume:/var/lib/mysql
+    networks:
+      - bookstore-app-network
+
+  # Core services
   bookstore-consul-discovery:
     hostname: bookstore-consul-discovery
     image: consul
     container_name: bookstore-consul-discovery
     restart: always
     ports:
-      - '8500:8500'
+      - "8500:8500"
     networks:
       - bookstore-app-network
 
@@ -102,6 +123,7 @@ services:
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
 
+  # Tracing service
   bookstore-zipkin:
     image: openzipkin/zipkin
     container_name: bookstore-zipkin
@@ -111,6 +133,7 @@ services:
     networks:
       - bookstore-app-network
 
+  # Monitoring Services
   bookstore-prometheus:
     build:
       context: ./bookstore-prometheus
@@ -120,17 +143,6 @@ services:
     hostname: bookstore-prometheus
     ports:
       - "9090:9090"
-    networks:
-      - bookstore-app-network
-
-  bookstore-influxdb:
-    image: influxdb
-    container_name: bookstore-influxdb
-    hostname: bookstore-influxdb
-    volumes:
-      - booksture-influxdb-volume:/var/lib/influxdb
-    ports:
-      - "8086:8086"
     networks:
       - bookstore-app-network
 
@@ -148,25 +160,7 @@ services:
     networks:
       - bookstore-app-network
 
-  bookstore-mysql-db:
-    image: mysql:5.7
-    container_name: bookstore-mysql-db
-    hostname: bookstore-mysql-db
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'bookstore_db'
-      MYSQL_USER: 'bookstoreDBA'
-      MYSQL_PASSWORD: 'PaSSworD'
-      MYSQL_ROOT_PASSWORD: 'r00tPaSSworD'
-    ports:
-      - '3306:3306'
-    expose:
-      - '3306'
-    volumes:
-      - bookstore-db-volume:/var/lib/mysql
-    networks:
-      - bookstore-app-network
-
+  # Monitoring using TICK stack.
   bookstore-telegraf:
     build:
       context: ./bookstore-telegraph
@@ -180,6 +174,17 @@ services:
       - "8125:8125/udp"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - bookstore-app-network
+
+  bookstore-influxdb:
+    image: influxdb
+    container_name: bookstore-influxdb
+    hostname: bookstore-influxdb
+    volumes:
+      - booksture-influxdb-volume:/var/lib/influxdb
+    ports:
+      - "8086:8086"
     networks:
       - bookstore-app-network
 
@@ -214,8 +219,8 @@ volumes:
   bookstore-db-volume:
   bookstore-graphana-volume:
   booksture-telegraph-volume:
-  booksture-chronograf-volume:
   booksture-influxdb-volume:
+  booksture-chronograf-volume:
 
 networks:
   bookstore-app-network:
