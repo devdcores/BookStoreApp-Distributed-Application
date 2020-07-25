@@ -1,6 +1,5 @@
 package com.devd.spring.bookstorebillingservice.config;
 
-import com.netflix.hystrix.strategy.HystrixPlugins;
 import feign.Logger;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +15,7 @@ public class BillingServiceConfig {
     
     @Bean
     Logger.Level feignLoggerLevel() {
-        
         return Logger.Level.FULL;
-        
     }
     
     @LoadBalanced

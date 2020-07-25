@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: bookstore-payment-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+
+spring:
+  profiles: local, mysql
+  cloud:
+    bus:
+      enabled: false
+    consul:
+      enabled: false #consul discovery set false, in this profile eureka discovery is enabled.
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost:8761}/eureka/
+    registerWithEureka: true
+    enabled: true #eureka discovery is enabled in this profile
+  instance:
+    prefer-ip-address: false
+
+management:
+  metrics:
+    export:
+      influx:
+        enabled: false #influx metrics not pushing in this profile
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    consul:
+      host: bookstore-consul-discovery
+      port: 8500
+      discovery:
+        instanceId: ${spring.application.name}:${random.value}
+      enabled: true #consul discovery is enabled in this profile
+
+management:
+  metrics:
+    export:
+      statsd:
+        enabled: true
+        flavor: telegraf
+        port: 8125
+      influx: #pushing influx metrics.
+        db: bookstore_influxdb_monitoring_metrics
+        uri: http://bookstore-influxdb:8086
+        auto-create-db: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    enabled: false #eureka discovery set false, in this profile consul discovery is enabled.

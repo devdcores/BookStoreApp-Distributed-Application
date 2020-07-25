@@ -50,7 +50,9 @@ public class OrderServiceImpl implements OrderService {
                                              return orderItemRepository.save(orderItem);
                                          }))
                                          .collect(Collectors.toList());
-    
+
+        //Call payment service for doing payment
+
         savedOrder.setOrderItems(orderItems);
         savedOrder.setTotalOrderPrice(cart.getTotalPrice());
         orderRepository.save(savedOrder);

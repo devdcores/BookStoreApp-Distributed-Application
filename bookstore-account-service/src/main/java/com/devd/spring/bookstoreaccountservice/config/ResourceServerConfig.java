@@ -26,12 +26,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     http
         .headers()
         .frameOptions()
+
         .disable()
         .and()
         .requestMatchers()
         .and()
         .authorizeRequests()
-        .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin").permitAll()
+        .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin", "/authorize").permitAll()
         .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
         .antMatchers("/**").authenticated();
   }

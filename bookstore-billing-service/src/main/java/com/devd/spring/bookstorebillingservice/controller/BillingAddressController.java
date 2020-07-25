@@ -24,18 +24,13 @@ public class BillingAddressController {
     
     @PostMapping("/billingAddress")
     public ResponseEntity<Object> createBillingAddress(@RequestBody CreateBillingAddressRequest createBillingAddressRequest) {
-        
         billingAddressService.createBillingAddress(createBillingAddressRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
         
     }
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
+
     @GetMapping("/billingAddress")
     public ResponseEntity<GetBillingAddressResponse> getBillingAddress(){
-        System.out.println("HereItGo");
-        eventPublisher.publishEvent(
-            "RaleDeva Method");
         GetBillingAddressResponse billingAddress = billingAddressService.getBillingAddress();
         return ResponseEntity.ok(billingAddress);
     }

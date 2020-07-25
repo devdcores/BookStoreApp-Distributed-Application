@@ -26,6 +26,7 @@
         <module>bookstore-billing-service</module>
         <module>bookstore-catalog-service</module>
         <module>bookstore-order-service</module>
+        <module>bookstore-payment-service</module>
     </modules>
     <packaging>pom</packaging>
 

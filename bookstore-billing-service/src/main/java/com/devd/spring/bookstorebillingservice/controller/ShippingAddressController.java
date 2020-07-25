@@ -23,15 +23,12 @@ public class ShippingAddressController {
     
     @PostMapping("/shippingAddress")
     public ResponseEntity<Object> createShippingAddress(@RequestBody CreateShippingAddressRequest createShippingAddressRequest) {
-        
         shippingAddressService.createShippingAddress(createShippingAddressRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-        
     }
     
     @GetMapping("/shippingAddress")
     public ResponseEntity<GetShippingAddressResponse> getShippingAddress() {
-        
         GetShippingAddressResponse shippingAddress = shippingAddressService.getShippingAddress();
         return ResponseEntity.ok(shippingAddress);
     }

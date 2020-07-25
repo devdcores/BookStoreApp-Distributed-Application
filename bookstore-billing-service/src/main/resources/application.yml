@@ -21,6 +21,10 @@ spring:
     table: billing_service_flyway_history
     baseline-on-migrate: true
     baseline-version: 0.9
+  main:
+    allow-bean-definition-overriding: true
+  hateoas:
+    use-hal-as-default-json-media-type: false
 
 logging:
   level:
