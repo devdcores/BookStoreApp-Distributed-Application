@@ -2,7 +2,6 @@ package com.devd.spring.bookstorepaymentservice.controller;
 
 import com.devd.spring.bookstorepaymentservice.service.PaymentMethodService;
 import com.devd.spring.bookstorepaymentservice.web.CreatePaymentMethodRequest;
-import com.devd.spring.bookstorepaymentservice.web.PaymentMethodType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -10,11 +10,11 @@ import org.springframework.context.annotation.ComponentScan;
  * @author: Devaraj Reddy,
  * Date : 2019-13-06
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.devd.spring.bookstorecommons"})
 @ComponentScan(basePackages = {"com.devd.spring"})
 //, excludeFilters={
 //		@ComponentScan.Filter(type=FilterType.ASSIGNABLE_TYPE, value=GlobalSecurityConfig.class)})
-@EnableFeignClients(basePackages = {"com.devd.spring"})
+@EnableFeignClients(value = "com.devd.spring")
 @EnableEurekaClient
 public class BookstoreOrderServiceApplication {
 

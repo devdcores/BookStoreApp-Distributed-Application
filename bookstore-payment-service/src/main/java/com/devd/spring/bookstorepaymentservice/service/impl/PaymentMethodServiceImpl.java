@@ -7,7 +7,6 @@ import com.devd.spring.bookstorepaymentservice.repository.dao.CreditCard;
 import com.devd.spring.bookstorepaymentservice.service.PaymentMethodService;
 import com.devd.spring.bookstorepaymentservice.web.CreatePaymentMethodRequest;
 import com.devd.spring.bookstorepaymentservice.web.PaymentMethodType;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

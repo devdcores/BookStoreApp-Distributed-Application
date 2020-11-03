@@ -1,16 +1,16 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
 import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
-import com.devd.spring.bookstorecatalogservice.web.ProductsPagedResponse;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.ProductsPagedResponse;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -86,30 +86,30 @@ public class ProductController {
     
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest().build()
                                                         .toUriString());
-    
-        PagedResources<Resource<Product>> resource = assembler.toResource(list, link);
+
+        PagedModel<EntityModel<Product>> resource = assembler.toModel(list, link);
     
         ProductsPagedResponse productsPagedResponse = new ProductsPagedResponse();
         productsPagedResponse.setPage(list);
-    
-        if (resource.hasLink("first")) {
-            productsPagedResponse.get_links().put("first", resource.getLink("first").getHref());
+
+        if (resource.getLink("first").isPresent()) {
+            productsPagedResponse.get_links().put("first", resource.getLink("first").get().getHref());
         }
-    
-        if (resource.hasLink("prev")) {
-            productsPagedResponse.get_links().put("prev", resource.getLink("prev").getHref());
+
+        if (resource.getLink("prev").isPresent()) {
+            productsPagedResponse.get_links().put("prev", resource.getLink("prev").get().getHref());
         }
-    
-        if (resource.hasLink("self")) {
-            productsPagedResponse.get_links().put("self", resource.getLink("self").getHref());
+
+        if (resource.getLink("self").isPresent()) {
+            productsPagedResponse.get_links().put("self", resource.getLink("self").get().getHref());
         }
-    
-        if (resource.hasLink("next")) {
-            productsPagedResponse.get_links().put("next", resource.getLink("next").getHref());
+
+        if (resource.getLink("next").isPresent()) {
+            productsPagedResponse.get_links().put("next", resource.getLink("next").get().getHref());
         }
-    
-        if (resource.hasLink("last")) {
-            productsPagedResponse.get_links().put("last", resource.getLink("last").getHref());
+
+        if (resource.getLink("last").isPresent()) {
+            productsPagedResponse.get_links().put("last", resource.getLink("last").get().getHref());
         }
     
         return ResponseEntity.ok(productsPagedResponse);

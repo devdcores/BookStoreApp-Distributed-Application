@@ -19,6 +19,7 @@
 		<jjwt.version>0.9.0</jjwt.version>
 		<skip-docker-plugin>true</skip-docker-plugin>
 		<docker-image-name>account-service</docker-image-name>
+		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -103,7 +104,19 @@
 			<scope>compile</scope>
 		</dependency>
 
-    </dependencies>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
