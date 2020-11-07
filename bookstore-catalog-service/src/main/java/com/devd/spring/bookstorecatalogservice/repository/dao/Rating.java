@@ -11,47 +11,40 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
- * @author: Devaraj Reddy,
- * Date : 2019-06-04
+ * @author Devaraj Reddy, Date : 07-Nov-2020
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "RATING")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product extends DateAudit {
+public class Rating extends DateAudit {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "RATING_ID", updatable = false, nullable = false)
+    private String ratingId;
+
     @Column(name = "PRODUCT_ID", updatable = false, nullable = false)
     private String productId;
 
-    @Column(name = "PRODUCT_NAME", nullable = false)
-    private String productName;
+    @Column(name = "USER_ID", nullable = false)
+    private String userId;
 
-    @Column(name = "PRODUCT_DESCRIPTION")
-    private String description;
-    private double price;
+    @Column(name = "USER_NAME", nullable = false)
+    private String userName;
 
-    @ManyToOne
-    @JoinColumn(name = "PRODUCT_CATEGORY_ID")
-    private ProductCategory productCategory;
+    @Column(name = "RATING_VALUE", nullable = false)
+    @Min(1)
+    @Max(5)
+    private double ratingValue;
 
-    @Column(name = "AVAILABLE_ITEM_COUNT")
-    private int availableItemCount;
-
-    @Column(name = "AVERAGE_RATING")
-    private Double averageRating;
-
-    public String getProductCategory() {
-        return productCategory.getProductCategoryId();
-    }
 }

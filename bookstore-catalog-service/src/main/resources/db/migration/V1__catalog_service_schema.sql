@@ -5,6 +5,7 @@ create table PRODUCT (
     price double not null,
     product_name varchar(255) not null,
     product_category_id varchar(255),
+    average_rating double,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
     primary key (product_id)
@@ -23,3 +24,14 @@ alter table PRODUCT
     add constraint FKProductToProductCategory
     foreign key (product_category_id)
     references PRODUCT_CATEGORY(product_category_id);
+
+create table RATING (
+    rating_id varchar(255) not null,
+    user_id varchar(255),
+    rating_value double not null,
+    product_id varchar(255) not null,
+    user_name varchar(255),
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    primary key (rating_id)
+);

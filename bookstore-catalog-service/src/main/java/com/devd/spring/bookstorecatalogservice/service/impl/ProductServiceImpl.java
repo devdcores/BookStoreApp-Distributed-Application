@@ -1,10 +1,12 @@
 package com.devd.spring.bookstorecatalogservice.service.impl;
 
-import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
-import com.devd.spring.bookstorecatalogservice.repository.dao.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import com.devd.spring.bookstorecatalogservice.repository.ProductRepository;
+import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
+import com.devd.spring.bookstorecatalogservice.repository.dao.ProductCategory;
+import com.devd.spring.bookstorecatalogservice.repository.dao.Rating;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
+import com.devd.spring.bookstorecatalogservice.service.RatingService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductCategoryRepository productCategoryRepository;
+
+    @Autowired
+    RatingService ratingService;
 
     @Override
     public String createProduct(@Valid CreateProductRequest createProductRequest) {
@@ -57,6 +63,12 @@ public class ProductServiceImpl implements ProductService {
                 productRepository.findById(productId);
 
         Product product = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
+        List<Rating> ratingForProduct = ratingService.getRatingForProduct(productId);
+        if (ratingForProduct.size() > 0) {
+            double sum = ratingForProduct.stream().mapToDouble(Rating::getRatingValue).sum();
+            double rating = sum / ratingForProduct.size();
+            product.setAverageRating(rating);
+        }
 
         return product;
     }
