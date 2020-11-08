@@ -1,11 +1,15 @@
 package com.devd.spring.bookstorecatalogservice.repository.dao;
 
+import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,10 +52,13 @@ public class Product extends DateAudit {
     @Column(name = "AVAILABLE_ITEM_COUNT")
     private int availableItemCount;
 
-    @Column(name = "AVERAGE_RATING")
-    private Double averageRating;
-
     public String getProductCategory() {
-        return productCategory.getProductCategoryId();
+        return productCategory.getProductCategoryName();
+    }
+
+    public static ProductResponse fromEntity(Product product) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return objectMapper.convertValue(product, ProductResponse.class);
     }
 }

@@ -2,6 +2,7 @@ package com.devd.spring.bookstorecatalogservice.service;
 
 import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
 import javax.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ public interface ProductService {
 
   String createProduct(@Valid CreateProductRequest createProductRequest);
 
-  Product getProduct(String productId);
+  ProductResponse getProduct(String productId);
 
   void deleteProduct(String productId);
 
@@ -22,5 +23,5 @@ public interface ProductService {
 
   Page<Product> findAllProducts(Pageable pageable);
 
-  Page<Product> getAllProducts(String sort, Integer page, Integer size);
+  Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size);
 }

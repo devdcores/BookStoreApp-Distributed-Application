@@ -1,5 +1,6 @@
 package com.devd.spring.bookstorecommons.feign;
 
+import com.devd.spring.bookstorecommons.web.GetUserInfoResponse;
 import com.devd.spring.bookstorecommons.web.GetUserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,5 +18,8 @@ public interface AccountFeignClient {
 
     @GetMapping("/user")
     GetUserResponse getUserById(@RequestParam("userId") String userId);
+
+    @GetMapping("/userInfo")
+    GetUserInfoResponse getUserInfo();
 
 }

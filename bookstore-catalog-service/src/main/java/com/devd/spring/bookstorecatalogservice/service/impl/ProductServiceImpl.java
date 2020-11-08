@@ -2,13 +2,19 @@ package com.devd.spring.bookstorecatalogservice.service.impl;
 
 import com.devd.spring.bookstorecatalogservice.repository.ProductCategoryRepository;
 import com.devd.spring.bookstorecatalogservice.repository.ProductRepository;
+import com.devd.spring.bookstorecatalogservice.repository.ReviewRepository;
 import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
 import com.devd.spring.bookstorecatalogservice.repository.dao.ProductCategory;
 import com.devd.spring.bookstorecatalogservice.repository.dao.Rating;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import com.devd.spring.bookstorecatalogservice.service.RatingService;
+import com.devd.spring.bookstorecatalogservice.service.ReviewService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +42,15 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     RatingService ratingService;
 
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Override
     public String createProduct(@Valid CreateProductRequest createProductRequest) {
 
@@ -58,19 +73,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProduct(String productId) {
+    public ProductResponse getProduct(String productId) {
         Optional<Product> productOptional =
                 productRepository.findById(productId);
 
         Product product = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
+        ProductResponse productResponse = objectMapper.convertValue(product, ProductResponse.class);
+        populateRatingForProduct(productId, productResponse);
+        return productResponse;
+    }
+
+    //This way of setting rating for productResponse is not okay, But this is okay for now.
+    private void populateRatingForProduct(String productId, ProductResponse productResponse) {
         List<Rating> ratingForProduct = ratingService.getRatingForProduct(productId);
         if (ratingForProduct.size() > 0) {
             double sum = ratingForProduct.stream().mapToDouble(Rating::getRatingValue).sum();
             double rating = sum / ratingForProduct.size();
-            product.setAverageRating(rating);
+            productResponse.setAverageRating(rating);
         }
 
-        return product;
+        productResponse.setNoOfReviews(Math.toIntExact(reviewRepository.countAllByProductId(productId)));
     }
 
     @Override
@@ -115,7 +137,7 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public Page<Product> getAllProducts(String sort, Integer page, Integer size) {
+    public Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size) {
         
         //set defaults
         if (size == null || size == 0) {
@@ -146,8 +168,10 @@ public class ProductServiceImpl implements ProductService {
             }
             
         }
-        
-        return productRepository.findAll(pageable);
-        
+        Page<Product> allProducts = productRepository.findAll(pageable);
+        Page<ProductResponse> allProductsResponse = allProducts.map(Product::fromEntity);
+        allProductsResponse.forEach(productResponse -> populateRatingForProduct(productResponse.getProductId(), productResponse));
+
+        return allProductsResponse;
     }
 }

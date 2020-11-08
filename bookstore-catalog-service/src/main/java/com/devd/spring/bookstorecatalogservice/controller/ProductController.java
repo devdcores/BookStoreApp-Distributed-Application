@@ -1,8 +1,8 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
-import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
 import com.devd.spring.bookstorecatalogservice.web.ProductsPagedResponse;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +52,9 @@ public class ProductController {
     }
 
     @GetMapping("/product/{productId}")
-    public ResponseEntity<Product> getProduct(@PathVariable("productId") String productId) {
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable("productId") String productId) {
 
-        Product product = productService.getProduct(productId);
+        ProductResponse product = productService.getProduct(productId);
 
         return ResponseEntity.ok(product);
     }
@@ -82,14 +82,14 @@ public class ProductController {
     public ResponseEntity<?> getAllProducts(@RequestParam(value = "sort", required = false) String sort,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "size", required = false) Integer size,
-                                            PagedResourcesAssembler<Product> assembler) {
-    
-        Page<Product> list = productService.getAllProducts(sort, page, size);
+                                            PagedResourcesAssembler<ProductResponse> assembler) {
+
+        Page<ProductResponse> list = productService.getAllProducts(sort, page, size);
     
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest().build()
                                                         .toUriString());
 
-        PagedModel<EntityModel<Product>> resource = assembler.toModel(list, link);
+        PagedModel<EntityModel<ProductResponse>> resource = assembler.toModel(list, link);
     
         ProductsPagedResponse productsPagedResponse = new ProductsPagedResponse();
         productsPagedResponse.setPage(list);

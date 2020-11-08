@@ -6,7 +6,9 @@ import com.devd.spring.bookstorecatalogservice.repository.dao.Rating;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import com.devd.spring.bookstorecatalogservice.service.RatingService;
 import com.devd.spring.bookstorecatalogservice.web.CreateOrUpdateRatingRequest;
+import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
 import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
+import com.devd.spring.bookstorecommons.web.GetUserInfoResponse;
 import com.devd.spring.bookstorecommons.web.GetUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,10 +39,10 @@ public class RatingServiceImpl implements RatingService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = (String) authentication.getPrincipal();
 
-        GetUserResponse user = accountFeignClient.getUserByUserName(userName);
+        GetUserInfoResponse user = accountFeignClient.getUserInfo();
 
         //check whether product exists.
-        Product product = productService.getProduct(createOrUpdateRatingRequest.getProductId());
+        ProductResponse product = productService.getProduct(createOrUpdateRatingRequest.getProductId());
         if(product==null){
             throw new RuntimeException("Product doesn't exist!");
         }

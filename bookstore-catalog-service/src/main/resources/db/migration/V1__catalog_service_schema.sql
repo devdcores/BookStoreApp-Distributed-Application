@@ -5,7 +5,6 @@ create table PRODUCT (
     price double not null,
     product_name varchar(255) not null,
     product_category_id varchar(255),
-    average_rating double,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
     primary key (product_id)
@@ -34,4 +33,15 @@ create table RATING (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
     primary key (rating_id)
+);
+
+create table REVIEW (
+    review_id varchar(255) not null,
+    user_id varchar(255),
+    review_message varchar(1000),
+    product_id varchar(255) not null,
+    user_name varchar(255),
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    primary key (review_id)
 );
