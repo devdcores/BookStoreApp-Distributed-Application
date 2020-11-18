@@ -1,7 +1,6 @@
 package com.devd.spring.bookstorecatalogservice.service.impl;
 
 import com.devd.spring.bookstorecatalogservice.repository.ReviewRepository;
-import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
 import com.devd.spring.bookstorecatalogservice.repository.dao.Review;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import com.devd.spring.bookstorecatalogservice.service.ReviewService;
@@ -14,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -59,5 +60,13 @@ public class ReviewServiceImpl implements ReviewService {
                     .build();
             reviewRepository.save(newReview);
         }
+    }
+
+    @Override
+    public List<Review> getReviewsForProduct(String productId) {
+
+        Optional<List<Review>> reviewsForProduct = reviewRepository.findAllByProductId(productId);
+        return reviewsForProduct.orElseGet(ArrayList::new);
+
     }
 }

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * @author Devaraj Reddy, Date : 07-Nov-2020
@@ -40,7 +42,12 @@ public class Review extends DateAudit {
     @Column(name = "USER_NAME", nullable = false)
     private String userName;
 
-    @Column(name = "REVIEW_MESSAGE", nullable = false)
+    @Column(name = "RATING_VALUE", nullable = false)
+    @Min(1)
+    @Max(5)
+    private double ratingValue;
+
+    @Column(name = "REVIEW_MESSAGE")
     private String reviewMessage;
 
 }

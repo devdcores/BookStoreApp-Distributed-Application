@@ -19,6 +19,6 @@ public class ProductResponse {
     private String productCategory;
     private int availableItemCount;
     private Double averageRating;
-    private int noOfReviews;
+    private int noOfRatings;
 
 }

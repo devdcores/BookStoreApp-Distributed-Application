@@ -5,16 +5,13 @@ import com.devd.spring.bookstorecatalogservice.repository.ProductRepository;
 import com.devd.spring.bookstorecatalogservice.repository.ReviewRepository;
 import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
 import com.devd.spring.bookstorecatalogservice.repository.dao.ProductCategory;
-import com.devd.spring.bookstorecatalogservice.repository.dao.Rating;
+import com.devd.spring.bookstorecatalogservice.repository.dao.Review;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
-import com.devd.spring.bookstorecatalogservice.service.RatingService;
 import com.devd.spring.bookstorecatalogservice.service.ReviewService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
 import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,9 +35,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductCategoryRepository productCategoryRepository;
-
-    @Autowired
-    RatingService ratingService;
 
     @Autowired
     private ReviewService reviewService;
@@ -85,14 +79,14 @@ public class ProductServiceImpl implements ProductService {
 
     //This way of setting rating for productResponse is not okay, But this is okay for now.
     private void populateRatingForProduct(String productId, ProductResponse productResponse) {
-        List<Rating> ratingForProduct = ratingService.getRatingForProduct(productId);
-        if (ratingForProduct.size() > 0) {
-            double sum = ratingForProduct.stream().mapToDouble(Rating::getRatingValue).sum();
-            double rating = sum / ratingForProduct.size();
+        List<Review> reviewsForProduct = reviewService.getReviewsForProduct(productId);
+        if (reviewsForProduct.size() > 0) {
+            double sum = reviewsForProduct.stream().mapToDouble(Review::getRatingValue).sum();
+            double rating = sum / reviewsForProduct.size();
             productResponse.setAverageRating(rating);
         }
 
-        productResponse.setNoOfReviews(Math.toIntExact(reviewRepository.countAllByProductId(productId)));
+        productResponse.setNoOfRatings(Math.toIntExact(reviewRepository.countAllByProductId(productId)));
     }
 
     @Override

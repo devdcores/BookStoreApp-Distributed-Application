@@ -24,20 +24,10 @@ alter table PRODUCT
     foreign key (product_category_id)
     references PRODUCT_CATEGORY(product_category_id);
 
-create table RATING (
-    rating_id varchar(255) not null,
-    user_id varchar(255),
-    rating_value double not null,
-    product_id varchar(255) not null,
-    user_name varchar(255),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    primary key (rating_id)
-);
-
 create table REVIEW (
     review_id varchar(255) not null,
     user_id varchar(255),
+    rating_value double not null,
     review_message varchar(1000),
     product_id varchar(255) not null,
     user_name varchar(255),
