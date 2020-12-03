@@ -3,7 +3,7 @@
 <hr>
 
 ## About this project
-This is an Ecommerce project, where users can adds books to the cart and buy those books.
+This is an Ecommerce project still `development in progress`, where users can adds books to the cart and buy those books.
 
 Application is being developed using Java, Spring and React.
 
@@ -56,6 +56,7 @@ Account Service           : 4001
 Billing Service           : 5001
 Catalog Service           : 6001
 Order Service             : 7001
+Payment Service           : 8001
 ```
 
 <hr>
@@ -188,9 +189,3 @@ password: 'cores.devd123'
 ```curl 93ed453e-b7ac-4192-a6d4-c45fae0d99ac:client.devd123@localhost:4001/oauth/token -d grant_type=password -d username=admin.admin -d password=admin.devd123```
 
 <hr>
-
-## Roadmap
-
-1. Start Bookstore-react frontend project.
-2. Start Bookstore-payment-service.
-3. Start DevOps CICD using Terraform/Ansible/Cloudformation.(Least Priority)
