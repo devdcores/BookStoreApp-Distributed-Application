@@ -43,18 +43,18 @@ public class Cart {
     private String userName;
     
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CartItem> cartItem;
+    private List<CartItem> cartItems;
     
     @Column(name = "TOTAL_PRICE", nullable = false)
     private double totalPrice;
 
     public void dismissChild(CartItem cartItem) {
-        this.cartItem.remove(cartItem);
+        this.cartItems.remove(cartItem);
     }
 
     @PreRemove
     public void dismissChild() {
-        this.cartItem.forEach(CartItem::dismissParent); // SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP
-        this.cartItem.clear();
+        this.cartItems.forEach(CartItem::dismissParent); // SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP
+        this.cartItems.clear();
     }
 }

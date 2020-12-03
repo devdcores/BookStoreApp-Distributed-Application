@@ -3,9 +3,9 @@ package com.devd.spring.bookstoreorderservice.service.impl;
 import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
 import com.devd.spring.bookstorecommons.feign.CatalogFeignClient;
 import com.devd.spring.bookstorecommons.web.GetProductResponse;
+import com.devd.spring.bookstoreorderservice.repository.CartItemRepository;
 import com.devd.spring.bookstoreorderservice.repository.dao.Cart;
 import com.devd.spring.bookstoreorderservice.repository.dao.CartItem;
-import com.devd.spring.bookstoreorderservice.repository.CartItemRepository;
 import com.devd.spring.bookstoreorderservice.service.CartItemService;
 import com.devd.spring.bookstoreorderservice.service.CartService;
 import com.devd.spring.bookstoreorderservice.web.CartItemRequest;
@@ -51,13 +51,17 @@ public class CartItemServiceImpl implements CartItemService {
     
         GetProductResponse getProductResponse = catalogFeignClient.getProduct(cartItemRequest.getProductId());
 
+        if (cartItemRequest.getQuantity() > getProductResponse.getAvailableItemCount()) {
+            throw new RuntimeException("Quantity is greater than available item count!");
+        }
+
         //If the product already exists in the cart, update its quantity and price.
-    
-        if (cartByUserName.getCartItem() != null) {
-            for (CartItem ci : cartByUserName.getCartItem()) {
+
+        if (cartByUserName.getCartItems() != null) {
+            for (CartItem ci : cartByUserName.getCartItems()) {
     
                 if (getProductResponse.getProductId().equals(ci.getProductId())) {
-                    ci.setQuantity(ci.getQuantity() + 1);
+                    ci.setQuantity(cartItemRequest.getQuantity());
                     ci.setPrice(ci.getQuantity() * getProductResponse.getPrice());
                     cartItemRepository.save(ci);
                     return;
@@ -65,12 +69,13 @@ public class CartItemServiceImpl implements CartItemService {
             }
         }
 
-        //If cart doesn't have any cartItems, then create cartItem.
+        //If cart doesn't have any cartItems, then create cartItems.
         CartItem cartItem = CartItem.builder()
                                     .cart(cartByUserName)
                                     .price(getProductResponse.getPrice())
-                                    .quantity(1)
+                                    .quantity(cartItemRequest.getQuantity())
                                     .productId(getProductResponse.getProductId())
+                                    .productName(getProductResponse.getProductName())
                                     .build();
 
         cartItemRepository.save(cartItem);
@@ -92,7 +97,7 @@ public class CartItemServiceImpl implements CartItemService {
     public void removeAllCartItems(String cartId) {
 
         Cart cart = cartService.getCartByCartId(cartId);
-        List<CartItem> cartItems = cart.getCartItem();
+        List<CartItem> cartItems = cart.getCartItems();
         if (cartItems != null && !cartItems.isEmpty()) {
             cartItems.forEach((ci) -> {
                 this.removeCartItem(ci.getCartItemId());

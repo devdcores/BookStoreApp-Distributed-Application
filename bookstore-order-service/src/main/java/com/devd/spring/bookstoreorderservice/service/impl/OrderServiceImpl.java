@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     
         Order savedOrder = orderRepository.save(order);
         
-        List<OrderItem> orderItems = cart.getCartItem()
+        List<OrderItem> orderItems = cart.getCartItems()
                                          .stream()
                                          .map((cartItem -> {
                                              OrderItem orderItem = new OrderItem();

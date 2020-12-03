@@ -37,7 +37,7 @@ const ProductScreen = (props) => {
       ) : product ? (
         <Row>
           <Col md={6}>
-            <Image src='https://images-na.ssl-images-amazon.com/images/I/511wMMedbhL._SX327_BO1,204,203,200_.jpg' alt={product.prductName} fluid></Image>
+            <Image src='https://source.unsplash.com/random?book' alt={product.prductName} fluid></Image>
           </Col>
           <Col md={3}>
             <ListGroup variant='flush'>

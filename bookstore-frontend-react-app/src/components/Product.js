@@ -13,7 +13,7 @@ const Product = (props) => {
     <>
       <Card className='my-3 rounded'>
         <Link to={`/product/${product.productId}`}>
-          <Card.Img src={`https://source.unsplash.com/random/500x500?sig=${getRandomNumber()}`} variant='top'></Card.Img>
+          <Card.Img src={`https://source.unsplash.com/random/500x500?book,sig=${getRandomNumber()}`} variant='top'></Card.Img>
         </Link>
         <Card.Body>
           <Link to={`/product/${product.productId}`}>

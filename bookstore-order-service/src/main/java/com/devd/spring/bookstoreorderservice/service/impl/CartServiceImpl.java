@@ -30,10 +30,11 @@ public class CartServiceImpl implements CartService {
         Cart cartByUserName = cartRepository.findCartByUserName(userName);
     
         if (cartByUserName == null) {
-            throw new RuntimeException("cart doesn't exist for this userName");
+            createCart();
+            cartByUserName = cartRepository.findCartByUserName(userName);
         }
     
-        double totalPrice = cartByUserName.getCartItem()
+        double totalPrice = cartByUserName.getCartItems()
                                           .stream()
                                           .mapToDouble(CartItem::getPrice)
                                           .sum();

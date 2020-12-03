@@ -34,6 +34,8 @@ public class GlobalResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .headers()
                 .frameOptions()
                 .disable()
@@ -41,7 +43,7 @@ public class GlobalResourceServerConfig extends ResourceServerConfigurerAdapter 
                 .requestMatchers()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin").permitAll()
+                .antMatchers("/actuator/**", "/api-docs/**", "/h2-console/**", "/signin", "/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
                 .antMatchers("/**").authenticated();
     }

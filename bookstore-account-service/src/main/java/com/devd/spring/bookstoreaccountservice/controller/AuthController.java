@@ -45,7 +45,6 @@ public class AuthController {
   }
 
   @PostMapping("/signup")
-  @PreAuthorize("hasAuthority('ADMIN_USER')")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
     CreateUserResponse createUserResponse = authService.registerUser(signUpRequest);

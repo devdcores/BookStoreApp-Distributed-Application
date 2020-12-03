@@ -4,6 +4,7 @@ import com.devd.spring.bookstoreorderservice.service.CartItemService;
 import com.devd.spring.bookstoreorderservice.web.CartItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Date : 2019-06-17
  */
 @RestController
+@CrossOrigin
 public class CartItemController {
 
     @Autowired
