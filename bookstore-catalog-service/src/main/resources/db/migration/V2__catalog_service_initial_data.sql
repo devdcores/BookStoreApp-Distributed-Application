@@ -17,7 +17,7 @@ insert into PRODUCT (product_id, created_at, updated_at, available_item_count, p
 
 insert into PRODUCT (product_id, created_at, updated_at, available_item_count, product_description, price, product_name, product_category_id) values ('8fabb3a1-27c2-4ee3-a3a4-be43af946a76', now(), now(), 3545, 'Nun Book', 500, 'The Nun', '3925c6a6-351c-4067-b021-ced0e80988e4');
 
-insert into PRODUCT (product_id, created_at, updated_at, available_item_count, product_description, price, product_name, product_category_id) values ('0b75f97f-b4ff-4a95-afa0-1e64b2035497', now(), now(), 454, 'Conjuring Book', 999, 'Conjuring', '3925c6a6-351c-4067-b021-ced0e80988e4');
+insert into PRODUCT (product_id, created_at, updated_at, available_item_count, product_description, price, product_name, product_category_id) values ('0b75f97f-b4ff-4a95-afa0-1e64b2035497', now(), now(), 0, 'Conjuring Book', 999, 'Conjuring', '3925c6a6-351c-4067-b021-ced0e80988e4');
 
 --add data to review table
 insert into REVIEW (review_id, rating_value, user_id, review_message, product_id, user_name) values

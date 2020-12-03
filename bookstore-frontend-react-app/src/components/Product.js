@@ -5,11 +5,15 @@ import { Link } from 'react-router-dom';
 
 const Product = (props) => {
   const product = props.product;
+  const getRandomNumber = () => {
+    return Math.floor(Math.random() * 10);
+  };
+
   return (
-    <div>
+    <>
       <Card className='my-3 rounded'>
         <Link to={`/product/${product.productId}`}>
-          <Card.Img src={'https://source.unsplash.com/featured/?books'} variant='top'></Card.Img>
+          <Card.Img src={`https://source.unsplash.com/random/500x500?sig=${getRandomNumber()}`} variant='top'></Card.Img>
         </Link>
         <Card.Body>
           <Link to={`/product/${product.productId}`}>
@@ -27,7 +31,7 @@ const Product = (props) => {
           </Card.Text>
         </Card.Body>
       </Card>
-    </div>
+    </>
   );
 };
 
