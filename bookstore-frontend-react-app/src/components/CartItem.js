@@ -2,25 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const CartItem = ({ item, addToCart, getCart }) => {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
 
-  let config = {
-    timeout: 15000,
-    headers: {
-      'Content-Type': 'Application/Json',
-      'Authorization':
-        'Bearer ' +
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX25hbWUiOiI0YWRkZGEzMC1jNzVlLTQ5YzQtYTk5Yi04ZmQzZTAzYzk3NzAiLCJhdXRob3JpdGllcyI6WyJTVEFOREFSRF9VU0VSIl0sImF1ZCI6WyJ3ZWIiXSwiZXhwIjoxNjA3MDE1NjU5LCJpYXQiOjE2MDcwMTI2NjB9.I0If-OvK112_qpY9drUpmcM4Y6hZXtJYRrdun1oVtQtXMfPGGnN-cI9u57KLRv1V5OMLqqh_-rvdFfrrQG0s0Ge_cCp3yFFNrOillCJk751ZBXF7h_VzOpMfMFeRqZEOFPcwO6edomzrZjZ6EKkMTlHsjycgnXefY3Idoa_9XKnw-I1uLITkLDkbxOYf9DWW0QQ-CKH_FYdFTe9lF85yQqOcIBIQ2LXkUrMAbyykGQ_5h09bdA79TQhbh3FQZMHq40jv440rb4Z0jSwa6rRmNUmEDUf9FZxEXqX5PLS7etFGyasfib9wqCaQIgU8gF81e61X22G5Od-YTYZ3HdSoXw',
-      'Accept': '*/*',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-      'Access-Control-Allow-Credentials': true
-    }
-  };
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
     getProductDetails();
@@ -37,6 +26,19 @@ const CartItem = ({ item, addToCart, getCart }) => {
   };
 
   const removeFromCartHandler = async (cartItemId) => {
+    let config = {
+      timeout: 15000,
+      headers: {
+        'Content-Type': 'Application/Json',
+        'Authorization': 'Bearer ' + userInfo.token,
+        'Accept': '*/*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+        'Access-Control-Allow-Credentials': true
+      }
+    };
+
     try {
       await axios.delete(`http://localhost:8765/api/order/cart/cartItem/${cartItemId}`, config);
       getCart();

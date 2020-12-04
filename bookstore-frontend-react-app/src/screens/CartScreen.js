@@ -13,22 +13,15 @@ const CartScreen = (props) => {
   const productId = props.match.params.id;
   const qty = props.location.search ? Number(props.location.search.split('=')[1]) : 1;
 
-  let config = {
-    timeout: 15000,
-    headers: {
-      'Content-Type': 'Application/Json',
-      'Authorization':
-        'Bearer ' +
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX25hbWUiOiI0YWRkZGEzMC1jNzVlLTQ5YzQtYTk5Yi04ZmQzZTAzYzk3NzAiLCJhdXRob3JpdGllcyI6WyJTVEFOREFSRF9VU0VSIl0sImF1ZCI6WyJ3ZWIiXSwiZXhwIjoxNjA3MDE1NjU5LCJpYXQiOjE2MDcwMTI2NjB9.I0If-OvK112_qpY9drUpmcM4Y6hZXtJYRrdun1oVtQtXMfPGGnN-cI9u57KLRv1V5OMLqqh_-rvdFfrrQG0s0Ge_cCp3yFFNrOillCJk751ZBXF7h_VzOpMfMFeRqZEOFPcwO6edomzrZjZ6EKkMTlHsjycgnXefY3Idoa_9XKnw-I1uLITkLDkbxOYf9DWW0QQ-CKH_FYdFTe9lF85yQqOcIBIQ2LXkUrMAbyykGQ_5h09bdA79TQhbh3FQZMHq40jv440rb4Z0jSwa6rRmNUmEDUf9FZxEXqX5PLS7etFGyasfib9wqCaQIgU8gF81e61X22G5Od-YTYZ3HdSoXw',
-      'Accept': '*/*',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-      'Access-Control-Allow-Credentials': true
-    }
-  };
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const redirect = props.location.pathname + props.location.search;
 
   useEffect(() => {
+    if (userInfo === null || userInfo === undefined) {
+      props.history.push(`/login?redirect=${redirect}`);
+      return;
+    }
     if (productId) {
       async function postData() {
         await addToCart(productId, qty);
@@ -37,9 +30,22 @@ const CartScreen = (props) => {
     }
 
     getCart();
-  }, [productId, qty]);
+  }, [productId, qty, userInfo]);
 
   const addToCart = async (pId, q) => {
+    let config = {
+      timeout: 15000,
+      headers: {
+        'Content-Type': 'Application/Json',
+        'Authorization': 'Bearer ' + userInfo.token,
+        'Accept': '*/*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+        'Access-Control-Allow-Credentials': true
+      }
+    };
+
     const body = {
       productId: pId || productId,
       quantity: q || qty
@@ -59,6 +65,19 @@ const CartScreen = (props) => {
   };
 
   const getCart = async () => {
+    let config = {
+      timeout: 15000,
+      headers: {
+        'Content-Type': 'Application/Json',
+        'Authorization': 'Bearer ' + userInfo.token,
+        'Accept': '*/*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+        'Access-Control-Allow-Credentials': true
+      }
+    };
+
     try {
       const cartDetails = await axios.get(`http://localhost:8765/api/order/cart`, config);
 
@@ -80,7 +99,7 @@ const CartScreen = (props) => {
   };
   return (
     <>
-      <Row>
+      <>
         {error ? (
           <Message variant='danger'> {JSON.stringify(error.message)}</Message>
         ) : (
@@ -112,7 +131,7 @@ const CartScreen = (props) => {
                       <h3>${cart?.totalPrice}</h3>
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      <Button type='button' className='btn-block' disabled={cart?.cartItems?.length === 0} onClick='checkoutHandler'>
+                      <Button type='button' className='btn-block' disabled={cart?.cartItems?.length === 0} onClick={checkoutHandler}>
                         Proceed To Checkout
                       </Button>
                     </ListGroup.Item>
@@ -122,7 +141,7 @@ const CartScreen = (props) => {
             </Row>
           </>
         )}
-      </Row>
+      </>
     </>
   );
 };
