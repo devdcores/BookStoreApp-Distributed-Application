@@ -12,16 +12,18 @@ import com.devd.spring.bookstoreaccountservice.service.UserService;
 import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;
 import com.devd.spring.bookstoreaccountservice.web.GetUserInfoResponse;
 import com.devd.spring.bookstoreaccountservice.web.GetUserResponse;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import com.devd.spring.bookstoreaccountservice.web.UpdateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-06-30
@@ -143,6 +145,35 @@ public class UserServiceImpl implements UserService {
         .email(userByUserName.getEmail())
         .build();
 
+  }
+
+  @Override
+  public void updateUserInfo(UpdateUserRequest updateUserRequest) {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String userName = (String) authentication.getPrincipal();
+
+    Optional<User> userNameOrEmailOptional = userRepository.findByUserNameOrEmail(userName, userName);
+
+    User userByUserName = userNameOrEmailOptional.orElseThrow(() ->
+            new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
+    );
+
+    if(updateUserRequest.getFirstName()!=null){
+      userByUserName.setFirstName(updateUserRequest.getFirstName());
+    }
+    if(updateUserRequest.getLastName()!=null){
+      userByUserName.setLastName(updateUserRequest.getLastName());
+    }
+    if(updateUserRequest.getPassword()!=null){
+      String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword());
+      userByUserName.setPassword(encodedPassword);
+    }
+    if(updateUserRequest.getEmail()!=null){
+      userByUserName.setEmail(updateUserRequest.getEmail());
+    }
+
+    userRepository.save(userByUserName);
   }
 
 }

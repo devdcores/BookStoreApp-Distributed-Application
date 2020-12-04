@@ -30,12 +30,7 @@ const CartItem = ({ item, addToCart, getCart }) => {
       timeout: 15000,
       headers: {
         'Content-Type': 'Application/Json',
-        'Authorization': 'Bearer ' + userInfo.token,
-        'Accept': '*/*',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-        'Access-Control-Allow-Credentials': true
+        'Authorization': 'Bearer ' + userInfo.token
       }
     };
 
@@ -62,7 +57,7 @@ const CartItem = ({ item, addToCart, getCart }) => {
             <Link to={`/product/${item.productId}`}>{item.productName}</Link>
           </Col>
           <Col md={2}>${item.price}</Col>
-          <Col md={2}>
+          <Col md={3}>
             {product && (
               <>
                 <Form.Control as='select' value={item.quantity} onChange={(e) => addToCart(item.productId, e.target.value)}>

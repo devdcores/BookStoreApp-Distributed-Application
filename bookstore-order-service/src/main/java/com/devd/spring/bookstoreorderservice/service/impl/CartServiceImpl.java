@@ -29,10 +29,12 @@ public class CartServiceImpl implements CartService {
         String userName = (String) authentication.getPrincipal();
     
         Cart cartByUserName = cartRepository.findCartByUserName(userName);
-    
-        if (cartByUserName == null) {
-            createCart();
-            cartByUserName = cartRepository.findCartByUserName(userName);
+
+        synchronized (CartServiceImpl.class){
+            if (cartByUserName == null) {
+                createCart();
+                cartByUserName = cartRepository.findCartByUserName(userName);
+            }
         }
     
         double totalPrice = cartByUserName.getCartItems()

@@ -28,7 +28,7 @@ const RegisterScreen = (props) => {
     }
   }, [props.history, userInfo, redirect]);
 
-  const loginSubmitHandler = (e) => {
+  const registerHandler = (e) => {
     e.preventDefault();
     //Register
     if (password !== confirmPassword) {
@@ -45,7 +45,7 @@ const RegisterScreen = (props) => {
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{JSON.stringify(error)}</Message>}
         {loading && <Loader></Loader>}
-        <Form onSubmit={loginSubmitHandler}>
+        <Form onSubmit={registerHandler}>
           <Form.Group controlId='userName'>
             <Form.Label>Username</Form.Label>
             <Form.Control placeholder='Username' value={userName} onChange={(e) => setUserName(e.target.value)}></Form.Control>

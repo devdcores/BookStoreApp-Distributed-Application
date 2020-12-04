@@ -43,10 +43,12 @@ public class CartItemServiceImpl implements CartItemService {
         String userName = (String) authentication.getPrincipal();
         Cart cartByUserName = cartService.getCartByUserName(userName);
 
-        if (cartByUserName == null) {
-            //create cart for user if not exists.
-            cartService.createCart();
-            cartByUserName = cartService.getCartByUserName(userName);
+        synchronized (CartServiceImpl.class) {
+            if (cartByUserName == null) {
+                //create cart for user if not exists.
+                cartService.createCart();
+                cartByUserName = cartService.getCartByUserName(userName);
+            }
         }
     
         GetProductResponse getProductResponse = catalogFeignClient.getProduct(cartItemRequest.getProductId());

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs';
 
 export const login = (usernameOrEmail, password) => async (dispatch) => {
   try {
@@ -6,19 +7,32 @@ export const login = (usernameOrEmail, password) => async (dispatch) => {
       type: 'USER_LOGIN_REQUEST'
     });
 
+    const clientId = '93ed453e-b7ac-4192-a6d4-c45fae0d99ac';
+    const clientSecret = 'client.devd123';
+
+    //TODO Move this to constants
     const config = {
       headers: {
-        'Content-Type': 'application/json'
+        'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret),
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
     };
 
-    const { data: loginResponse } = await axios.post('http://localhost:8765/api/account/signin', { usernameOrEmail, password }, config);
+    const params = {
+      grant_type: 'password',
+      username: usernameOrEmail,
+      password: password
+    };
 
-    config.headers.Authorization = 'Bearer ' + loginResponse.accessToken;
+    const formEncodedData = qs.stringify(params);
+
+    const { data: loginResponse } = await axios.post('http://localhost:8765/api/account/oauth/token', formEncodedData, config);
+
+    config.headers.Authorization = 'Bearer ' + loginResponse.access_token;
 
     const { data: userInfoResponse } = await axios.get('http://localhost:8765/api/account/userInfo', config);
 
-    userInfoResponse.token = loginResponse.accessToken;
+    userInfoResponse.token = loginResponse.access_token;
 
     dispatch({
       type: 'USER_LOGIN_SUCCESS',
@@ -47,6 +61,9 @@ export const register = (userName, firstName, email, password) => async (dispatc
       type: 'USER_REGISTER_REQUEST'
     });
 
+    const clientId = '93ed453e-b7ac-4192-a6d4-c45fae0d99ac';
+    const clientSecret = 'client.devd123';
+
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -57,15 +74,31 @@ export const register = (userName, firstName, email, password) => async (dispatc
     const { data: signUpResponse } = await axios.post('http://localhost:8765/api/account/signup', { userName, firstName, email, password }, config);
 
     //SignIn
-    const { data: loginResponse } = await axios.post('http://localhost:8765/api/account/signin', { usernameOrEmail: userName, password }, config);
+    //TODO Move this to constants
+    const configFormUrlEncoded = {
+      headers: {
+        'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    };
+
+    const params = {
+      grant_type: 'password',
+      username: userName,
+      password: password
+    };
+
+    const formEncodedData = qs.stringify(params);
+
+    const { data: loginResponse } = await axios.post('http://localhost:8765/api/account/oauth/token', formEncodedData, configFormUrlEncoded);
 
     //Get Token
-    config.headers.Authorization = 'Bearer ' + loginResponse.accessToken;
+    config.headers.Authorization = 'Bearer ' + loginResponse.access_token;
 
     //Get UserInfo
     const { data: userInfoResponse } = await axios.get('http://localhost:8765/api/account/userInfo', config);
 
-    userInfoResponse.token = loginResponse.accessToken;
+    userInfoResponse.token = loginResponse.access_token;
 
     dispatch({
       type: 'USER_REGISTER_SUCCESS',

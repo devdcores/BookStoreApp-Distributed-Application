@@ -8,6 +8,8 @@ import lombok.Value;
 @Value
 public class JwtAuthenticationResponse {
 
-  private String accessToken;
-  private String tokenType = "Bearer";
+  private String access_token;
+  private String token_type = "Bearer";
+  private String refresh_token;
+  private Long expires_in;
 }

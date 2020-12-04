@@ -13,7 +13,5 @@ public interface AuthService {
 
   CreateOAuthClientResponse createOAuthClient(CreateOAuthClientRequest createOAuthClientRequest);
 
-  String authenticateUser(SignInRequest signInRequest);
-
   CreateUserResponse registerUser(SignUpRequest signUpRequest);
 }

@@ -3,6 +3,7 @@ package com.devd.spring.bookstoreaccountservice.service;
 import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;
 import com.devd.spring.bookstoreaccountservice.web.GetUserInfoResponse;
 import com.devd.spring.bookstoreaccountservice.web.GetUserResponse;
+import com.devd.spring.bookstoreaccountservice.web.UpdateUserRequest;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-09-27
@@ -16,4 +17,6 @@ public interface UserService {
   GetUserResponse getUserByUserId(String userId);
 
   GetUserInfoResponse getUserInfo();
+
+  void updateUserInfo(UpdateUserRequest updateUserRequest);
 }
