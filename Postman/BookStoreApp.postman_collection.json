@@ -94,6 +94,72 @@
 					"response": []
 				},
 				{
+					"name": "Refresh Token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "client.devd123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "93ed453e-b7ac-4192-a6d4-c45fae0d99ac",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "e24f5460-c3f3-416d-bcca-2b6ba40d58dc",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "pass@1235",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{accountServiceAPIGatewayUrl}}/oauth/token?grant_type=refresh_token&refresh_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsid2ViIl0sInVzZXJfbmFtZSI6ImUyNGY1NDYwLWMzZjMtNDE2ZC1iY2NhLTJiNmJhNDBkNThkYyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJlZjFhZTQwNC02MDMxLTQ3OWMtYmMwZS02OWNmNjQ0YjRiZTQiLCJleHAiOjE2MDcxMDc0MTYsImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiOWI2YmY5NjgtYTI5NS00NTE4LTg4ZWYtMWI3ZGQ2N2Y1OWZjIiwiY2xpZW50X2lkIjoiOTNlZDQ1M2UtYjdhYy00MTkyLWE2ZDQtYzQ1ZmFlMGQ5OWFjIn0.rG9-NO3SJfyJJaSavaoSbCCuM4bsDwcLply1HqHTP15V7ftRajL1aOD7F8TpiiL7P4S9UX9KZ5FxiQYN3EnomB4UrJSyc-PDfBkEbFuo_ApCIjTaiHP-a6FxdNc5ftNqf24gPhW6tm-6ePVYw4HBqvR7KdADvMUVN1_xhD6cv6IaDAB2rwxgZxAXJg0k__1dNRt6X2lUkhrA2FeitdveWlBn4w8GNdK9d_h6FtxKenVJjLFOu7MoD2SD_KLhd_7uqpexF47UzjyTDPxYtsc1hVb6_arWo1M2FN94MS6oOqIUjUilzoo8P04Xv-LF1oKD6TnocyO2NJ0OtVGEHWGcEA",
+							"host": [
+								"{{accountServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token"
+								},
+								{
+									"key": "refresh_token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsid2ViIl0sInVzZXJfbmFtZSI6ImUyNGY1NDYwLWMzZjMtNDE2ZC1iY2NhLTJiNmJhNDBkNThkYyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJlZjFhZTQwNC02MDMxLTQ3OWMtYmMwZS02OWNmNjQ0YjRiZTQiLCJleHAiOjE2MDcxMDc0MTYsImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiOWI2YmY5NjgtYTI5NS00NTE4LTg4ZWYtMWI3ZGQ2N2Y1OWZjIiwiY2xpZW50X2lkIjoiOTNlZDQ1M2UtYjdhYy00MTkyLWE2ZDQtYzQ1ZmFlMGQ5OWFjIn0.rG9-NO3SJfyJJaSavaoSbCCuM4bsDwcLply1HqHTP15V7ftRajL1aOD7F8TpiiL7P4S9UX9KZ5FxiQYN3EnomB4UrJSyc-PDfBkEbFuo_ApCIjTaiHP-a6FxdNc5ftNqf24gPhW6tm-6ePVYw4HBqvR7KdADvMUVN1_xhD6cv6IaDAB2rwxgZxAXJg0k__1dNRt6X2lUkhrA2FeitdveWlBn4w8GNdK9d_h6FtxKenVJjLFOu7MoD2SD_KLhd_7uqpexF47UzjyTDPxYtsc1hVb6_arWo1M2FN94MS6oOqIUjUilzoo8P04Xv-LF1oKD6TnocyO2NJ0OtVGEHWGcEA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create User (Admin uses this api to create user in the system)",
 					"event": [
 						{
@@ -132,7 +198,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userName\": \"{{randomId}}\",\n  \"password\": \"pass@1234\",\n  \"firstName\": \"devaraj\",\n  \"lastName\": \"reddy\",\n  \"email\": \"{{randomId}}@g.c\",\n  \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\"]\n}"
+							"raw": "{\n  \"userName\": \"{{randomId}}\",\n  \"password\": \"pass@1234\",\n  \"firstName\": \"devaraj\",\n  \"lastName\": \"reddy\",\n  \"email\": \"{{randomId}}@gmail.com\",\n  \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\"]\n}"
 						},
 						"url": {
 							"raw": "{{accountServiceAPIGatewayUrl}}/user",
@@ -255,8 +321,10 @@
 							"script": {
 								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
 									"",
-									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"accessToken\", jsonData.access_token);"
 								],
 								"type": "text/javascript"
 							}
@@ -264,7 +332,19 @@
 					],
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "client.devd123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "93ed453e-b7ac-4192-a6d4-c45fae0d99ac",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -276,16 +356,33 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"usernameOrEmail\": \"admin.admin\",\n  \"password\": \"admin.devd123\"\n}"
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "1358c7f6-8fde-482e-8547-034d1a8b1eee",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "pass@1234",
+									"type": "text"
+								}
+							]
 						},
 						"url": {
-							"raw": "{{accountServiceAPIGatewayUrl}}/signin",
+							"raw": "{{accountServiceAPIGatewayUrl}}/oauth/token",
 							"host": [
 								"{{accountServiceAPIGatewayUrl}}"
 							],
 							"path": [
-								"signin"
+								"oauth",
+								"token"
 							]
 						}
 					},
@@ -370,6 +467,32 @@
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "{{accountServiceAPIGatewayUrl}}/userInfo",
+							"host": [
+								"{{accountServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"userInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update UserInfo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"devd\",\n    \"lastName\": \"reddy\",\n    \"email\": \"asdasdasda@g.c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{accountServiceAPIGatewayUrl}}/userInfo",
@@ -628,10 +751,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{accountServiceAPIGatewayUrl}}/roles",
 							"host": [
@@ -824,7 +943,10 @@
 								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX25hbWUiOiJkZXZkMTIzNCIsImF1dGhvcml0aWVzIjpbIkFETUlOX1VTRVIiLCJTVEFOREFSRF9VU0VSIl0sImF1ZCI6WyJ3ZWIiXSwiZXhwIjoxNTY2OTAyNDQ3LCJpYXQiOjE1NjY4OTk0NDd9.G_7np2LRxNBHmOHkig02J7kP4tKsDAectdzQHfoDH4nN_ip_ycNiKqnFPV_chzTYHFy7DQ0VcXaGJ9tKQLckZ2LGqpGGuPo2uaL-rZRs6MofV3HzriaySUwKFQ1VJohTRGsHsOdXqH4cMnvppUpT8eWE2U2mlkUn42CVTe90qsuaeDJxIGH4mwWKf5MpqUR0m7vJQUwMNB-bcvmbi51MGH8t4hbOCFqo609ggVCvfxDLqtWgYhhVxRmrYxUXDDHBxiwaTQbh-QPO_mkmz9w7k1ekDQ8d_abstqmSHV8CZ3JsjonLVYjo92XmNddSEe4f8b9LsqTJ_PX79fzKeYQrRw"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "{{catalogServiceAPIGatewayUrl}}/productCategories?direction=ASC&orderBy=PRODUCTCATEGORYNAME&page=0&size=3",
 							"host": [
@@ -993,7 +1115,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{catalogServiceAPIGatewayUrl}}/product/db1b4a0e-b8a9-4d98-90cf-45c6ca246601",
@@ -1037,7 +1162,10 @@
 								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX25hbWUiOiJkZXZkMTIzNCIsImF1dGhvcml0aWVzIjpbIkFETUlOX1VTRVIiLCJTVEFOREFSRF9VU0VSIl0sImF1ZCI6WyJ3ZWIiXSwiZXhwIjoxNTY2OTAyNDQ3LCJpYXQiOjE1NjY4OTk0NDd9.G_7np2LRxNBHmOHkig02J7kP4tKsDAectdzQHfoDH4nN_ip_ycNiKqnFPV_chzTYHFy7DQ0VcXaGJ9tKQLckZ2LGqpGGuPo2uaL-rZRs6MofV3HzriaySUwKFQ1VJohTRGsHsOdXqH4cMnvppUpT8eWE2U2mlkUn42CVTe90qsuaeDJxIGH4mwWKf5MpqUR0m7vJQUwMNB-bcvmbi51MGH8t4hbOCFqo609ggVCvfxDLqtWgYhhVxRmrYxUXDDHBxiwaTQbh-QPO_mkmz9w7k1ekDQ8d_abstqmSHV8CZ3JsjonLVYjo92XmNddSEe4f8b9LsqTJ_PX79fzKeYQrRw"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "{{catalogServiceAPIGatewayUrl}}/products?direction=ASC&orderBy=AVAILABLEITEMCOUNT&page=0&size=3",
 							"host": [
@@ -1092,6 +1220,44 @@
 							"path": [
 								"product",
 								"402880e46b2d7ce9016b2d7d28350001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creating Review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f56a7e67-f8c7-44ed-adfa-859debe8f274",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": \"358638cf-42aa-4fc9-8e05-bd77569ffe72\",\n    \"reviewMessage\": \"This book is worth reading.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{catalogServiceAPIGatewayUrl}}/review",
+							"host": [
+								"{{catalogServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"review"
 							]
 						}
 					},
@@ -1199,10 +1365,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{billingServiceAPIGatewayUrl}}/billingAddress",
 							"host": [
@@ -1232,10 +1394,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{billingServiceAPIGatewayUrl}}/shippingAddress",
 							"host": [
@@ -1358,7 +1516,10 @@
 								"value": "*/*"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "{{orderServiceAPIGatewayUrl}}/cart",
 							"host": [
@@ -1399,7 +1560,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"productId\": \"db1b4a0e-b8a9-4d98-90cf-45c6ca246601\"\n}"
+							"raw": "{\n    \"productId\": \"db1b4a0e-b8a9-4d98-90cf-45c6ca246601\",\n    \"quantity\": 5\n}"
 						},
 						"url": {
 							"raw": "{{orderServiceAPIGatewayUrl}}/cart/cartItem",
@@ -1436,7 +1597,10 @@
 								"value": "*/*"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "{{orderServiceAPIGatewayUrl}}/cart/cartItem/ff8080816cdcfb4f016cdcff309a0001",
 							"host": [
@@ -1468,10 +1632,6 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{orderServiceAPIGatewayUrl}}/order",
 							"host": [
@@ -1485,6 +1645,89 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Payment Service",
+			"item": [
+				{
+					"name": "Create credit card payment method.",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"paymentMethodType\": \"CREDIT_CARD\",\n    \"creditCard\": {\n        \"firstName\": \"devd\",\n        \"lastName\": \"reddy\",\n        \"cardNumber\": \"4111111111111111\",\n        \"last4Digits\": \"1111\",\n        \"expirationMonth\": 12,\n        \"expirationYear\": 2023,\n        \"cvv\": 123\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{paymentServiceUrl}}/paymentMethod",
+							"host": [
+								"{{paymentServiceUrl}}"
+							],
+							"path": [
+								"paymentMethod"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Udemy Course Reset Api",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "RlK9WyJCCf1Gp5IpWViINsg2VsU7FniitwHRqGjc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"mark_as_not_started\":1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://edgeverve.udemy.com/api-2.0/users/me/subscribed-courses/2196488/progress",
+					"protocol": "https",
+					"host": [
+						"edgeverve",
+						"udemy",
+						"com"
+					],
+					"path": [
+						"api-2.0",
+						"users",
+						"me",
+						"subscribed-courses",
+						"2196488",
+						"progress"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
