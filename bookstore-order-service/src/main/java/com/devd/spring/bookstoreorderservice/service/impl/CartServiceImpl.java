@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -64,6 +65,7 @@ public class CartServiceImpl implements CartService {
         }
 
         Cart cart = Cart.builder()
+                .cartItems(new ArrayList<>())
                 .userName(userName)
                 .build();
 

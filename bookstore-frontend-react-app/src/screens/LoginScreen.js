@@ -32,7 +32,7 @@ const LoginScreen = (props) => {
     <div>
       <FormContainer>
         <h1>Sign In</h1>
-        {error && <Message variant='danger'>error</Message>}
+        {error && <Message variant='danger'>{JSON.stringify(error)}</Message>}
         {loading && <Loader></Loader>}
         <Form onSubmit={loginSubmitHandler}>
           <Form.Group controlId='userNameOrEmail'>
