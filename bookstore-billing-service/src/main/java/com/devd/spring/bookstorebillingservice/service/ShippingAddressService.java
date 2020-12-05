@@ -1,6 +1,6 @@
 package com.devd.spring.bookstorebillingservice.service;
 
-import com.devd.spring.bookstorebillingservice.web.CreateShippingAddressRequest;
+import com.devd.spring.bookstorebillingservice.web.ShippingAddressRequest;
 import com.devd.spring.bookstorebillingservice.web.GetShippingAddressResponse;
 
 /**
@@ -8,7 +8,9 @@ import com.devd.spring.bookstorebillingservice.web.GetShippingAddressResponse;
  */
 public interface ShippingAddressService {
 
-  void createShippingAddress(CreateShippingAddressRequest createShippingAddressRequest);
+  void createShippingAddress(ShippingAddressRequest shippingAddressRequest);
 
   GetShippingAddressResponse getShippingAddress();
+
+  void updateShippingAddress(ShippingAddressRequest shippingAddressRequest);
 }

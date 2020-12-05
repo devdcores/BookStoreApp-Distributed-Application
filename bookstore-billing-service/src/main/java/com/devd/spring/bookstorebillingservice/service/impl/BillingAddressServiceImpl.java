@@ -3,15 +3,14 @@ package com.devd.spring.bookstorebillingservice.service.impl;
 import com.devd.spring.bookstorebillingservice.repository.BillingAddressRepository;
 import com.devd.spring.bookstorebillingservice.repository.dao.BillingAddressDao;
 import com.devd.spring.bookstorebillingservice.service.BillingAddressService;
-import com.devd.spring.bookstorebillingservice.web.CreateBillingAddressRequest;
+import com.devd.spring.bookstorebillingservice.web.BillingAddressRequest;
 import com.devd.spring.bookstorebillingservice.web.GetBillingAddressResponse;
 import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
-import com.devd.spring.bookstorecommons.web.GetUserResponse;
-import java.util.Optional;
+import com.devd.spring.bookstorecommons.web.GetUserInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-09-20
@@ -26,26 +25,23 @@ public class BillingAddressServiceImpl implements BillingAddressService {
   BillingAddressRepository billingAddressRepository;
 
   @Override
-  public void createBillingAddress(CreateBillingAddressRequest createBillingAddressRequest) {
+  public void createBillingAddress(BillingAddressRequest billingAddressRequest) {
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String userName = (String) authentication.getPrincipal();
+    GetUserInfoResponse userInfo = accountFeignClient.getUserInfo();
 
-    GetUserResponse userById = accountFeignClient.getUserByUserName(userName);
-
-    if (billingAddressRepository.existsByUserId(userById.getUserId())) {
+    if (billingAddressRepository.existsByUserId(userInfo.getUserId())) {
       throw new RuntimeException("Billing Address already exists for this User!");
     }
 
     BillingAddressDao billingAddressDao = BillingAddressDao.builder()
-        .addressLine1(createBillingAddressRequest.getAddressLine1())
-        .addressLine2(createBillingAddressRequest.getAddressLine2())
-        .city(createBillingAddressRequest.getCity())
-        .country(createBillingAddressRequest.getCountry())
-        .phone(createBillingAddressRequest.getPhone())
-        .postalCode(createBillingAddressRequest.getPostalCode())
-        .state(createBillingAddressRequest.getState())
-        .userId(userById.getUserId())
+        .addressLine1(billingAddressRequest.getAddressLine1())
+        .addressLine2(billingAddressRequest.getAddressLine2())
+        .city(billingAddressRequest.getCity())
+        .country(billingAddressRequest.getCountry())
+        .phone(billingAddressRequest.getPhone())
+        .postalCode(billingAddressRequest.getPostalCode())
+        .state(billingAddressRequest.getState())
+            .userId(userInfo.getUserId())
         .build();
 
     billingAddressRepository.save(billingAddressDao);
@@ -55,11 +51,9 @@ public class BillingAddressServiceImpl implements BillingAddressService {
   @Override
   public GetBillingAddressResponse getBillingAddress() {
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String userName = (String) authentication.getPrincipal();
-    GetUserResponse userById = accountFeignClient.getUserByUserName(userName);
+    GetUserInfoResponse userInfo = accountFeignClient.getUserInfo();
     Optional<BillingAddressDao> byUserId = billingAddressRepository
-        .findByUserId(userById.getUserId());
+            .findByUserId(userInfo.getUserId());
 
     BillingAddressDao billingAddressDao = byUserId
         .orElseThrow(() -> new RuntimeException("Billing Address does't exist for user!"));

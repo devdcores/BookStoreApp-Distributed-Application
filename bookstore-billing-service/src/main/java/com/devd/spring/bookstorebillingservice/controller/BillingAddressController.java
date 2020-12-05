@@ -1,10 +1,9 @@
 package com.devd.spring.bookstorebillingservice.controller;
 
 import com.devd.spring.bookstorebillingservice.service.BillingAddressService;
-import com.devd.spring.bookstorebillingservice.web.CreateBillingAddressRequest;
+import com.devd.spring.bookstorebillingservice.web.BillingAddressRequest;
 import com.devd.spring.bookstorebillingservice.web.GetBillingAddressResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +22,8 @@ public class BillingAddressController {
     BillingAddressService billingAddressService;
     
     @PostMapping("/billingAddress")
-    public ResponseEntity<Object> createBillingAddress(@RequestBody CreateBillingAddressRequest createBillingAddressRequest) {
-        billingAddressService.createBillingAddress(createBillingAddressRequest);
+    public ResponseEntity<Object> createBillingAddress(@RequestBody BillingAddressRequest billingAddressRequest) {
+        billingAddressService.createBillingAddress(billingAddressRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
         
     }

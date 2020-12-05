@@ -85,8 +85,9 @@ const CartScreen = (props) => {
   };
 
   const checkoutHandler = () => {
-    console.log('Checkout');
+    props.history.push('/login?redirect=shipping');
   };
+
   return (
     <>
       <>

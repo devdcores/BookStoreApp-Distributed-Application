@@ -3,15 +3,14 @@ package com.devd.spring.bookstorebillingservice.service.impl;
 import com.devd.spring.bookstorebillingservice.repository.ShippingAddressRepository;
 import com.devd.spring.bookstorebillingservice.repository.dao.ShippingAddressDao;
 import com.devd.spring.bookstorebillingservice.service.ShippingAddressService;
-import com.devd.spring.bookstorebillingservice.web.CreateShippingAddressRequest;
+import com.devd.spring.bookstorebillingservice.web.ShippingAddressRequest;
 import com.devd.spring.bookstorebillingservice.web.GetShippingAddressResponse;
 import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
-import com.devd.spring.bookstorecommons.web.GetUserResponse;
-import java.util.Optional;
+import com.devd.spring.bookstorecommons.web.GetUserInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-09-20
@@ -26,26 +25,23 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
   ShippingAddressRepository shippingAddressRepository;
 
   @Override
-  public void createShippingAddress(CreateShippingAddressRequest createShippingAddressRequest) {
+  public void createShippingAddress(ShippingAddressRequest shippingAddressRequest) {
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String userName = (String) authentication.getPrincipal();
+    GetUserInfoResponse userInfo = accountFeignClient.getUserInfo();
 
-    GetUserResponse userById = accountFeignClient.getUserByUserName(userName);
-
-    if (shippingAddressRepository.existsByUserId(userById.getUserId())) {
+    if (shippingAddressRepository.existsByUserId(userInfo.getUserId())) {
       throw new RuntimeException("Shipping Address already exists for this User!");
     }
 
     ShippingAddressDao shippingAddressDao = ShippingAddressDao.builder()
-        .addressLine1(createShippingAddressRequest.getAddressLine1())
-        .addressLine2(createShippingAddressRequest.getAddressLine2())
-        .city(createShippingAddressRequest.getCity())
-        .country(createShippingAddressRequest.getCountry())
-        .phone(createShippingAddressRequest.getPhone())
-        .postalCode(createShippingAddressRequest.getPostalCode())
-        .state(createShippingAddressRequest.getState())
-        .userId(userById.getUserId())
+        .addressLine1(shippingAddressRequest.getAddressLine1())
+        .addressLine2(shippingAddressRequest.getAddressLine2())
+        .city(shippingAddressRequest.getCity())
+        .country(shippingAddressRequest.getCountry())
+        .phone(shippingAddressRequest.getPhone())
+        .postalCode(shippingAddressRequest.getPostalCode())
+        .state(shippingAddressRequest.getState())
+            .userId(userInfo.getUserId())
         .build();
 
     shippingAddressRepository.save(shippingAddressDao);
@@ -55,12 +51,10 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
   @Override
   public GetShippingAddressResponse getShippingAddress() {
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String userName = (String) authentication.getPrincipal();
-    GetUserResponse userById = accountFeignClient.getUserByUserName(userName);
+    GetUserInfoResponse userInfo = accountFeignClient.getUserInfo();
 
     Optional<ShippingAddressDao> byUserId = shippingAddressRepository
-        .findByUserId(userById.getUserId());
+            .findByUserId(userInfo.getUserId());
 
     ShippingAddressDao shippingAddressDao = byUserId
         .orElseThrow(() -> new RuntimeException("Shipping Address does't exist for user!"));
@@ -77,5 +71,30 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
         .userId(shippingAddressDao.getUserId())
         .build();
 
+  }
+
+  @Override
+  public void updateShippingAddress(ShippingAddressRequest shippingAddressRequest) {
+    GetUserInfoResponse userInfo = accountFeignClient.getUserInfo();
+
+    if (!shippingAddressRepository.existsByUserId(userInfo.getUserId())) {
+      throw new RuntimeException("Shipping Address doesn't exists for this User!");
+    }
+
+    GetShippingAddressResponse existingShippingAddress = getShippingAddress();
+
+    ShippingAddressDao shippingAddressDao = ShippingAddressDao.builder()
+            .shippingAddressId(existingShippingAddress.getShippingAddressId())
+            .addressLine1(shippingAddressRequest.getAddressLine1())
+            .addressLine2(shippingAddressRequest.getAddressLine2())
+            .city(shippingAddressRequest.getCity())
+            .country(shippingAddressRequest.getCountry())
+            .phone(shippingAddressRequest.getPhone())
+            .postalCode(shippingAddressRequest.getPostalCode())
+            .state(shippingAddressRequest.getState())
+            .userId(userInfo.getUserId())
+            .build();
+
+    shippingAddressRepository.save(shippingAddressDao);
   }
 }

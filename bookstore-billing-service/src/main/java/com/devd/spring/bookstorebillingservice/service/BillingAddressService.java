@@ -1,6 +1,6 @@
 package com.devd.spring.bookstorebillingservice.service;
 
-import com.devd.spring.bookstorebillingservice.web.CreateBillingAddressRequest;
+import com.devd.spring.bookstorebillingservice.web.BillingAddressRequest;
 import com.devd.spring.bookstorebillingservice.web.GetBillingAddressResponse;
 
 /**
@@ -8,7 +8,7 @@ import com.devd.spring.bookstorebillingservice.web.GetBillingAddressResponse;
  */
 public interface BillingAddressService {
 
-  void createBillingAddress(CreateBillingAddressRequest createBillingAddressRequest);
+  void createBillingAddress(BillingAddressRequest billingAddressRequest);
 
   GetBillingAddressResponse getBillingAddress();
 }
