@@ -38,10 +38,14 @@ public class OrderItem {
     
     @Column(name = "PRODUCT_ID", nullable = false)
     private String productId;
-    
+
+    @Column(name = "QUANTITY", nullable = false)
     private int quantity;
     
     @Column(name = "ORDER_ITEM_PRICE", nullable = false)
     private double orderItemPrice;
+
+    @Column(name = "ORDER_EXTENDED_PRICE", nullable = false)
+    private double orderExtendedPrice;
     
 }

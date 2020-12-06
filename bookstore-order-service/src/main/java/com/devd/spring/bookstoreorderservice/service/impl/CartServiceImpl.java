@@ -39,7 +39,7 @@ public class CartServiceImpl implements CartService {
     
         double totalPrice = cartByUserName.getCartItems()
                                           .stream()
-                                          .mapToDouble(CartItem::getPrice)
+                                          .mapToDouble(CartItem::getExtendedPrice)
                                           .sum();
     
         cartByUserName.setTotalPrice(totalPrice);

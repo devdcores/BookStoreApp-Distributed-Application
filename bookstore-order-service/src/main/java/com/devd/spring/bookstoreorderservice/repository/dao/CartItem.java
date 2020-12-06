@@ -34,10 +34,15 @@ public class CartItem {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "CART_ITEM_ID", updatable = false, nullable = false)
     private String cartItemId;
-    
+
+    @Column(name = "QUANTITY", nullable = false)
     private int quantity;
-    
-    private double price;
+
+    @Column(name = "ITEM_PRICE", nullable = false)
+    private double itemPrice;
+
+    @Column(name = "EXTENDED_PRICE", nullable = false)
+    private double extendedPrice;
     
     @Column(name = "PRODUCT_ID", nullable = false)
     private String productId;
@@ -61,7 +66,7 @@ public class CartItem {
         return "CartItem{" +
                        "cartItemId='" + cartItemId + '\'' +
                        ", quantity=" + quantity +
-                       ", price=" + price +
+                       ", itemPrice=" + itemPrice +
                        ", productId='" + productId + '\'' +
                        '}';
     }

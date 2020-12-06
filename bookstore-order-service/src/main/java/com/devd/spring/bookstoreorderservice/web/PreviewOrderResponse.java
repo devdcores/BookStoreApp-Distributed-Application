@@ -22,7 +22,7 @@ public class PreviewOrderResponse {
     GetAddressResponse shippingAddress;
     GetAddressResponse billingAddress;
     String paymentMethod;
-    Double itemsPrice;
+    Double itemsTotalPrice;
     Double taxPrice;
     Double shippingPrice;
     Double totalPrice;

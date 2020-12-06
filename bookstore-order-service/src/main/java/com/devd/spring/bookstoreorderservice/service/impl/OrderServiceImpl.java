@@ -51,9 +51,9 @@ public class OrderServiceImpl implements OrderService {
                                          .map((cartItem -> {
                                              OrderItem orderItem = new OrderItem();
                                              orderItem.setOrder(savedOrder);
-                                             orderItem.setOrderItemPrice(cartItem.getPrice());
+                                             orderItem.setOrderItemPrice(cartItem.getItemPrice());
                                              orderItem.setProductId(cartItem.getProductId());
-                                             orderItem.setOrderItemPrice(cartItem.getPrice());
+                                             orderItem.setOrderItemPrice(cartItem.getItemPrice());
                                              orderItem.setQuantity(cartItem.getQuantity());
                                              return orderItemRepository.save(orderItem);
                                          }))
@@ -88,16 +88,17 @@ public class OrderServiceImpl implements OrderService {
         cart.getCartItems()
                 .forEach(cartItem -> {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setOrderItemPrice(cartItem.getPrice());
+                    orderItem.setOrderItemPrice(cartItem.getItemPrice());
+                    orderItem.setOrderExtendedPrice(cartItem.getExtendedPrice());
                     orderItem.setProductId(cartItem.getProductId());
-                    orderItem.setOrderItemPrice(cartItem.getPrice());
+                    orderItem.setOrderItemPrice(cartItem.getItemPrice());
                     orderItem.setQuantity(cartItem.getQuantity());
                     previewOrderResponse.getOrderItems().add(orderItem);
                 });
 
         //HarCode to 10%
-        double itemsPrice = previewOrderResponse.getOrderItems().stream().mapToDouble(OrderItem::getOrderItemPrice).sum();
-        previewOrderResponse.setItemsPrice(itemsPrice);
+        double itemsPrice = previewOrderResponse.getOrderItems().stream().mapToDouble(OrderItem::getOrderExtendedPrice).sum();
+        previewOrderResponse.setItemsTotalPrice(itemsPrice);
 
         Double taxPrice = (itemsPrice * 10 ) / 100;
         previewOrderResponse.setTaxPrice(taxPrice);

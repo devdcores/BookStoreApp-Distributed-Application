@@ -57,14 +57,15 @@ public class CartItemServiceImpl implements CartItemService {
             throw new RuntimeException("Quantity is greater than available item count!");
         }
 
-        //If the product already exists in the cart, update its quantity and price.
+        //If the product already exists in the cart, update its quantity and itemPrice.
 
         if (cartByUserName.getCartItems() != null) {
             for (CartItem ci : cartByUserName.getCartItems()) {
     
                 if (getProductResponse.getProductId().equals(ci.getProductId())) {
                     ci.setQuantity(cartItemRequest.getQuantity());
-                    ci.setPrice(ci.getQuantity() * getProductResponse.getPrice());
+                    ci.setItemPrice(getProductResponse.getPrice());
+                    ci.setExtendedPrice(ci.getQuantity() * getProductResponse.getPrice());
                     cartItemRepository.save(ci);
                     return;
                 }
@@ -74,7 +75,8 @@ public class CartItemServiceImpl implements CartItemService {
         //If cart doesn't have any cartItems, then create cartItems.
         CartItem cartItem = CartItem.builder()
                                     .cart(cartByUserName)
-                                    .price(getProductResponse.getPrice())
+                                    .itemPrice(getProductResponse.getPrice())
+                                    .extendedPrice(cartItemRequest.getQuantity() * getProductResponse.getPrice())
                                     .quantity(cartItemRequest.getQuantity())
                                     .productId(getProductResponse.getProductId())
                                     .productName(getProductResponse.getProductName())
