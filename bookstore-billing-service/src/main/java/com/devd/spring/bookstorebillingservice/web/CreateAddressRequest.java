@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -17,7 +16,7 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BillingAddressRequest {
+public class CreateAddressRequest {
 
     @NonNull
     private String addressLine1;
@@ -38,5 +37,5 @@ public class BillingAddressRequest {
 
     @NonNull
     private String phone;
-    
+
 }

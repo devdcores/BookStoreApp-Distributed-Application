@@ -9,9 +9,9 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class GetShippingAddressResponse {
-    
-    private String shippingAddressId;
+public class GetAddressResponse {
+
+    private String addressId;
     private String userId;
     private String addressLine1;
     private String addressLine2;

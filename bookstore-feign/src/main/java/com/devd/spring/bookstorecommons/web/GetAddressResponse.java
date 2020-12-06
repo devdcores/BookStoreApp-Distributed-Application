@@ -1,4 +1,4 @@
-package com.devd.spring.bookstorebillingservice.web;
+package com.devd.spring.bookstorecommons.web;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +9,9 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class GetBillingAddressResponse {
-    
-    private String billingAddressId;
+public class GetAddressResponse {
+
+    private String addressId;
     private String userId;
     private String addressLine1;
     private String addressLine2;

@@ -1,6 +1,7 @@
 package com.devd.spring.bookstoreorderservice.service;
 
-import org.springframework.stereotype.Service;
+import com.devd.spring.bookstoreorderservice.web.PreviewOrderRequest;
+import com.devd.spring.bookstoreorderservice.web.PreviewOrderResponse;
 
 /**
  * @author: Devaraj Reddy,
@@ -9,5 +10,6 @@ import org.springframework.stereotype.Service;
 public interface OrderService {
     
     String createOrder();
-    
+
+    PreviewOrderResponse previewOrder(PreviewOrderRequest previewOrderRequest);
 }

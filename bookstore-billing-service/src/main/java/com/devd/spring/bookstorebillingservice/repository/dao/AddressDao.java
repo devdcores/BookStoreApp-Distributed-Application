@@ -18,18 +18,18 @@ import org.hibernate.annotations.GenericGenerator;
  * Date : 2019-09-20
  */
 @Entity
-@Table(name = "SHIPPING_ADDRESS")
+@Table(name = "ADDRESS")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ShippingAddressDao {
+public class AddressDao {
     
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "SHIPPING_ADDRESS_ID", updatable = false, nullable = false)
-    private String shippingAddressId;
+    @Column(name = "ADDRESS_ID", updatable = false, nullable = false)
+    private String addressId;
     
     @Column(name = "USER_ID", nullable = false)
     private String userId;

@@ -34,14 +34,6 @@ public class Order {
     
     @Column(name = "USER_NAME", nullable = false)
     private String userName;
-
-//    @OneToOne
-//    @JoinColumn(name = "SHIPPING_ADDRESS_ID")
-//    private ShippingAddress shippingAddress;
-//
-//    @OneToOne
-//    @JoinColumn(name = "BILLING_ADDRESS_ID")
-//    private BillingAddress billingAddress;
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;

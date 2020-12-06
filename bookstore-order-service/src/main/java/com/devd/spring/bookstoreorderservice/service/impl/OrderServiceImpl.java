@@ -1,5 +1,7 @@
 package com.devd.spring.bookstoreorderservice.service.impl;
 
+import com.devd.spring.bookstorecommons.feign.BillingFeignClient;
+import com.devd.spring.bookstorecommons.web.GetAddressResponse;
 import com.devd.spring.bookstoreorderservice.repository.dao.Cart;
 import com.devd.spring.bookstoreorderservice.repository.dao.Order;
 import com.devd.spring.bookstoreorderservice.repository.dao.OrderItem;
@@ -7,6 +9,8 @@ import com.devd.spring.bookstoreorderservice.repository.OrderItemRepository;
 import com.devd.spring.bookstoreorderservice.repository.OrderRepository;
 import com.devd.spring.bookstoreorderservice.service.CartService;
 import com.devd.spring.bookstoreorderservice.service.OrderService;
+import com.devd.spring.bookstoreorderservice.web.PreviewOrderRequest;
+import com.devd.spring.bookstoreorderservice.web.PreviewOrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +32,14 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     CartService cartService;
-    
+
+    @Autowired
+    BillingFeignClient billingFeignClient;
+
     @Override
     public String createOrder() {
-    
+
+        //TODO make transactional
         Order order = new Order();
         Cart cart = cartService.getCart();
         order.setUserName(cart.getUserName());
@@ -58,5 +66,48 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(savedOrder);
     
         return savedOrder.getOrderId();
+    }
+
+    @Override
+    public PreviewOrderResponse previewOrder(PreviewOrderRequest previewOrderRequest) {
+
+        PreviewOrderResponse previewOrderResponse = new PreviewOrderResponse();
+
+        if(previewOrderRequest.getBillingAddressId() != null && !previewOrderRequest.getBillingAddressId().isEmpty()){
+            GetAddressResponse billingAddress = billingFeignClient.getAddressById(previewOrderRequest.getBillingAddressId());
+            previewOrderResponse.setBillingAddress(billingAddress);
+        }
+
+        if(previewOrderRequest.getShippingAddressId() != null && !previewOrderRequest.getShippingAddressId().isEmpty()){
+            GetAddressResponse shippingAddress = billingFeignClient.getAddressById(previewOrderRequest.getShippingAddressId());
+            previewOrderResponse.setShippingAddress(shippingAddress);
+        }
+
+        Cart cart = cartService.getCart();
+
+        cart.getCartItems()
+                .forEach(cartItem -> {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setOrderItemPrice(cartItem.getPrice());
+                    orderItem.setProductId(cartItem.getProductId());
+                    orderItem.setOrderItemPrice(cartItem.getPrice());
+                    orderItem.setQuantity(cartItem.getQuantity());
+                    previewOrderResponse.getOrderItems().add(orderItem);
+                });
+
+        //HarCode to 10%
+        double itemsPrice = previewOrderResponse.getOrderItems().stream().mapToDouble(OrderItem::getOrderItemPrice).sum();
+        previewOrderResponse.setItemsPrice(itemsPrice);
+
+        Double taxPrice = (itemsPrice * 10 ) / 100;
+        previewOrderResponse.setTaxPrice(taxPrice);
+
+        //Hardcode to 10
+        Double shippingPrice = 10D;
+        previewOrderResponse.setShippingPrice(shippingPrice);
+
+        previewOrderResponse.setTotalPrice(itemsPrice + taxPrice + shippingPrice);
+
+        return previewOrderResponse;
     }
 }
