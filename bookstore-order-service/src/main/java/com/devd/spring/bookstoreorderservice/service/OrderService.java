@@ -1,5 +1,7 @@
 package com.devd.spring.bookstoreorderservice.service;
 
+import com.devd.spring.bookstoreorderservice.web.CreateOrderRequest;
+import com.devd.spring.bookstoreorderservice.web.CreateOrderResponse;
 import com.devd.spring.bookstoreorderservice.web.PreviewOrderRequest;
 import com.devd.spring.bookstoreorderservice.web.PreviewOrderResponse;
 
@@ -8,8 +10,8 @@ import com.devd.spring.bookstoreorderservice.web.PreviewOrderResponse;
  * Date : 2019-09-20
  */
 public interface OrderService {
-    
-    String createOrder();
+
+    CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest);
 
     PreviewOrderResponse previewOrder(PreviewOrderRequest previewOrderRequest);
 }

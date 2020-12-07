@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,8 +31,8 @@ public class OrderItem {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "ORDER_ITEM_ID", updatable = false, nullable = false)
     private String orderItemId;
-    
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ORDER_ID")
     @JsonIgnore
     private Order order;
