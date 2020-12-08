@@ -1,11 +1,12 @@
-package com.devd.spring.bookstoreaccountservice.exception;
+package com.devd.spring.bookstorecommons.exception;
 
-import java.util.List;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-04-12 12:03

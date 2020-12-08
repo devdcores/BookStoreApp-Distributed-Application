@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreaccountservice.exception;
+package com.devd.spring.bookstorecommons.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

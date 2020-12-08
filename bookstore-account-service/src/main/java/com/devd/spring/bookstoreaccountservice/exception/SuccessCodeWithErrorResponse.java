@@ -1,5 +1,6 @@
 package com.devd.spring.bookstoreaccountservice.exception;
 
+import com.devd.spring.bookstorecommons.exception.ErrorResponse;
 import lombok.Getter;
 
 /**

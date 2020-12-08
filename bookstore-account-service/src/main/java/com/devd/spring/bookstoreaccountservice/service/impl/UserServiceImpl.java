@@ -1,8 +1,5 @@
 package com.devd.spring.bookstoreaccountservice.service.impl;
 
-import com.devd.spring.bookstoreaccountservice.exception.Error;
-import com.devd.spring.bookstoreaccountservice.exception.ErrorResponse;
-import com.devd.spring.bookstoreaccountservice.exception.RunTimeExceptionPlaceHolder;
 import com.devd.spring.bookstoreaccountservice.exception.SuccessCodeWithErrorResponse;
 import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
@@ -13,6 +10,9 @@ import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;
 import com.devd.spring.bookstoreaccountservice.web.GetUserInfoResponse;
 import com.devd.spring.bookstoreaccountservice.web.GetUserResponse;
 import com.devd.spring.bookstoreaccountservice.web.UpdateUserRequest;
+import com.devd.spring.bookstorecommons.exception.Error;
+import com.devd.spring.bookstorecommons.exception.ErrorResponse;
+import com.devd.spring.bookstorecommons.exception.RunTimeExceptionPlaceHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

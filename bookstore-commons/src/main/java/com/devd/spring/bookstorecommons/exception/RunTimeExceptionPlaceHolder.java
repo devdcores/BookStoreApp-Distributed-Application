@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreaccountservice.exception;
+package com.devd.spring.bookstorecommons.exception;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-05-20
