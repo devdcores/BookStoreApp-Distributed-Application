@@ -52,7 +52,7 @@ const LoginScreen = (props) => {
 
         <Row className='py-3'>
           <Col>
-            New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Registor</Link>
+            New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
           </Col>
         </Row>
       </FormContainer>

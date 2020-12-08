@@ -1,26 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  border-radius: 5px !important;
+}
+
+a {
+  border-radius: 5px !important;
+}
+
+p {
+  font-family: sans-serif !important;
 }
 
 .bookstore-brand {
-    font-family: 'Kaushan Script', cursive;
-    font-size: 2em !important;
-    font-weight: 800;
-    clip-path: polygon(0 30%, 100% 11%, 100% 75%, 0 92%);
+  font-family: 'Kaushan Script', cursive;
+  font-size: 2em !important;
+  font-weight: 800;
+  clip-path: polygon(0 30%, 100% 11%, 100% 75%, 0 92%);
 
-    background: rgb(2, 0, 36);
-    background: linear-gradient(
-        84deg,
-        rgba(2, 0, 36, 1) 21%,
-        rgba(0, 0, 179, 1) 63%,
-        rgba(191, 0, 76, 1) 92%
-    );
-    padding: 5px;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(84deg, rgba(2, 0, 36, 1) 21%, rgba(0, 0, 179, 1) 63%, rgba(191, 0, 76, 1) 92%);
+  padding: 5px;
 }
 
 .bookstore-brand:hover {
-    color: aquamarine !important;
+  color: aquamarine !important;
 }

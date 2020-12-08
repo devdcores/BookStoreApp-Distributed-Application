@@ -11,12 +11,14 @@ import com.devd.spring.bookstoreorderservice.repository.dao.Order;
 import com.devd.spring.bookstoreorderservice.repository.dao.OrderBillingAddress;
 import com.devd.spring.bookstoreorderservice.repository.dao.OrderItem;
 import com.devd.spring.bookstoreorderservice.repository.dao.OrderShippingAddress;
+import com.devd.spring.bookstoreorderservice.service.CartItemService;
 import com.devd.spring.bookstoreorderservice.service.CartService;
 import com.devd.spring.bookstoreorderservice.service.OrderService;
 import com.devd.spring.bookstoreorderservice.web.CreateOrderRequest;
 import com.devd.spring.bookstoreorderservice.web.CreateOrderResponse;
 import com.devd.spring.bookstoreorderservice.web.PreviewOrderRequest;
 import com.devd.spring.bookstoreorderservice.web.PreviewOrderResponse;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,9 @@ public class OrderServiceImpl implements OrderService {
     CartService cartService;
 
     @Autowired
+    CartItemService cartItemService;
+
+    @Autowired
     BillingFeignClient billingFeignClient;
 
     @Override
@@ -54,17 +59,24 @@ public class OrderServiceImpl implements OrderService {
         GetAddressResponse billingAddress = null;
         if (createOrderRequest.getBillingAddressId() != null && !createOrderRequest.getBillingAddressId().isEmpty()) {
             billingAddress = billingFeignClient.getAddressById(createOrderRequest.getBillingAddressId());
-            createOrderResponse.setBillingAddress(billingAddress);
+            OrderBillingAddress orderBillingAddress = new OrderBillingAddress();
+            BeanUtils.copyProperties(billingAddress, orderBillingAddress);
+            createOrderResponse.setBillingAddress(orderBillingAddress);
         }
 
         GetAddressResponse shippingAddress = null;
         if (createOrderRequest.getShippingAddressId() != null && !createOrderRequest.getShippingAddressId().isEmpty()) {
             shippingAddress = billingFeignClient.getAddressById(createOrderRequest.getShippingAddressId());
             billingAddress = shippingAddress;
+
             if (createOrderRequest.getBillingAddressId() == null) {
-                createOrderResponse.setBillingAddress(shippingAddress);
+                OrderBillingAddress orderBillingAddress = new OrderBillingAddress();
+                BeanUtils.copyProperties(billingAddress, orderBillingAddress);
+                createOrderResponse.setBillingAddress(orderBillingAddress);
             }
-            createOrderResponse.setShippingAddress(shippingAddress);
+            OrderShippingAddress orderShippingAddress = new OrderShippingAddress();
+            BeanUtils.copyProperties(shippingAddress, orderShippingAddress);
+            createOrderResponse.setShippingAddress(orderShippingAddress);
         }
 
         Cart cart = cartService.getCart();
@@ -106,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
         double totalPrice = itemsPrice + taxPrice + shippingPrice;
         createOrderResponse.setTotalPrice(totalPrice);
         order.setTotalOrderPrice(totalPrice);
-        
+
         Order save = orderRepository.save(order);
 
         if (billingAddress != null) {
@@ -139,6 +151,8 @@ public class OrderServiceImpl implements OrderService {
 
         createOrderResponse.setOrderId(save.getOrderId());
 
+        //Clear cart
+        cartItemService.removeAllCartItems(cart.getCartId());
         return createOrderResponse;
     }
 
@@ -187,5 +201,32 @@ public class OrderServiceImpl implements OrderService {
         previewOrderResponse.setTotalPrice(itemsPrice + taxPrice + shippingPrice);
 
         return previewOrderResponse;
+    }
+
+    @Override
+    public CreateOrderResponse getOrderById(String orderId) {
+        Order order = orderRepository.findByOrderId(orderId);
+        if (order == null) {
+            throw new RuntimeException("Order No Found");
+        }
+
+        OrderBillingAddress billingAddress = orderBillingAddressRepository.findByOrderId(orderId);
+        OrderShippingAddress shippingAddress = orderShippingAddressRepository.findByOrderId(orderId);
+
+        CreateOrderResponse createOrderResponse = CreateOrderResponse.builder()
+                .orderId(orderId)
+                .orderItems(order.getOrderItems())
+                .billingAddress(billingAddress)
+                .shippingAddress(shippingAddress)
+                .shippingPrice(order.getShippingPrice())
+                .isDelivered(order.isDelivered())
+                .isPaid(order.isPaid())
+                .itemsTotalPrice(order.getTotalItemsPrice())
+                .paymentMethod(order.getPaymentMethod())
+                .taxPrice(order.getTaxPrice())
+                .totalPrice(order.getTotalOrderPrice())
+                .build();
+
+        return createOrderResponse;
     }
 }

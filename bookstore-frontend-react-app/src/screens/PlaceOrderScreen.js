@@ -85,7 +85,7 @@ const PlaceOrderScreen = (props) => {
     }
   };
 
-  const placeOrder = async () => {
+  const placeOrder = () => {
     let config = {
       timeout: 15000,
       headers: {
@@ -101,16 +101,7 @@ const PlaceOrderScreen = (props) => {
     };
 
     try {
-      await axios
-        .post(`http://localhost:8765/api/order/order`, body, config)
-        .then((res) => {
-          setCreateOrderResponse(res.data);
-          props.history.push(`/order/${res.data.orderId}`);
-        })
-        .catch((err) => {
-          console.error('Detailed Error Trace : ', err);
-          setError(err);
-        });
+      return axios.post(`http://localhost:8765/api/order/order`, body, config);
     } catch (err) {
       console.error('Detailed Error Trace : ', err);
       setError(err);
@@ -128,7 +119,17 @@ const PlaceOrderScreen = (props) => {
     //     taxPrice: cart.taxPrice,
     //     totalPrice: cart.totalPrice
     //   })
-    await placeOrder();
+    const res = await placeOrder()
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.error('Detailed Error Trace : ', err);
+        setError(JSON.stringify(err));
+      });
+
+    setCreateOrderResponse(JSON.stringify(res.data));
+    props.history.push(`/order/${res.data.orderId}`);
   };
 
   return (

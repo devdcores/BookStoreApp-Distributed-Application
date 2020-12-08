@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author: Devaraj Reddy,
@@ -101,11 +102,9 @@ public class CartItemServiceImpl implements CartItemService {
     public void removeAllCartItems(String cartId) {
 
         Cart cart = cartService.getCartByCartId(cartId);
-        List<CartItem> cartItems = cart.getCartItems();
-        if (cartItems != null && !cartItems.isEmpty()) {
-            cartItems.forEach((ci) -> {
-                this.removeCartItem(ci.getCartItemId());
-            });
+        List<String> cartItemIds = cart.getCartItems().stream().map(cartItem -> cartItem.getCartItemId()).collect(Collectors.toList());
+        if (!cartItemIds.isEmpty()) {
+            cartItemIds.forEach(this::removeCartItem);
         }
     }
 }

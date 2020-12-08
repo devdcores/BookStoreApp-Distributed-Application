@@ -14,4 +14,6 @@ public interface OrderService {
     CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest);
 
     PreviewOrderResponse previewOrder(PreviewOrderRequest previewOrderRequest);
+
+    CreateOrderResponse getOrderById(String orderId);
 }

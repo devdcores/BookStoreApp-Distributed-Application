@@ -1,7 +1,9 @@
 package com.devd.spring.bookstorecommons.web;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author: Devaraj Reddy,
@@ -9,6 +11,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class GetAddressResponse {
 
     private String addressId;

@@ -7,6 +7,8 @@ import com.devd.spring.bookstoreorderservice.web.PreviewOrderRequest;
 import com.devd.spring.bookstoreorderservice.web.PreviewOrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,13 @@ public class OrderController {
     public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
 
         CreateOrderResponse createOrderResponse = orderService.createOrder(createOrderRequest);
+        return ResponseEntity.ok(createOrderResponse);
+    }
+
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<CreateOrderResponse> getOrderById(@PathVariable("orderId") String orderId) {
+
+        CreateOrderResponse createOrderResponse = orderService.getOrderById(orderId);
         return ResponseEntity.ok(createOrderResponse);
     }
 

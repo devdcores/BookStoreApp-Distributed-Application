@@ -1,5 +1,7 @@
 package com.devd.spring.bookstoreorderservice.repository.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,9 +31,11 @@ public class OrderShippingAddress {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "ORDER_SHIPPING_ID", updatable = false, nullable = false)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String orderShippingId;
 
     @Column(name = "ORDER_ID", updatable = false, nullable = false)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String orderId;
 
     @Column(name = "ADDRESS_LINE1", nullable = false)

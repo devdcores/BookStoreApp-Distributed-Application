@@ -17,6 +17,7 @@ import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class Cart {
     private String userName;
     
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
+    private List<CartItem> cartItems = new ArrayList<>();
     
     @Column(name = "TOTAL_PRICE", nullable = false)
     private double totalPrice;
