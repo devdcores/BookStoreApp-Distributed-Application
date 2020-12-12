@@ -108,6 +108,10 @@ const OrderScreen = ({ match, history }) => {
     // dispatch(deliverOrder(order));
   };
 
+  const getRandomNumber = () => {
+    return Math.floor(Math.random() * 10);
+  };
+
   return loading ? (
     <Loader />
   ) : error ? (
@@ -152,7 +156,8 @@ const OrderScreen = ({ match, history }) => {
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
-                          <Image src={item.image} alt={item.name} fluid rounded />
+                          {/* <Image src={item.image} alt={item.name} fluid rounded /> */}
+                          <Image src={`https://source.unsplash.com/random/500x500?sig=${getRandomNumber()}`} alt={item.productName} fluid rounded></Image>
                         </Col>
                         <Col>
                           <Link to={`/product/${item.productId}`}>{item.productId}</Link>

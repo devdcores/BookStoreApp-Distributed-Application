@@ -4,7 +4,7 @@ import { Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Row } from 'r
 import Message from '../components/Message';
 import { Link } from 'react-router-dom';
 import Rating from '../components/Rating';
-import { listProductDetails } from '../actions/productActions';
+import { listProductDetailsAction } from '../actions/productActions';
 import FullPageLoader from '../components/FullPageLoader';
 
 const ProductScreen = (props) => {
@@ -17,7 +17,7 @@ const ProductScreen = (props) => {
   const { loading, error, product } = productDetails;
 
   useEffect(() => {
-    dispatch(listProductDetails(props.match.params.id));
+    dispatch(listProductDetailsAction(props.match.params.id));
   }, [dispatch]);
 
   const addToCartHandler = () => {

@@ -22,13 +22,13 @@ import {
   PRODUCT_TOP_FAIL
 } from '../constants/productConstants';
 import { getErrorMessage } from '../service/CommonUtils';
-import { getAllProductsDetail, getProductDetail } from '../service/RestApiCalls';
+import { getAllProductsDetailApi, getProductDetailApi } from '../service/RestApiCalls';
 
-export const listProducts = () => async (dispatch) => {
+export const listProductsAction = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     //Get All Products Detail
-    const allProductsDetail = await getAllProductsDetail();
+    const allProductsDetail = await getAllProductsDetailApi();
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: allProductsDetail.page.content
@@ -41,11 +41,11 @@ export const listProducts = () => async (dispatch) => {
   }
 };
 
-export const listProductDetails = (productId) => async (dispatch) => {
+export const listProductDetailsAction = (productId) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
     //Get Product Detail
-    const productDetail = await getProductDetail(productId);
+    const productDetail = await getProductDetailApi(productId);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: productDetail

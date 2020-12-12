@@ -25,7 +25,7 @@ import {
   USER_UPDATE_REQUEST
 } from '../constants/userConstants';
 
-import { getUserInfoApi, postLoginApi, postSignupApi, putUserInfo } from '../service/RestApiCalls';
+import { getUserInfoApi, postLoginApi, postSignupApi, putUserInfoApi } from '../service/RestApiCalls';
 import { getErrorMessage } from '../service/CommonUtils';
 
 export const login = (usernameOrEmail, password) => async (dispatch) => {
@@ -144,7 +144,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     });
 
     //Update userInfo
-    await putUserInfo(getState().userLogin.userInfo.token, user);
+    await putUserInfoApi(getState().userLogin.userInfo.token, user);
 
     const updatedUserInfo = {
       ...getState().userLogin.userInfo,

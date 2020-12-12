@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Product from '../components/Product';
 import Message from '../components/Message';
 import { Col, Row } from 'react-bootstrap';
-import { listProducts } from '../actions/productActions';
+import { listProductsAction } from '../actions/productActions';
 import FullPageLoader from '../components/FullPageLoader';
 
 const HomeScreen = () => {
@@ -12,7 +12,7 @@ const HomeScreen = () => {
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
+    dispatch(listProductsAction());
   }, [dispatch]);
 
   return (

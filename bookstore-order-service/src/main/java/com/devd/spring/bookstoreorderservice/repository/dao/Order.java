@@ -35,6 +35,9 @@ public class Order {
     
     @Column(name = "USER_NAME", nullable = false)
     private String userName;
+
+    @Column(name = "USER_ID", nullable = false)
+    private String userId;
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();

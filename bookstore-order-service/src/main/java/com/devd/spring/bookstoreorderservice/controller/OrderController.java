@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author: Devaraj Reddy,
@@ -36,6 +37,13 @@ public class OrderController {
     public ResponseEntity<CreateOrderResponse> getOrderById(@PathVariable("orderId") String orderId) {
 
         CreateOrderResponse createOrderResponse = orderService.getOrderById(orderId);
+        return ResponseEntity.ok(createOrderResponse);
+    }
+
+    @GetMapping("/order/myorders")
+    public ResponseEntity<List<CreateOrderResponse>> getMyOrders() {
+
+        List<CreateOrderResponse> createOrderResponse = orderService.getMyOrders();
         return ResponseEntity.ok(createOrderResponse);
     }
 

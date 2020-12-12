@@ -1,6 +1,7 @@
 package com.devd.spring.bookstoreorderservice.service.impl;
 
 import com.devd.spring.bookstorecommons.feign.BillingFeignClient;
+import com.devd.spring.bookstorecommons.util.CommonUtilityMethods;
 import com.devd.spring.bookstorecommons.web.GetAddressResponse;
 import com.devd.spring.bookstoreorderservice.repository.OrderBillingAddressRepository;
 import com.devd.spring.bookstoreorderservice.repository.OrderItemRepository;
@@ -20,7 +21,12 @@ import com.devd.spring.bookstoreorderservice.web.PreviewOrderRequest;
 import com.devd.spring.bookstoreorderservice.web.PreviewOrderResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: Devaraj Reddy,
@@ -52,6 +58,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication);
 
         //TODO make transactional
         CreateOrderResponse createOrderResponse = new CreateOrderResponse();
@@ -87,6 +96,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         order.setUserName(cart.getUserName());
+        order.setUserId(userIdFromToken);
 
         cart.getCartItems()
                 .forEach(cartItem -> {
@@ -205,9 +215,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CreateOrderResponse getOrderById(String orderId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication);
+
         Order order = orderRepository.findByOrderId(orderId);
         if (order == null) {
             throw new RuntimeException("Order No Found");
+        }
+
+        if(!userIdFromToken.equals(order.getUserId())){
+            throw new RuntimeException("Order doesn't belong to this User! UnAuthorized!");
         }
 
         OrderBillingAddress billingAddress = orderBillingAddressRepository.findByOrderId(orderId);
@@ -228,5 +245,36 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         return createOrderResponse;
+    }
+
+    @Override
+    public List<CreateOrderResponse> getMyOrders() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication);
+        List<Order> order = orderRepository.findByUserId(userIdFromToken);
+
+        List<CreateOrderResponse> createOrderResponseList = new ArrayList<>();
+        order.forEach(o->{
+            String orderId = o.getOrderId();
+            OrderBillingAddress billingAddress = orderBillingAddressRepository.findByOrderId(orderId);
+            OrderShippingAddress shippingAddress = orderShippingAddressRepository.findByOrderId(orderId);
+
+            CreateOrderResponse createOrderResponse = CreateOrderResponse.builder()
+                    .orderId(orderId)
+                    .orderItems(o.getOrderItems())
+                    .billingAddress(billingAddress)
+                    .shippingAddress(shippingAddress)
+                    .shippingPrice(o.getShippingPrice())
+                    .isDelivered(o.isDelivered())
+                    .isPaid(o.isPaid())
+                    .itemsTotalPrice(o.getTotalItemsPrice())
+                    .paymentMethod(o.getPaymentMethod())
+                    .taxPrice(o.getTaxPrice())
+                    .totalPrice(o.getTotalOrderPrice())
+                    .build();
+            createOrderResponseList.add(createOrderResponse);
+        });
+
+        return createOrderResponseList;
     }
 }

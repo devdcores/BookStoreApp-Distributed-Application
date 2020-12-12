@@ -24,7 +24,7 @@ zuul:
     billing:
       path: /billing/**
       serviceId: bookstore-billing-service
-      url : http://localhos.com
+      url : bookstore-billing-service
     catalog:
       path: /catalog/**
       serviceId: bookstore-catalog-service

@@ -44,6 +44,6 @@ p {
 .fp-container .fp-loader {
   top: 45%;
   left: 48%;
-  z-index: 1000;
+  z-index: 10000;
   position: absolute;
 }

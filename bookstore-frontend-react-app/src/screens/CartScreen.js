@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import CartItem from '../components/CartItem';
-// import { addToCart, removeFromCart } from '../actions/cartActions';
+import { addToCartAction, getCartDetailsAction } from '../actions/cartActions';
+import FullPageLoader from '../components/FullPageLoader';
 
 const CartScreen = (props) => {
-  const [cart, setCart] = useState(null);
-  const [error, setError] = useState(null);
   const productId = props.match.params.id;
   const qty = props.location.search ? Number(props.location.search.split('=')[1]) : 1;
-
+  const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
+  const cartState = useSelector((state) => state.cart);
+  const { cart } = cartState;
+  let loading = cartState.loading;
+  let error = cartState.error;
   const { userInfo } = userLogin;
   const redirect = props.location.pathname + props.location.search;
 
@@ -23,65 +25,22 @@ const CartScreen = (props) => {
       return;
     }
     if (productId) {
-      async function postData() {
-        await addToCart(productId, qty);
-      }
-      postData();
+      addToCart();
+    } else {
+      getCartDetail();
     }
+  }, [dispatch, productId, qty, userInfo]);
 
-    getCart();
-  }, [productId, qty, userInfo]);
-
-  const addToCart = async (pId, q) => {
-    let config = {
-      timeout: 15000,
-      headers: {
-        'Content-Type': 'Application/Json',
-        'Authorization': 'Bearer ' + userInfo.token
-      }
-    };
-
-    const body = {
+  const addToCart = (pId, q) => {
+    const addToCartRequestBody = {
       productId: pId || productId,
       quantity: q || qty
     };
-
-    try {
-      await axios.post(`http://localhost:8765/api/order/cart/cartItem`, body, config).catch((err) => {
-        console.error('Detailed Error Trace : ', err);
-        setError(err);
-      });
-    } catch (err) {
-      console.error('Detailed Error Trace : ', err);
-      setError(err);
-    }
-
-    getCart();
+    dispatch(addToCartAction(addToCartRequestBody));
   };
 
-  const getCart = async () => {
-    let config = {
-      timeout: 15000,
-      headers: {
-        'Content-Type': 'Application/Json',
-        'Authorization': 'Bearer ' + userInfo.token
-      }
-    };
-
-    try {
-      const cartDetails = await axios.get(`http://localhost:8765/api/order/cart`, config);
-
-      let sortedCart = {
-        ...cartDetails.data,
-        cartItems: cartDetails.data.cartItems.sort((a, b) => {
-          return a.cartItemId.localeCompare(b.cartItemId);
-        })
-      };
-      setCart(sortedCart);
-    } catch (err) {
-      console.error('Detailed Error Trace : ', err);
-      setError(err);
-    }
+  const getCartDetail = () => {
+    dispatch(getCartDetailsAction());
   };
 
   const checkoutHandler = () => {
@@ -90,49 +49,48 @@ const CartScreen = (props) => {
 
   return (
     <>
-      <>
-        {error ? (
-          <Message variant='danger'> {JSON.stringify(error.message)}</Message>
-        ) : (
-          <>
-            <Row>
-              <h1>Shopping Cart</h1>
-            </Row>
-            <Row>
-              <Col md={8}>
-                {cart == null || cart?.cartItems?.length == 0 ? (
-                  <Message>
-                    Your cart is empty <Link to='/'>Go Back</Link>
-                  </Message>
-                ) : (
-                  <ListGroup.Item variant='flush'>
-                    {cart?.cartItems?.map((item) => (
-                      <CartItem item={item} addToCart={addToCart} getCart={getCart}></CartItem>
-                    ))}
+      {error ? (
+        <Message variant='danger'> {JSON.stringify(error.message)}</Message>
+      ) : (
+        <>
+          <Row>
+            <h1>Shopping Cart</h1>
+          </Row>
+          <Row>
+            <Col md={8}>
+              {cart == null || cart?.cartItems?.length == 0 ? (
+                <Message>
+                  Your cart is empty <Link to='/'>Go Back</Link>
+                </Message>
+              ) : (
+                <ListGroup.Item variant='flush'>
+                  {cart?.cartItems?.map((item) => (
+                    <CartItem key={item.productId} item={item} addToCart={addToCart}></CartItem>
+                  ))}
+                </ListGroup.Item>
+              )}
+            </Col>
+            <Col md={4}>
+              <Card>
+                <ListGroup variant='flush'>
+                  <ListGroup.Item>
+                    <h3>Subtotal ({cart?.cartItems?.length}) Items</h3>
                   </ListGroup.Item>
-                )}
-              </Col>
-              <Col md={4}>
-                <Card>
-                  <ListGroup variant='flush'>
-                    <ListGroup.Item>
-                      <h3>Subtotal ({cart?.cartItems?.length}) Items</h3>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <h3>${cart?.totalPrice}</h3>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Button type='button' className='btn-block' disabled={cart?.cartItems?.length === 0} onClick={checkoutHandler}>
-                        Proceed To Checkout
-                      </Button>
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Card>
-              </Col>
-            </Row>
-          </>
-        )}
-      </>
+                  <ListGroup.Item>
+                    <h3>${cart?.totalPrice}</h3>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Button type='button' className='btn-block' disabled={cart?.cartItems?.length === 0} onClick={checkoutHandler}>
+                      Proceed To Checkout
+                    </Button>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
+      {loading && <FullPageLoader></FullPageLoader>}
     </>
   );
 };
