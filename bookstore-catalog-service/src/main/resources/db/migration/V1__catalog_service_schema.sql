@@ -5,8 +5,8 @@ create table PRODUCT (
     price double not null,
     product_name varchar(255) not null,
     product_category_id varchar(255),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (product_id)
 );
 
@@ -14,8 +14,8 @@ create table PRODUCT_CATEGORY (
     product_category_id varchar(255) not null,
     description varchar(255),
     product_category_name varchar(255) not null,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (product_category_id)
 );
 
@@ -31,7 +31,7 @@ create table REVIEW (
     review_message varchar(1000),
     product_id varchar(255) not null,
     user_name varchar(255),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (review_id)
 );

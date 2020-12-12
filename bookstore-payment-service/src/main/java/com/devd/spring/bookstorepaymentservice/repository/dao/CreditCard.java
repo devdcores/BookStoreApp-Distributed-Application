@@ -1,5 +1,6 @@
 package com.devd.spring.bookstorepaymentservice.repository.dao;
 
+import com.devd.spring.bookstorecommons.util.DateAudit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CREDIT_CARD")
 @Builder
-public class CreditCard extends DateAudit{
+public class CreditCard extends DateAudit {
 
     @Id
     @GeneratedValue(generator = "uuid")

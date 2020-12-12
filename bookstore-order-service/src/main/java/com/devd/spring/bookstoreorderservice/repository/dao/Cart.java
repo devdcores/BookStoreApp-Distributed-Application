@@ -1,5 +1,6 @@
 package com.devd.spring.bookstoreorderservice.repository.dao;
 
+import com.devd.spring.bookstorecommons.util.DateAudit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +31,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Cart {
+public class Cart extends DateAudit {
 
     @Id
     @GeneratedValue(generator = "uuid")

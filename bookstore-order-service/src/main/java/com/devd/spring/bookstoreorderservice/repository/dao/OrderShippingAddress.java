@@ -1,6 +1,6 @@
 package com.devd.spring.bookstoreorderservice.repository.dao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.devd.spring.bookstorecommons.util.DateAudit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
+import java.time.Instant;
 
 /**
  * @author Devaraj Reddy, Date : 07-Dec-2020
@@ -25,7 +26,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderShippingAddress {
+public class OrderShippingAddress extends DateAudit {
 
     @Id
     @GeneratedValue(generator = "uuid")

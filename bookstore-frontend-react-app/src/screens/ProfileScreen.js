@@ -36,14 +36,14 @@ const ProfileScreen = ({ history }) => {
     } else {
       if (!user || !user.userName) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
-        dispatch(getUserDetails('profile'));
-        dispatch(listMyOrdersAction());
+        dispatch(getUserDetails());
       } else {
         setFirstName(user.firstName);
         setLastName(user.lastName);
         setEmail(user.email);
       }
     }
+    dispatch(listMyOrdersAction());
   }, [dispatch, history, userInfo, user]);
 
   const userProfileUpdateHandler = (e) => {
@@ -118,7 +118,7 @@ const ProfileScreen = ({ history }) => {
               {orders.map((order) => (
                 <tr key={order.orderId}>
                   <td>{order.orderId}</td>
-                  <td>{'TODO'}</td>
+                  <td>{order.created_at}</td>
                   <td>{order.totalPrice}</td>
                   <td>{order.isPaid ? order.paidAt.substring(0, 10) : <i className='fas fa-times' style={{ color: 'red' }}></i>}</td>
                   <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <i className='fas fa-times' style={{ color: 'red' }}></i>}</td>

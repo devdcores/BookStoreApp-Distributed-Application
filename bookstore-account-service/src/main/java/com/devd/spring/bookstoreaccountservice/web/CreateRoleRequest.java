@@ -1,7 +1,7 @@
 package com.devd.spring.bookstoreaccountservice.web;
 
-import com.devd.spring.bookstoreaccountservice.repository.dao.DateAudit;
 import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateRoleRequest extends DateAudit {
+public class CreateRoleRequest{
 
   @NotBlank
   private String roleName;

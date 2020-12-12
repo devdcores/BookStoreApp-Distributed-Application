@@ -18,12 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PreviewOrderResponse {
-    List<OrderItem> orderItems = new ArrayList<>();
-    GetAddressResponse shippingAddress;
-    GetAddressResponse billingAddress;
-    String paymentMethod;
-    Double itemsTotalPrice;
-    Double taxPrice;
-    Double shippingPrice;
-    Double totalPrice;
+    private List<OrderItem> orderItems = new ArrayList<>();
+    private GetAddressResponse shippingAddress;
+    private GetAddressResponse billingAddress;
+    private String paymentMethod;
+    private Double itemsTotalPrice;
+    private Double taxPrice;
+    private Double shippingPrice;
+    private Double totalPrice;
 }

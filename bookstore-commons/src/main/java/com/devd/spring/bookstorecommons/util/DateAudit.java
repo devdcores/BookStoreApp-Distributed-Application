@@ -1,4 +1,4 @@
-package com.devd.spring.bookstoreorderservice.repository.dao;
+package com.devd.spring.bookstorecommons.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -15,17 +15,17 @@ import java.time.Instant;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(
-        value = {"created_at", "updated_at"},
-        allowGetters = true
+    value = {"created_at", "updated_at"},
+    allowGetters = true
 )
 @Getter
 @Setter
 public abstract class DateAudit implements Serializable {
 
-    @CreatedDate
-    private Instant created_at;
+  @CreatedDate
+  private Instant created_at;
 
-    @LastModifiedDate
-    private Instant updated_at;
+  @LastModifiedDate
+  private Instant updated_at;
 
 }

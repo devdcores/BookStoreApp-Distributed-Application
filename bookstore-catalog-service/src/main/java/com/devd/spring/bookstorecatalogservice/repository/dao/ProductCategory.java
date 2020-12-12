@@ -1,7 +1,6 @@
 package com.devd.spring.bookstorecatalogservice.repository.dao;
 
-import com.devd.spring.bookstorecatalogservice.repository.dao.DateAudit;
-import com.devd.spring.bookstorecatalogservice.repository.dao.Product;
+import com.devd.spring.bookstorecommons.util.DateAudit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

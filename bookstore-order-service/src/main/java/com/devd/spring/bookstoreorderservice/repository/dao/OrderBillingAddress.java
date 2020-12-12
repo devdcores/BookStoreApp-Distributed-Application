@@ -1,5 +1,6 @@
 package com.devd.spring.bookstoreorderservice.repository.dao;
 
+import com.devd.spring.bookstorecommons.util.DateAudit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderBillingAddress {
+public class OrderBillingAddress extends DateAudit {
 
     @Id
     @GeneratedValue(generator = "uuid")

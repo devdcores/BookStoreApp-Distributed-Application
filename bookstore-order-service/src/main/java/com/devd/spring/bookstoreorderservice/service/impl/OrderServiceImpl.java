@@ -160,6 +160,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         createOrderResponse.setOrderId(save.getOrderId());
+        createOrderResponse.setCreated_at(save.getCreated_at());
 
         //Clear cart
         cartItemService.removeAllCartItems(cart.getCartId());
@@ -271,6 +272,7 @@ public class OrderServiceImpl implements OrderService {
                     .paymentMethod(o.getPaymentMethod())
                     .taxPrice(o.getTaxPrice())
                     .totalPrice(o.getTotalOrderPrice())
+                    .created_at(o.getCreated_at())
                     .build();
             createOrderResponseList.add(createOrderResponse);
         });
