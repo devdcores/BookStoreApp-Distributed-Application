@@ -11,6 +11,9 @@ Using Spring Cloud Microservices and Spring Boot Framework extensively to make t
 
 <hr>
 
+## Frontend Flow
+![BS](https://user-images.githubusercontent.com/14878408/101990134-f831b680-3cca-11eb-9af4-2ea933688eb1.gif)
+
 ## Architecture
 All the Microservices are developed using spring boot. 
 This spring boot applications will be registered with eureka discovery server.
