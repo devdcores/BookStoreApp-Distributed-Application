@@ -1,5 +1,3 @@
-import axios from 'axios';
-import qs from 'qs';
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
@@ -27,37 +25,25 @@ import {
   USER_UPDATE_REQUEST
 } from '../constants/userConstants';
 
+import { getUserInfoApi, postLoginApi, postSignupApi, putUserInfo } from '../service/RestApiCalls';
+import { getErrorMessage } from '../service/CommonUtils';
+
 export const login = (usernameOrEmail, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST
     });
 
-    const clientId = '93ed453e-b7ac-4192-a6d4-c45fae0d99ac';
-    const clientSecret = 'client.devd123';
-
-    //TODO Move this to constants
-    const config = {
-      headers: {
-        'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret),
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    };
-
-    const params = {
+    const loginRequest = {
       grant_type: 'password',
       username: usernameOrEmail,
       password: password
     };
 
-    const formEncodedData = qs.stringify(params);
-
-    const { data: loginResponse } = await axios.post('http://localhost:8765/api/account/oauth/token', formEncodedData, config);
-
-    config.headers.Authorization = 'Bearer ' + loginResponse.access_token;
-
-    const { data: userInfoResponse } = await axios.get('http://localhost:8765/api/account/userInfo', config);
-
+    //Login
+    const loginResponse = await postLoginApi(loginRequest);
+    //Get UserInfo
+    const userInfoResponse = await getUserInfoApi(loginResponse.access_token);
     userInfoResponse.token = loginResponse.access_token;
 
     dispatch({
@@ -69,7 +55,7 @@ export const login = (usernameOrEmail, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload: error
+      payload: getErrorMessage(error)
     });
   }
 };
@@ -87,43 +73,28 @@ export const register = (userName, firstName, email, password) => async (dispatc
       type: USER_REGISTER_REQUEST
     });
 
-    const clientId = '93ed453e-b7ac-4192-a6d4-c45fae0d99ac';
-    const clientSecret = 'client.devd123';
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    //SignUp
+    const signUpRequest = {
+      grant_type: 'password',
+      userName,
+      password,
+      firstName,
+      email
     };
 
     //SignUp
-    const { data: signUpResponse } = await axios.post('http://localhost:8765/api/account/signup', { userName, firstName, email, password }, config);
+    await postSignupApi(signUpRequest);
 
-    //SignIn
-    //TODO Move this to constants
-    const configFormUrlEncoded = {
-      headers: {
-        'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret),
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    };
-
-    const params = {
+    //Login
+    const loginRequest = {
       grant_type: 'password',
       username: userName,
       password: password
     };
-
-    const formEncodedData = qs.stringify(params);
-
-    const { data: loginResponse } = await axios.post('http://localhost:8765/api/account/oauth/token', formEncodedData, configFormUrlEncoded);
-
-    //Get Token
-    config.headers.Authorization = 'Bearer ' + loginResponse.access_token;
+    const loginResponse = await postLoginApi(loginRequest);
 
     //Get UserInfo
-    const { data: userInfoResponse } = await axios.get('http://localhost:8765/api/account/userInfo', config);
-
+    const userInfoResponse = await getUserInfoApi(loginResponse.access_token);
     userInfoResponse.token = loginResponse.access_token;
 
     dispatch({
@@ -140,7 +111,7 @@ export const register = (userName, firstName, email, password) => async (dispatc
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
-      payload: error
+      payload: getErrorMessage(error)
     });
   }
 };
@@ -151,31 +122,17 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       type: USER_DETAILS_REQUEST
     });
 
-    const {
-      userLogin: { userInfo }
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`
-      }
-    };
-
     //Get UserInfo
-    const { data: userInfoResponse } = await axios.get('http://localhost:8765/api/account/userInfo', config);
+    const userInfoResponse = await getUserInfoApi(getState().userLogin.userInfo.token);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: userInfoResponse
     });
   } catch (error) {
-    const message = error.response && error.response.data.message ? error.response.data.message : error.message;
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout());
-    }
     dispatch({
       type: USER_DETAILS_FAIL,
-      payload: message
+      payload: getErrorMessage(error)
     });
   }
 };
@@ -186,21 +143,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_REQUEST
     });
 
-    const {
-      userLogin: { userInfo }
-    } = getState();
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userInfo.token}`
-      }
-    };
-
-    const { data } = await axios.put(`http://localhost:8765/api/account/userInfo`, user, config);
+    //Update userInfo
+    await putUserInfo(getState().userLogin.userInfo.token, user);
 
     const updatedUserInfo = {
-      ...userInfo,
+      ...getState().userLogin.userInfo,
       ...user
     };
 
@@ -208,20 +155,12 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: updatedUserInfo
     });
-    // dispatch({
-    //   type: USER_LOGIN_SUCCESS,
-    //   payload: data
-    // });
 
     localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
   } catch (error) {
-    const message = error.response && error.response.data.message ? error.response.data.message : error.message;
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout());
-    }
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
-      payload: message
+      payload: getErrorMessage(error)
     });
   }
 };

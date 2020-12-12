@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Product from '../components/Product';
 import Message from '../components/Message';
-import Loader from '../components/Loader';
 import { Col, Row } from 'react-bootstrap';
 import { listProducts } from '../actions/productActions';
+import FullPageLoader from '../components/FullPageLoader';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -18,10 +18,7 @@ const HomeScreen = () => {
   return (
     <>
       <h1>Latest Products</h1>
-
-      {loading ? (
-        <Loader></Loader>
-      ) : error ? (
+      {error ? (
         <Message variant='danger'></Message>
       ) : (
         <Row>
@@ -32,6 +29,7 @@ const HomeScreen = () => {
           ))}
         </Row>
       )}
+      {loading && <FullPageLoader></FullPageLoader>}
     </>
   );
 };

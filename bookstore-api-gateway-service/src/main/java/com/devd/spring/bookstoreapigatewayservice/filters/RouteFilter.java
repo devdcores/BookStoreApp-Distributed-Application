@@ -1,11 +1,13 @@
 package com.devd.spring.bookstoreapigatewayservice.filters;
 
 import com.netflix.zuul.ZuulFilter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-10-02
  */
+@Slf4j
 public class RouteFilter extends ZuulFilter {
 
   @Override

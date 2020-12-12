@@ -25,7 +25,7 @@ function App() {
           <Route path='/payment' component={PaymentScreen}></Route>
           <Route path='/placeOrder' component={PlaceOrderScreen}></Route>
           <Route path='/shipping' component={ShippingScreen}></Route>
-          <Route path='/profile' component={ProfileScreen} />
+          <Route path='/userProfile' component={ProfileScreen} />
           <Route path='/register' component={RegisterScreen}></Route>
           <Route path='/product/:id' component={ProductScreen}></Route>
           <Route path='/cart/:id?' component={CartScreen}></Route>

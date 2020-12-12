@@ -31,3 +31,19 @@ p {
 .bookstore-brand:hover {
   color: aquamarine !important;
 }
+
+.fp-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #111c1fad;
+}
+
+.fp-container .fp-loader {
+  top: 45%;
+  left: 48%;
+  z-index: 1000;
+  position: absolute;
+}

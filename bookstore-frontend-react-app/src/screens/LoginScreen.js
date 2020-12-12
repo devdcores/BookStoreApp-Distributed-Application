@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
-import Loader from '../components/Loader';
 import { login } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
+import FullPageLoader from '../components/FullPageLoader';
 
 const LoginScreen = (props) => {
   const [userNameOrEmail, setUserNameOrEmail] = useState('');
@@ -33,7 +33,6 @@ const LoginScreen = (props) => {
       <FormContainer>
         <h1>Sign In</h1>
         {error && <Message variant='danger'>{JSON.stringify(error)}</Message>}
-        {loading && <Loader></Loader>}
         <Form onSubmit={loginSubmitHandler}>
           <Form.Group controlId='userNameOrEmail'>
             <Form.Label>Email Address</Form.Label>
@@ -56,6 +55,7 @@ const LoginScreen = (props) => {
           </Col>
         </Row>
       </FormContainer>
+      {loading && <FullPageLoader></FullPageLoader>}
     </div>
   );
 };

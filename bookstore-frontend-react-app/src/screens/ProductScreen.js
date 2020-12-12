@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import Message from '../components/Message';
-import Loader from '../components/Loader';
 import { Link } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { listProductDetails } from '../actions/productActions';
+import FullPageLoader from '../components/FullPageLoader';
 
 const ProductScreen = (props) => {
   const [qty, setQty] = useState(1);
@@ -30,9 +30,7 @@ const ProductScreen = (props) => {
         Go Back
       </Link>
 
-      {loading ? (
-        <Loader></Loader>
-      ) : error ? (
+      {error ? (
         <Message variant='danger'></Message>
       ) : product ? (
         <Row>
@@ -95,7 +93,6 @@ const ProductScreen = (props) => {
 
                 <ListGroupItem>
                   <Button onClick={addToCartHandler} className='btn-block' type='button' disabled={product.availableItemCount <= 0}>
-                    {' '}
                     Add to Cart
                   </Button>
                 </ListGroupItem>
@@ -104,9 +101,7 @@ const ProductScreen = (props) => {
           </Col>
         </Row>
       ) : null}
-
-      {/* Show Product */}
-      {}
+      {loading && <FullPageLoader></FullPageLoader>}
     </>
   );
 };
