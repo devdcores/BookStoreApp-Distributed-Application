@@ -94,6 +94,30 @@ export const getAllMyOrdersApi = async (accessToken) => {
   return responseData;
 };
 
+export const previewOrderApi = async (accessToken, previewOrderRequestBody) => {
+  const axiosConfig = getAxiosConfig(accessToken);
+  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/order/previewOrder`, previewOrderRequestBody, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const placeOrderApi = async (accessToken, placeOrderRequestBody) => {
+  const axiosConfig = getAxiosConfig(accessToken);
+  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/order/order`, placeOrderRequestBody, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const getOrderApi = async (accessToken, orderId) => {
+  const axiosConfig = getAxiosConfig(accessToken);
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/order/order/${orderId}`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
 const getAxiosConfig = (accessToken) => {
   const axiosConfig = {
     headers: {

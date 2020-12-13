@@ -1,7 +1,12 @@
 import {
+  ORDER_PREVIEW_REQUEST,
+  ORDER_PREVIEW_SUCCESS,
+  ORDER_PREVIEW_FAIL,
+  ORDER_PREVIEW_RESET,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
   ORDER_CREATE_FAIL,
+  ORDER_CREATE_RESET,
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_REQUEST,
@@ -61,6 +66,77 @@ export const orderListMyReducer = (state = { orders: [] }, action) => {
       };
     case ORDER_LIST_MY_RESET:
       return { orders: [] };
+    default:
+      return state;
+  }
+};
+
+export const orderPreviewReducer = (state = { order: {} }, action) => {
+  switch (action.type) {
+    case ORDER_PREVIEW_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case ORDER_PREVIEW_SUCCESS:
+      return {
+        loading: false,
+        order: action.payload
+      };
+    case ORDER_PREVIEW_FAIL:
+      return {
+        loading: false,
+        error: action.payload
+      };
+    case ORDER_PREVIEW_RESET:
+      return { order: {} };
+    default:
+      return state;
+  }
+};
+
+export const orderCreateReducer = (state = { order: {} }, action) => {
+  switch (action.type) {
+    case ORDER_CREATE_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case ORDER_CREATE_SUCCESS:
+      return {
+        loading: false,
+        order: action.payload
+      };
+    case ORDER_CREATE_FAIL:
+      return {
+        loading: false,
+        error: action.payload
+      };
+    case ORDER_CREATE_RESET:
+      return { order: {} };
+    default:
+      return state;
+  }
+};
+
+export const orderDetailsReducer = (state = { order: {}, loading: true }, action) => {
+  switch (action.type) {
+    case ORDER_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case ORDER_DETAILS_SUCCESS:
+      console.log('SUCCESS PAYLOAD : ', action.payload);
+      return {
+        loading: false,
+        order: action.payload
+      };
+    case ORDER_DETAILS_FAIL:
+      return {
+        loading: false,
+        error: action.payload
+      };
     default:
       return state;
   }

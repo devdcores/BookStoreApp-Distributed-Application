@@ -1,4 +1,7 @@
 import {
+  ORDER_PREVIEW_REQUEST,
+  ORDER_PREVIEW_SUCCESS,
+  ORDER_PREVIEW_FAIL,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
   ORDER_CREATE_FAIL,
@@ -19,27 +22,30 @@ import {
   ORDER_DELIVER_REQUEST
 } from '../constants/orderConstants';
 import { getErrorMessage } from '../service/CommonUtils';
-import { getAllMyOrdersApi } from '../service/RestApiCalls';
+import { getAllMyOrdersApi, previewOrderApi, placeOrderApi, getOrderApi } from '../service/RestApiCalls';
 
-export const saveShippingAddress = (data) => (dispatch) => {
+export const saveShippingAddress = (billingAddressId) => (dispatch) => {
   dispatch({
     type: 'ORDER_SAVE_SHIPPING_ADDRESS',
-    payload: data
+    payload: billingAddressId
   });
+  localStorage.setItem('billingAddressId', billingAddressId);
 };
 
-export const saveBillingAddress = (data) => (dispatch) => {
+export const saveBillingAddress = (shippingAddressId) => (dispatch) => {
   dispatch({
     type: 'ORDER_SAVE_BILLING_ADDRESS',
-    payload: data
+    payload: shippingAddressId
   });
+  localStorage.setItem('shippingAddressId', shippingAddressId);
 };
 
-export const savePaymentMethod = (data) => (dispatch) => {
+export const savePaymentMethod = (paymentMethod) => (dispatch) => {
   dispatch({
     type: 'ORDER_SAVE_PAYMENT_METHOD',
-    payload: data
+    payload: paymentMethod
   });
+  localStorage.setItem('paymentMethod', paymentMethod);
 };
 
 export const listMyOrdersAction = () => async (dispatch, getState) => {
@@ -48,6 +54,7 @@ export const listMyOrdersAction = () => async (dispatch, getState) => {
       type: ORDER_LIST_MY_REQUEST
     });
 
+    //Get All my Orders
     const myOrdersData = await getAllMyOrdersApi(getState().userLogin.userInfo.token);
 
     dispatch({
@@ -57,6 +64,69 @@ export const listMyOrdersAction = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_LIST_MY_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const previewOrderAction = (previewOrderRequestBody) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_PREVIEW_REQUEST
+    });
+
+    //Preview Order
+    const previewOrderData = await previewOrderApi(getState().userLogin.userInfo.token, previewOrderRequestBody);
+
+    dispatch({
+      type: ORDER_PREVIEW_SUCCESS,
+      payload: previewOrderData
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_PREVIEW_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const placeOrderAction = (placeOrderRequestBody) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_CREATE_REQUEST
+    });
+
+    //Place Order
+    const placeOrderData = await placeOrderApi(getState().userLogin.userInfo.token, placeOrderRequestBody);
+
+    dispatch({
+      type: ORDER_CREATE_SUCCESS,
+      payload: placeOrderData
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_CREATE_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const getOrderDetailsAction = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DETAILS_REQUEST
+    });
+
+    //Get Order by Id
+    const getOrderData = await getOrderApi(getState().userLogin.userInfo.token, orderId);
+
+    dispatch({
+      type: ORDER_DETAILS_SUCCESS,
+      payload: getOrderData
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_DETAILS_FAIL,
       payload: getErrorMessage(error)
     });
   }
