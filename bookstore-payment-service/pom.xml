@@ -90,10 +90,18 @@
             <artifactId>flyway-core</artifactId>
             <version>5.2.4</version>
         </dependency>
+
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-consul-discovery</artifactId>
       </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.stripe/stripe-java -->
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>20.32.0</version>
+        </dependency>
 
     </dependencies>
 

@@ -1,17 +1,29 @@
 package com.devd.spring.bookstorepaymentservice.service.impl;
 
-import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
-import com.devd.spring.bookstorecommons.web.GetUserResponse;
-import com.devd.spring.bookstorepaymentservice.repository.CreditCardRepository;
-import com.devd.spring.bookstorepaymentservice.repository.dao.CreditCard;
+import com.devd.spring.bookstorecommons.exception.RunTimeExceptionPlaceHolder;
+import com.devd.spring.bookstorepaymentservice.repository.UserPaymentCustomerRepository;
+import com.devd.spring.bookstorepaymentservice.repository.dao.UserPaymentCustomer;
 import com.devd.spring.bookstorepaymentservice.service.PaymentMethodService;
 import com.devd.spring.bookstorepaymentservice.web.CreatePaymentMethodRequest;
-import com.devd.spring.bookstorepaymentservice.web.PaymentMethodType;
+import com.devd.spring.bookstorepaymentservice.web.GetPaymentMethodResponse;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
+import com.stripe.model.PaymentMethod;
+import com.stripe.model.PaymentMethodCollection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.devd.spring.bookstorecommons.util.CommonUtilityMethods.getUserIdFromToken;
+import static com.devd.spring.bookstorecommons.util.CommonUtilityMethods.getUserNameFromToken;
 
 /**
  * @author Devaraj Reddy, Date : 25-Jul-2020
@@ -21,32 +33,138 @@ import org.springframework.stereotype.Service;
 public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Autowired
-    private CreditCardRepository creditCardRepository;
+    private UserPaymentCustomerRepository userPaymentCustomerRepository;
 
-    @Autowired
-    private AccountFeignClient accountFeignClient;
+    public PaymentMethodServiceImpl() {
+        Stripe.apiKey = "sk_test_51HyGx6G9R9y827ntfKTizO243LzKHnaNIucO8i7apU0zuTIE5iNAes6l64aoWczGwiCnnBNsvvrgS95nfpbWa2cw00FnScmrhd";
+    }
 
     @Override
     public void createPaymentMethod(CreatePaymentMethodRequest createPaymentMethodRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = (String) authentication.getPrincipal();
+        String userIdFromToken = getUserIdFromToken(authentication);
+        String userNameFromToken = getUserNameFromToken(authentication);
 
-        GetUserResponse userDetails = accountFeignClient.getUserByUserName(userName);
+        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken);
 
-        if (createPaymentMethodRequest.getPaymentMethodType() == PaymentMethodType.CREDIT_CARD) {
-            CreditCard creditCard = CreditCard.builder()
-                    .userId(userDetails.getUserId())
-                    .cardNumber(createPaymentMethodRequest.getCreditCard().getCardNumber())
-                    .firstName(createPaymentMethodRequest.getCreditCard().getFirstName())
-                    .lastName(createPaymentMethodRequest.getCreditCard().getLastName())
-                    .expirationMonth(createPaymentMethodRequest.getCreditCard().getExpirationMonth())
-                    .expirationYear(createPaymentMethodRequest.getCreditCard().getExpirationYear())
-                    .cvv(createPaymentMethodRequest.getCreditCard().getCvv())
-                    .last4Digits(createPaymentMethodRequest.getCreditCard().getLast4Digits())
-                    .build();
+        String customerId;
+        if (paymentCustomer == null) {
+            //Create Customer at stripe end;
+            customerId = createCustomerAtStripe();
+            //save
+            UserPaymentCustomer userPaymentCustomer = new UserPaymentCustomer();
+            userPaymentCustomer.setUserId(userIdFromToken);
+            userPaymentCustomer.setUserName(userNameFromToken);
+            userPaymentCustomer.setPaymentCustomerId(customerId);
+            userPaymentCustomerRepository.save(userPaymentCustomer);
+        } else {
+            customerId = paymentCustomer.getPaymentCustomerId();
+        }
 
-            creditCardRepository.save(creditCard);
+        //create Payment Method
+        String paymentMethod = createPaymentMethodAtStripe(createPaymentMethodRequest);
+
+        //link customer and Payment Method
+        linkCustomerAndPaymentMethod(paymentMethod, customerId);
+
+    }
+
+    @Override
+    public List<GetPaymentMethodResponse> getAllMyPaymentMethods() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdFromToken = getUserIdFromToken(authentication);
+
+        List<GetPaymentMethodResponse> list = new ArrayList<>();
+
+        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken);
+
+        if (paymentCustomer != null) {
+            PaymentMethodCollection paymentMethods = getAllPaymentMethodsForCustomerFromStripe(paymentCustomer.getPaymentCustomerId());
+
+            paymentMethods.getData().forEach(pm->{
+                GetPaymentMethodResponse getPaymentMethodResponse = GetPaymentMethodResponse.builder()
+                        .paymentMethodId(pm.getId())
+                        .cardCountry(pm.getCard().getCountry())
+                        .cardExpirationMonth(pm.getCard().getExpMonth())
+                        .cardExpirationYear(pm.getCard().getExpYear())
+                        .cardLast4Digits(pm.getCard().getLast4())
+                        .cardType(pm.getCard().getBrand())
+                        .build();
+
+                list.add(getPaymentMethodResponse);
+            });
+        }
+
+        return list;
+    }
+
+    private PaymentMethodCollection getAllPaymentMethodsForCustomerFromStripe(String paymentCustomerId) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("customer", paymentCustomerId);
+        params.put("type", "card");
+
+        try {
+            return PaymentMethod.list(params);
+        } catch (StripeException e) {
+            throw new RunTimeExceptionPlaceHolder("Error while retrieving customer.");
+        }
+
+    }
+
+    private void linkCustomerAndPaymentMethod(String paymentMethodId, String customerId) {
+
+        PaymentMethod paymentMethod = null;
+        try {
+            paymentMethod = PaymentMethod.retrieve(paymentMethodId);
+        } catch (StripeException e) {
+            throw new RunTimeExceptionPlaceHolder("Error while retrieving payment method.");
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("customer", customerId);
+
+        try {
+            PaymentMethod updatedPaymentMethod = paymentMethod.attach(params);
+        } catch (StripeException e) {
+            throw new RunTimeExceptionPlaceHolder("Error while attaching payment method.");
+        }
+
+    }
+
+    private String createPaymentMethodAtStripe(CreatePaymentMethodRequest createPaymentMethodRequest) {
+        Map<String, Object> card = new HashMap<>();
+        card.put("number", createPaymentMethodRequest.getCard().getCardNumber());
+        card.put("exp_month", createPaymentMethodRequest.getCard().getExpirationMonth());
+        card.put("exp_year", createPaymentMethodRequest.getCard().getExpirationYear());
+        card.put("cvc", createPaymentMethodRequest.getCard().getCvv());
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", "card");
+        params.put("card", card);
+
+        try {
+            PaymentMethod paymentMethod = PaymentMethod.create(params);
+            return paymentMethod.getId();
+        } catch (StripeException e) {
+            throw new RunTimeExceptionPlaceHolder("Error while setting up payment method.");
+        }
+    }
+
+    private String createCustomerAtStripe() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdFromToken = getUserIdFromToken(authentication);
+        Map<String, Object> params = new HashMap<>();
+        params.put(
+                "description",
+                "Creating Customer Account for UserId : " + userIdFromToken
+        );
+
+        try {
+            return Customer.create(params).getId();
+        } catch (StripeException e) {
+            throw new RunTimeExceptionPlaceHolder("Error while setting up payment customer.");
         }
 
     }

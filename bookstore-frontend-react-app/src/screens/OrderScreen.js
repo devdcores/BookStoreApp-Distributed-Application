@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
@@ -42,7 +41,6 @@ const OrderScreen = ({ match, history }) => {
     }
 
     const addPayPalScript = async () => {
-      // const { data: clientId } = await axios.get('/api/config/paypal');
       const clientId = 'AXA9AYfXDI_VAwGQRKLpju3NqxBvD-z7LhOAmNgdSTGL3cQbH1EsA47zyzPcpjDmXNlxER2rHFWBF9Qa';
       const script = document.createElement('script');
       script.type = 'text/javascript';
@@ -98,7 +96,8 @@ const OrderScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <h1>Order {order.orderId}</h1>
+          <h1>Order - {order.orderId}</h1>
+          <hr></hr>
           <Row>
             <Col md={8}>
               <ListGroup variant='flush'>

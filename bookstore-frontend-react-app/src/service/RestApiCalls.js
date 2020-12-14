@@ -118,6 +118,38 @@ export const getOrderApi = async (accessToken, orderId) => {
   return responseData;
 };
 
+export const saveAddressApi = async (accessToken, addressRequestBody) => {
+  const axiosConfig = getAxiosConfig(accessToken);
+  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/billing/address`, addressRequestBody, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const getAllAddressesApi = async (accessToken) => {
+  const axiosConfig = getAxiosConfig(accessToken);
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/billing/address`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const savePaymentMethodApi = async (accessToken, cardRequestBody) => {
+  const axiosConfig = getAxiosConfig(accessToken);
+  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/payment/paymentMethod`, cardRequestBody, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const getAllPaymentMethodsApi = async (accessToken) => {
+  const axiosConfig = getAxiosConfig(accessToken);
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/payment/paymentMethod`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
 const getAxiosConfig = (accessToken) => {
   const axiosConfig = {
     headers: {

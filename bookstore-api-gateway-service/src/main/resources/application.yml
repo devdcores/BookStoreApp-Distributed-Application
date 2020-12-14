@@ -34,6 +34,9 @@ zuul:
     order:
       path: /order/**
       serviceId: bookstore-order-service
+    payment:
+      path: /payment/**
+      serviceId: bookstore-payment-service
   ribbon:
     eager-load:
       enabled: true

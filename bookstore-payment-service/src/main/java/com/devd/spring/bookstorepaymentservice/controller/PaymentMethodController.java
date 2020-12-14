@@ -2,13 +2,17 @@ package com.devd.spring.bookstorepaymentservice.controller;
 
 import com.devd.spring.bookstorepaymentservice.service.PaymentMethodService;
 import com.devd.spring.bookstorepaymentservice.web.CreatePaymentMethodRequest;
+import com.devd.spring.bookstorepaymentservice.web.GetPaymentMethodResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Devaraj Reddy, Date : 25-Jul-2020
@@ -21,12 +25,13 @@ public class PaymentMethodController {
 
     @PostMapping("/paymentMethod")
     public ResponseEntity<?> createPaymentMethod(@RequestBody @Valid CreatePaymentMethodRequest createPaymentMethodRequest){
-
         paymentMethodService.createPaymentMethod(createPaymentMethodRequest);
-
-        return null;
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
-
+    @GetMapping("/paymentMethod")
+    public ResponseEntity<?> getAllMyPaymentMethods() {
+        List<GetPaymentMethodResponse> allMyPaymentMethods = paymentMethodService.getAllMyPaymentMethods();
+        return new ResponseEntity<>(allMyPaymentMethods, HttpStatus.OK);
+    }
 }

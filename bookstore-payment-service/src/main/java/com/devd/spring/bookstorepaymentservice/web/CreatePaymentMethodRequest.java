@@ -15,9 +15,5 @@ import javax.validation.constraints.NotNull;
 public class CreatePaymentMethodRequest {
 
     @NotNull
-    PaymentMethodType paymentMethodType;
-    CreditCard creditCard;
-    DebitCard debitCard;
-    DirectDebit directDebit;
-
+    private Card card;
 }

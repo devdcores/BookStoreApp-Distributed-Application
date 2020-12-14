@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DebitCard {
+public class Card {
+    private String firstName;
+    private String lastName;
     private String cardNumber;
     private String last4Digits;
     private int expirationMonth;
