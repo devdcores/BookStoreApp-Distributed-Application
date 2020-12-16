@@ -12,14 +12,14 @@ import {
 import { getErrorMessage } from '../service/CommonUtils';
 import { getAllPaymentMethodsApi, savePaymentMethodApi } from '../service/RestApiCalls';
 
-export const savePaymentMethodAction = (cardRequestBody) => async (dispatch, getState) => {
+export const savePaymentMethodAction = (cardRequestBody) => async (dispatch) => {
   try {
     dispatch({
       type: PAYMENT_METHOD_ADD_REQUEST
     });
 
     //save payment
-    await savePaymentMethodApi(getState().userLogin.userInfo.token, cardRequestBody);
+    await savePaymentMethodApi(cardRequestBody);
 
     dispatch({
       type: PAYMENT_METHOD_ADD_SUCCESS
@@ -33,14 +33,14 @@ export const savePaymentMethodAction = (cardRequestBody) => async (dispatch, get
   }
 };
 
-export const getMyPaymentMethodsAction = () => async (dispatch, getState) => {
+export const getMyPaymentMethodsAction = () => async (dispatch) => {
   try {
     dispatch({
       type: PAYMENT_METHOD_LIST_MY_REQUEST
     });
 
     //Get All my payment methods
-    const paymentMethodsList = await getAllPaymentMethodsApi(getState().userLogin.userInfo.token);
+    const paymentMethodsList = await getAllPaymentMethodsApi();
 
     dispatch({
       type: PAYMENT_METHOD_LIST_MY_SUCCESS,

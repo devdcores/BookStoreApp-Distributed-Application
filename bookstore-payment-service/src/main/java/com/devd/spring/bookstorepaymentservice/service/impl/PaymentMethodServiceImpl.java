@@ -100,6 +100,34 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         return list;
     }
 
+    @Override
+    public GetPaymentMethodResponse getMyPaymentMethodById(String paymentMethodId) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdFromToken = getUserIdFromToken(authentication);
+
+        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken);
+
+        try {
+            PaymentMethod paymentMethod = PaymentMethod.retrieve(paymentMethodId);
+
+            if(!paymentCustomer.getPaymentCustomerId().equals(paymentMethod.getCustomer())){
+                throw new RunTimeExceptionPlaceHolder("PaymentMethod doesn't belong to this User");
+            }
+            GetPaymentMethodResponse getPaymentMethodResponse = GetPaymentMethodResponse.builder()
+                    .paymentMethodId(paymentMethod.getId())
+                    .cardCountry(paymentMethod.getCard().getCountry())
+                    .cardExpirationMonth(paymentMethod.getCard().getExpMonth())
+                    .cardExpirationYear(paymentMethod.getCard().getExpYear())
+                    .cardLast4Digits(paymentMethod.getCard().getLast4())
+                    .cardType(paymentMethod.getCard().getBrand())
+                    .build();
+            return getPaymentMethodResponse;
+        } catch (StripeException e) {
+            throw new RunTimeExceptionPlaceHolder("Error while fetching payment method.");
+        }
+    }
+
     private PaymentMethodCollection getAllPaymentMethodsForCustomerFromStripe(String paymentCustomerId) {
 
         Map<String, Object> params = new HashMap<>();

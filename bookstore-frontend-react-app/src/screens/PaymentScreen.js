@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Col, Row, ListGroup, InputGroup } from 'react-bootstrap';
+import { Form, Button, Col, Row, ListGroup, InputGroup, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { savePaymentMethod } from '../actions/orderActions';
+import { savePaymentMethod, savePaymentMethodIdToLocalStorage } from '../actions/orderActions';
 import { getMyPaymentMethodsAction, savePaymentMethodAction } from '../actions/paymentActions';
 import Message from '../components/Message';
+import Loader from '../components/Loader';
 
 const PaymentScreen = ({ history }) => {
   const order = useSelector((state) => state.order);
@@ -14,11 +15,11 @@ const PaymentScreen = ({ history }) => {
     history.push('/shipping');
   }
 
-  const [paymentMethodId, setPaymentMethodId] = useState(null);
-  const [cardNumber, setCardNumber] = useState(null);
-  const [expirationMonth, setExpirationMonth] = useState(null);
-  const [expirationYear, setExpirationYear] = useState(null);
-  const [cvv, setCvv] = useState(null);
+  const [paymentMethodId, setPaymentMethodId] = useState('');
+  const [cardNumber, setCardNumber] = useState('4111 1111 1111 1111');
+  const [expirationMonth, setExpirationMonth] = useState('10');
+  const [expirationYear, setExpirationYear] = useState('23');
+  const [cvv, setCvv] = useState('123');
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const PaymentScreen = ({ history }) => {
   }, [dispatch]);
 
   const proceedToPlaceOrder = () => {
+    dispatch(savePaymentMethodIdToLocalStorage(paymentMethodId));
     history.push('/placeorder');
   };
 
@@ -52,7 +54,6 @@ const PaymentScreen = ({ history }) => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 />
-
       <Row className='mx-5 justify-content-md-center'>
         <h1 className='mx-5 justify-content-md-center'>Payment Method</h1>
       </Row>
@@ -61,43 +62,49 @@ const PaymentScreen = ({ history }) => {
       {message && <Message variant='danger'>{message}</Message>}
       <Row>
         <Col xs={12} md={6}>
-          <h2>Select Payment Method</h2>
-          {paymentMethods.map((a) => (
+          {listLoading ? (
+            <Loader></Loader>
+          ) : (
             <>
-              <ListGroup.Item variant='flush'>
-                <InputGroup>
-                  <Col md={1}>
-                    <Form.Check
-                      type='radio'
-                      id={a.paymentMethodId}
-                      value={paymentMethodId}
-                      name='paymentMethod'
-                      checked={a.paymentMethodId === paymentMethodId ? true : false}
-                      onChange={(e) => {
-                        console.log(a.paymentMethodId);
-                        setPaymentMethodId(a.paymentMethodId);
-                      }}></Form.Check>
-                  </Col>
-                  <Col>
-                    <div
-                      className='p-2'
-                      style={{ whiteSpace: 'pre-wrap', backgroundColor: '#eeeeee' }}
-                      onClick={(e) => {
-                        console.log(a.paymentMethodId);
-                        setPaymentMethodId(a.paymentMethodId);
-                      }}>
-                      <p className='m-0' style={{ textTransform: 'uppercase' }}>
-                        {a.cardType}
-                      </p>
-                      <p className='m-0'>
-                        {a.cardLast4Digits} - {a.cardExpirationMonth} / {a.cardExpirationYear}
-                      </p>
-                    </div>
-                  </Col>
-                </InputGroup>
-              </ListGroup.Item>
+              <h2>Select Payment Method</h2>
+              {paymentMethods.map((a) => (
+                <>
+                  <ListGroup.Item key={a.paymentMethodId} variant='flush'>
+                    <InputGroup>
+                      <Col md={1}>
+                        <Form.Check
+                          type='radio'
+                          id={a.paymentMethodId}
+                          value={paymentMethodId}
+                          name='paymentMethod'
+                          checked={a.paymentMethodId === paymentMethodId ? true : false}
+                          onChange={(e) => {
+                            console.log(a.paymentMethodId);
+                            setPaymentMethodId(a.paymentMethodId);
+                          }}></Form.Check>
+                      </Col>
+                      <Col>
+                        <div
+                          className='p-2'
+                          style={{ whiteSpace: 'pre-wrap', backgroundColor: '#eeeeee' }}
+                          onClick={(e) => {
+                            console.log(a.paymentMethodId);
+                            setPaymentMethodId(a.paymentMethodId);
+                          }}>
+                          <p className='m-0' style={{ textTransform: 'uppercase' }}>
+                            {a.cardType}
+                          </p>
+                          <p className='m-0'>
+                            **** **** **** {a.cardLast4Digits} - {a.cardExpirationMonth} / {a.cardExpirationYear}
+                          </p>
+                        </div>
+                      </Col>
+                    </InputGroup>
+                  </ListGroup.Item>
+                </>
+              ))}
             </>
-          ))}
+          )}
         </Col>
         <Col xs={12} md={6}>
           <h2>
@@ -144,8 +151,8 @@ const PaymentScreen = ({ history }) => {
             </Col>
           </Row>
           <Row className='mx-5 justify-content-md-center'>
-            <Button type='submit' variant='primary' onClick={saveCard}>
-              Add Card
+            <Button type='submit' variant='primary' onClick={saveCard} disabled={saveLoading}>
+              {saveLoading ? <Spinner as='span' animation='border' size='sm' role='status' aria-hidden='true' /> : <>Add Card</>}
             </Button>
           </Row>
         </Col>
@@ -154,7 +161,7 @@ const PaymentScreen = ({ history }) => {
       <hr></hr>
       <Row className='mx-5 justify-content-md-center'>
         <Button type='submit' variant='primary' onClick={proceedToPlaceOrder} className='mt-3' disabled={!paymentMethodId}>
-          Continue
+          Proceed to PlaceOrder
         </Button>
       </Row>
     </>

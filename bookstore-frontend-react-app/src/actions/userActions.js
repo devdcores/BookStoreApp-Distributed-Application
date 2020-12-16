@@ -42,9 +42,16 @@ export const login = (usernameOrEmail, password) => async (dispatch) => {
 
     //Login
     const loginResponse = await postLoginApi(loginRequest);
+
+    const userInfo = {
+      token: loginResponse.access_token
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
     //Get UserInfo
-    const userInfoResponse = await getUserInfoApi(loginResponse.access_token);
+    const userInfoResponse = await getUserInfoApi();
     userInfoResponse.token = loginResponse.access_token;
+    userInfoResponse.refresh_token = loginResponse.refresh_token;
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
@@ -61,10 +68,8 @@ export const login = (usernameOrEmail, password) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem('userInfo');
-  localStorage.removeItem('billingAddressId');
-  localStorage.removeItem('shippingAddressId');
-  localStorage.removeItem('paymentMethod');
+  localStorage.clear();
+  console.log('LOGOUT ACTION!!!');
   dispatch({
     type: USER_LOGOUT
   });
@@ -96,8 +101,13 @@ export const register = (userName, firstName, email, password) => async (dispatc
     };
     const loginResponse = await postLoginApi(loginRequest);
 
+    const userInfo = {
+      token: loginResponse.access_token
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
     //Get UserInfo
-    const userInfoResponse = await getUserInfoApi(loginResponse.access_token);
+    const userInfoResponse = await getUserInfoApi();
     userInfoResponse.token = loginResponse.access_token;
 
     dispatch({
@@ -119,14 +129,14 @@ export const register = (userName, firstName, email, password) => async (dispatc
   }
 };
 
-export const getUserDetails = () => async (dispatch, getState) => {
+export const getUserDetails = () => async (dispatch) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST
     });
 
     //Get UserInfo
-    const userInfoResponse = await getUserInfoApi(getState().userLogin.userInfo.token);
+    const userInfoResponse = await getUserInfoApi();
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -140,17 +150,19 @@ export const getUserDetails = () => async (dispatch, getState) => {
   }
 };
 
-export const updateUserProfile = (user) => async (dispatch, getState) => {
+export const updateUserProfile = (user) => async (dispatch) => {
   try {
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST
     });
 
     //Update userInfo
-    await putUserInfoApi(getState().userLogin.userInfo.token, user);
+    await putUserInfoApi(user);
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
     const updatedUserInfo = {
-      ...getState().userLogin.userInfo,
+      ...userInfo,
       ...user
     };
 

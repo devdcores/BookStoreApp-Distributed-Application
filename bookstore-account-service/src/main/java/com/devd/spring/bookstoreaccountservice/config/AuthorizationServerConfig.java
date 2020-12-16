@@ -106,15 +106,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter() {
       @Override
       public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        if (authentication.getOAuth2Request().getGrantType().equalsIgnoreCase("password")) {
-          User principal = (User) authentication.getUserAuthentication().getPrincipal();
+
+        User principal = (User) authentication.getUserAuthentication().getPrincipal();
           Optional<com.devd.spring.bookstoreaccountservice.repository.dao.User> userDetail
                   = userRepository.findByUserName(principal.getUsername());
           final Map<String, Object> additionalInfo = new HashMap<>();
-          additionalInfo.put("user_id", userDetail.get().getUserId());
+        userDetail.ifPresent(user -> additionalInfo.put("user_id", user.getUserId()));
           ((DefaultOAuth2AccessToken) accessToken)
                   .setAdditionalInformation(additionalInfo);
-        }
+
         accessToken = super.enhance(accessToken, authentication);
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(new HashMap<>());
         return accessToken;

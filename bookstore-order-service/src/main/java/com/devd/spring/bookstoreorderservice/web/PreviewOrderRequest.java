@@ -18,5 +18,6 @@ public class PreviewOrderRequest {
     private String billingAddressId;
     @NotBlank
     private String shippingAddressId;
+    @NotBlank
     private String paymentMethodId;
 }

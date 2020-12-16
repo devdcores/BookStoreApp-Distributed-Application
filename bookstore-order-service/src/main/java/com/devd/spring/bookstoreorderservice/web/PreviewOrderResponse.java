@@ -21,7 +21,7 @@ public class PreviewOrderResponse {
     private List<OrderItem> orderItems = new ArrayList<>();
     private GetAddressResponse shippingAddress;
     private GetAddressResponse billingAddress;
-    private String paymentMethod;
+    private Card card;
     private Double itemsTotalPrice;
     private Double taxPrice;
     private Double shippingPrice;

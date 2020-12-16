@@ -5,7 +5,7 @@ import { productListReducer, productDetailsReducer } from './reducers/productRed
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers';
 import { orderListMyReducer, orderReducer, orderPreviewReducer, orderCreateReducer, orderDetailsReducer } from './reducers/orderReducers';
 import { cartAddReducer, cartDetailReducer, cartRemoveReducer } from './reducers/cartReducers';
-import { addressListMyReducer, addressSaveReducer } from './reducers/addressReducer';
+import { addressDeleteReducer, addressListMyReducer, addressSaveReducer } from './reducers/addressReducer';
 import { paymentMethodListMyReducer, paymentMethodSaveReducer } from './reducers/paymentReducers';
 
 const reducer = combineReducers({
@@ -25,6 +25,7 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   addressSave: addressSaveReducer,
   addressListMy: addressListMyReducer,
+  addressDelete: addressDeleteReducer,
   paymentMethodSave: paymentMethodSaveReducer,
   paymentMethodListMy: paymentMethodListMyReducer
 });
@@ -32,14 +33,14 @@ const reducer = combineReducers({
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
 const billingAddressId = localStorage.getItem('billingAddressId') ? localStorage.getItem('billingAddressId') : null;
 const shippingAddressId = localStorage.getItem('shippingAddressId') ? localStorage.getItem('shippingAddressId') : null;
-const paymentMethod = localStorage.getItem('paymentMethod') ? localStorage.getItem('paymentMethod') : null;
+const paymentMethodId = localStorage.getItem('paymentMethodId') ? localStorage.getItem('paymentMethodId') : null;
 
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
   order: {
     billingAddressId,
     shippingAddressId,
-    paymentMethod
+    paymentMethodId
   }
 };
 

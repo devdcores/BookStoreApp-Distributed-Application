@@ -24,7 +24,7 @@ const PlaceOrderScreen = (props) => {
     props.history.push('/shipping');
   } else if (!order.billingAddressId) {
     props.history.push('/shipping');
-  } else if (!order.paymentMethod) {
+  } else if (!order.paymentMethodId) {
     props.history.push('/payment');
   }
 
@@ -45,7 +45,7 @@ const PlaceOrderScreen = (props) => {
     const previewOrderRequestBody = {
       billingAddressId: order.billingAddressId,
       shippingAddressId: order.shippingAddressId,
-      paymentMethodId: order.paymentMethod
+      paymentMethodId: order.paymentMethodId
     };
     dispatch(previewOrderAction(previewOrderRequestBody));
   };
@@ -54,7 +54,7 @@ const PlaceOrderScreen = (props) => {
     const placeOrderRequestBody = {
       billingAddressId: order.billingAddressId,
       shippingAddressId: order.shippingAddressId,
-      paymentMethodId: order.paymentMethod
+      paymentMethodId: order.paymentMethodId
     };
 
     dispatch(placeOrderAction(placeOrderRequestBody));
@@ -79,7 +79,7 @@ const PlaceOrderScreen = (props) => {
               <ListGroup.Item>
                 <h2>Payment Method</h2>
                 <strong>Method: </strong>
-                {previewOrderResponse.paymentMethod}
+                {previewOrderResponse.card.cardBrand.toUpperCase()} - **** **** **** {previewOrderResponse.card.last4Digits}
               </ListGroup.Item>
 
               <ListGroup.Item>

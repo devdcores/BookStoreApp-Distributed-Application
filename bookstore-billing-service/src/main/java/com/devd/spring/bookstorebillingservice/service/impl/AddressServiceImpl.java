@@ -137,5 +137,11 @@ public class AddressServiceImpl implements AddressService {
 
         throw new RuntimeException("Address doesn't exist");
     }
+
+    @Override
+    public void deleteAddressById(String addressId) {
+        getAddressById(addressId);
+        addressRepository.deleteById(addressId);
+    }
 }
 

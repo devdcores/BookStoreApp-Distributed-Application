@@ -24,7 +24,7 @@ import {
 import { getErrorMessage } from '../service/CommonUtils';
 import { getAllMyOrdersApi, previewOrderApi, placeOrderApi, getOrderApi } from '../service/RestApiCalls';
 
-export const saveShippingAddress = (billingAddressId) => (dispatch) => {
+export const saveBillingAddressIdToLocalStorage = (billingAddressId) => (dispatch) => {
   dispatch({
     type: 'ORDER_SAVE_SHIPPING_ADDRESS',
     payload: billingAddressId
@@ -32,7 +32,7 @@ export const saveShippingAddress = (billingAddressId) => (dispatch) => {
   localStorage.setItem('billingAddressId', billingAddressId);
 };
 
-export const saveBillingAddress = (shippingAddressId) => (dispatch) => {
+export const saveShippingAddressIdToLocalStorage = (shippingAddressId) => (dispatch) => {
   dispatch({
     type: 'ORDER_SAVE_BILLING_ADDRESS',
     payload: shippingAddressId
@@ -40,22 +40,22 @@ export const saveBillingAddress = (shippingAddressId) => (dispatch) => {
   localStorage.setItem('shippingAddressId', shippingAddressId);
 };
 
-export const savePaymentMethod = (paymentMethod) => (dispatch) => {
+export const savePaymentMethodIdToLocalStorage = (paymentMethodId) => (dispatch) => {
   dispatch({
     type: 'ORDER_SAVE_PAYMENT_METHOD',
-    payload: paymentMethod
+    payload: paymentMethodId
   });
-  localStorage.setItem('paymentMethod', paymentMethod);
+  localStorage.setItem('paymentMethodId', paymentMethodId);
 };
 
-export const listMyOrdersAction = () => async (dispatch, getState) => {
+export const listMyOrdersAction = () => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_LIST_MY_REQUEST
     });
 
     //Get All my Orders
-    const myOrdersData = await getAllMyOrdersApi(getState().userLogin.userInfo.token);
+    const myOrdersData = await getAllMyOrdersApi();
 
     dispatch({
       type: ORDER_LIST_MY_SUCCESS,
@@ -69,14 +69,14 @@ export const listMyOrdersAction = () => async (dispatch, getState) => {
   }
 };
 
-export const previewOrderAction = (previewOrderRequestBody) => async (dispatch, getState) => {
+export const previewOrderAction = (previewOrderRequestBody) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_PREVIEW_REQUEST
     });
 
     //Preview Order
-    const previewOrderData = await previewOrderApi(getState().userLogin.userInfo.token, previewOrderRequestBody);
+    const previewOrderData = await previewOrderApi(previewOrderRequestBody);
 
     dispatch({
       type: ORDER_PREVIEW_SUCCESS,
@@ -90,14 +90,14 @@ export const previewOrderAction = (previewOrderRequestBody) => async (dispatch, 
   }
 };
 
-export const placeOrderAction = (placeOrderRequestBody) => async (dispatch, getState) => {
+export const placeOrderAction = (placeOrderRequestBody) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST
     });
 
     //Place Order
-    const placeOrderData = await placeOrderApi(getState().userLogin.userInfo.token, placeOrderRequestBody);
+    const placeOrderData = await placeOrderApi(placeOrderRequestBody);
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -111,14 +111,14 @@ export const placeOrderAction = (placeOrderRequestBody) => async (dispatch, getS
   }
 };
 
-export const getOrderDetailsAction = (orderId) => async (dispatch, getState) => {
+export const getOrderDetailsAction = (orderId) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_DETAILS_REQUEST
     });
 
     //Get Order by Id
-    const getOrderData = await getOrderApi(getState().userLogin.userInfo.token, orderId);
+    const getOrderData = await getOrderApi(orderId);
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,

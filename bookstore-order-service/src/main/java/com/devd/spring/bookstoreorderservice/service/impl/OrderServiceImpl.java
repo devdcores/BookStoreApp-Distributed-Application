@@ -1,8 +1,11 @@
 package com.devd.spring.bookstoreorderservice.service.impl;
 
+import com.devd.spring.bookstorecommons.exception.RunTimeExceptionPlaceHolder;
 import com.devd.spring.bookstorecommons.feign.BillingFeignClient;
+import com.devd.spring.bookstorecommons.feign.PaymentFeignClient;
 import com.devd.spring.bookstorecommons.util.CommonUtilityMethods;
 import com.devd.spring.bookstorecommons.web.GetAddressResponse;
+import com.devd.spring.bookstorecommons.web.GetPaymentMethodResponse;
 import com.devd.spring.bookstoreorderservice.repository.OrderBillingAddressRepository;
 import com.devd.spring.bookstoreorderservice.repository.OrderItemRepository;
 import com.devd.spring.bookstoreorderservice.repository.OrderRepository;
@@ -15,6 +18,7 @@ import com.devd.spring.bookstoreorderservice.repository.dao.OrderShippingAddress
 import com.devd.spring.bookstoreorderservice.service.CartItemService;
 import com.devd.spring.bookstoreorderservice.service.CartService;
 import com.devd.spring.bookstoreorderservice.service.OrderService;
+import com.devd.spring.bookstoreorderservice.web.Card;
 import com.devd.spring.bookstoreorderservice.web.CreateOrderRequest;
 import com.devd.spring.bookstoreorderservice.web.CreateOrderResponse;
 import com.devd.spring.bookstoreorderservice.web.PreviewOrderRequest;
@@ -55,6 +59,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     BillingFeignClient billingFeignClient;
+
+    @Autowired
+    PaymentFeignClient paymentFeignClient;
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest) {
@@ -185,6 +192,18 @@ public class OrderServiceImpl implements OrderService {
             previewOrderResponse.setShippingAddress(shippingAddress);
         }
 
+        try{
+            GetPaymentMethodResponse myPaymentMethodById = paymentFeignClient.getMyPaymentMethodById(previewOrderRequest.getPaymentMethodId());
+            Card card = new Card();
+            card.setLast4Digits(myPaymentMethodById.getCardLast4Digits());
+            card.setCardBrand(myPaymentMethodById.getCardType());
+            card.setPaymentMethodId(myPaymentMethodById.getPaymentMethodId());
+            previewOrderResponse.setCard(card);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RunTimeExceptionPlaceHolder("Not a valid Payment Method");
+        }
+
         Cart cart = cartService.getCart();
 
         cart.getCartItems()
@@ -198,7 +217,7 @@ public class OrderServiceImpl implements OrderService {
                     previewOrderResponse.getOrderItems().add(orderItem);
                 });
 
-        //HarCode to 10%
+        //HardCode to 10%
         double itemsPrice = previewOrderResponse.getOrderItems().stream().mapToDouble(OrderItem::getOrderExtendedPrice).sum();
         previewOrderResponse.setItemsTotalPrice(itemsPrice);
 

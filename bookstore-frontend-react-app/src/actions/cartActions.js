@@ -16,13 +16,13 @@ import {
 import { getErrorMessage } from '../service/CommonUtils';
 import { addToCartApi, getCartDetailsApi, removeCartItemApi } from '../service/RestApiCalls';
 
-export const addToCartAction = (addToCartRequestBody) => async (dispatch, getState) => {
+export const addToCartAction = (addToCartRequestBody) => async (dispatch) => {
   try {
     dispatch({
       type: CART_ADD_ITEM_REQUEST
     });
     //Add to cart Api
-    await addToCartApi(getState().userLogin.userInfo.token, addToCartRequestBody);
+    await addToCartApi(addToCartRequestBody);
 
     dispatch({
       type: CART_ADD_ITEM_SUCCESS
@@ -38,13 +38,13 @@ export const addToCartAction = (addToCartRequestBody) => async (dispatch, getSta
   }
 };
 
-export const getCartDetailsAction = () => async (dispatch, getState) => {
+export const getCartDetailsAction = () => async (dispatch) => {
   try {
     dispatch({
       type: CART_DETAILS_REQUEST
     });
     //Get cart details Api
-    const cartResponse = await getCartDetailsApi(getState().userLogin.userInfo.token);
+    const cartResponse = await getCartDetailsApi();
     dispatch({
       type: CART_DETAILS_SUCCESS,
       payload: cartResponse
@@ -57,13 +57,13 @@ export const getCartDetailsAction = () => async (dispatch, getState) => {
   }
 };
 
-export const removeFromCartAction = (cartItemId) => async (dispatch, getState) => {
+export const removeFromCartAction = (cartItemId) => async (dispatch) => {
   try {
     dispatch({
       type: CART_REMOVE_ITEM_REQUEST
     });
     //Add to cart Api
-    await removeCartItemApi(getState().userLogin.userInfo.token, cartItemId);
+    await removeCartItemApi(cartItemId);
 
     dispatch({
       type: CART_REMOVE_ITEM_SUCCESS

@@ -18,4 +18,6 @@ public interface AddressService {
   void updateAddress(UpdateAddressRequest updateAddressRequest);
 
   GetAddressResponse getAddressById(String addressId);
+
+  void deleteAddressById(String addressId);
 }

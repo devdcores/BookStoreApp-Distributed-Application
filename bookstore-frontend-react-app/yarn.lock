@@ -7178,6 +7178,11 @@ jsprim@^1.2.2:
     array-includes "^3.1.1"
     object.assign "^4.1.1"
 
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
+
 killable@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
@@ -9652,6 +9657,11 @@ react-router-dom@^5.2.0:
     react-router "5.2.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
+
+react-router-redux@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/react-router-redux/-/react-router-redux-4.0.8.tgz#227403596b5151e182377dab835b5d45f0f8054e"
+  integrity sha1-InQDWWtRUeGCN32rg1tdRfD4BU4=
 
 react-router@5.2.0:
   version "5.2.0"
