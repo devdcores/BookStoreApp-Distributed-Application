@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.devd.spring.bookstorecommons.util.CommonUtilityMethods.getUserIdFromToken;
+import static com.devd.spring.bookstorecommons.util.CommonUtilityMethods.getUserNameFromToken;
+
 /**
  * @author Devaraj Reddy, Date : 08-Nov-2020
  */
@@ -35,9 +38,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void createOrUpdateReview(CreateOrUpdateReviewRequest createOrUpdateReviewRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = (String) authentication.getPrincipal();
-
-        GetUserInfoResponse user = accountFeignClient.getUserInfo();
+        String userIdFromToken = getUserIdFromToken(authentication);
+        String userNameFromToken = getUserNameFromToken(authentication);
 
         //check whether product exists.
         ProductResponse product = productService.getProduct(createOrUpdateReviewRequest.getProductId());
@@ -45,7 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
             throw new RuntimeException("Product doesn't exist!");
         }
 
-        Optional<Review> review = reviewRepository.findByUserIdAndProductId(user.getUserId(), createOrUpdateReviewRequest.getProductId());
+        Optional<Review> review = reviewRepository.findByUserIdAndProductId(userIdFromToken, createOrUpdateReviewRequest.getProductId());
 
         if (review.isPresent()) {
             Review updatedReview = review.get();
@@ -54,8 +56,9 @@ public class ReviewServiceImpl implements ReviewService {
         } else {
             Review newReview = Review.builder()
                     .reviewMessage(createOrUpdateReviewRequest.getReviewMessage())
-                    .userId(user.getUserId())
-                    .userName(userName)
+                    .ratingValue(createOrUpdateReviewRequest.getRatingValue())
+                    .userId(userIdFromToken)
+                    .userName(userNameFromToken)
                     .productId(createOrUpdateReviewRequest.getProductId())
                     .build();
             reviewRepository.save(newReview);

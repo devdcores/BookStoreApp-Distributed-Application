@@ -18,8 +18,8 @@ axios.interceptors.response.use(
     }
 
     if (error.response.status === 401) {
-      // const refreshToken = localStorage.getItem('refresh_token');
-      const refreshToken = JSON.parse(localStorage.getItem('userInfo')).refresh_token;
+      console.log('Refreshing Token');
+      const refreshToken = JSON.parse(localStorage.getItem('userInfo'))?.refresh_token;
       if (refreshToken) {
         const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
         // exp date in token is expressed in seconds, while now() returns milliseconds:
@@ -107,6 +107,13 @@ export const putUserInfoApi = async (userInfoRequestBody) => {
 
 export const getProductDetailApi = async (productId) => {
   const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/product/${productId}`).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const getProductReviewsApi = async (productId) => {
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/review?productId=${productId}`).then((response) => {
     return response.data;
   });
   return responseData;

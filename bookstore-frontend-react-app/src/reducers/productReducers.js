@@ -6,6 +6,9 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
+  PRODUCT_REVIEWS_REQUEST,
+  PRODUCT_REVIEWS_SUCCESS,
+  PRODUCT_REVIEWS_FAIL,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_FAIL,
@@ -43,6 +46,18 @@ export const productDetailsReducer = (state = { products: [] }, action) => {
     case PRODUCT_DETAILS_SUCCESS:
       return { loading: false, product: action.payload };
     case PRODUCT_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export const productReviewsReducer = (state = { reviews: [] }, action) => {
+  switch (action.type) {
+    case PRODUCT_REVIEWS_REQUEST:
+      return { loading: true, ...state };
+    case PRODUCT_REVIEWS_SUCCESS:
+      return { loading: false, reviews: action.payload };
+    case PRODUCT_REVIEWS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

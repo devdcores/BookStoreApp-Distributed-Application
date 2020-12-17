@@ -6,7 +6,6 @@ import com.devd.spring.bookstorepaymentservice.repository.dao.UserPaymentCustome
 import com.devd.spring.bookstorepaymentservice.service.PaymentMethodService;
 import com.devd.spring.bookstorepaymentservice.web.CreatePaymentMethodRequest;
 import com.devd.spring.bookstorepaymentservice.web.GetPaymentMethodResponse;
-import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.PaymentMethod;
@@ -36,7 +35,6 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     private UserPaymentCustomerRepository userPaymentCustomerRepository;
 
     public PaymentMethodServiceImpl() {
-        Stripe.apiKey = "sk_test_51HyGx6G9R9y827ntfKTizO243LzKHnaNIucO8i7apU0zuTIE5iNAes6l64aoWczGwiCnnBNsvvrgS95nfpbWa2cw00FnScmrhd";
     }
 
     @Override

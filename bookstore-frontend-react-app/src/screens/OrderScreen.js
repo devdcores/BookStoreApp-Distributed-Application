@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getOrderDetailsAction } from '../actions/orderActions';
+import OrderItem from '../components/OrderItem';
 // import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
 // import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants';
 
@@ -39,46 +40,8 @@ const OrderScreen = ({ match, history }) => {
     if (!userInfo) {
       history.push('/login');
     }
-
-    const addPayPalScript = async () => {
-      const clientId = 'AXA9AYfXDI_VAwGQRKLpju3NqxBvD-z7LhOAmNgdSTGL3cQbH1EsA47zyzPcpjDmXNlxER2rHFWBF9Qa';
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
-
-    if (!order?.orderId || successPay || successDeliver) {
-      //   dispatch({ type: ORDER_PAY_RESET });
-      //   dispatch({ type: ORDER_DELIVER_RESET });
-      //   dispatch(getOrderDetails(orderId));
-      // getOrderDetails(orderId)
-      //   .then((res) => {
-      //     setOrder(res.data);
-      //     console.log('OrderDetails ', res.data);
-      //     setLoading(false);
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
-      dispatch(getOrderDetailsAction(orderId));
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPayPalScript();
-      } else {
-        setSdkReady(true);
-      }
-    }
-  }, [dispatch, orderId, successPay, successDeliver, order, loading]);
-
-  const successPaymentHandler = (paymentResult) => {
-    console.log('PAYMENT SUCCESS', paymentResult);
-    // dispatch(payOrder(orderId, paymentResult));
-  };
+    dispatch(getOrderDetailsAction(orderId));
+  }, [dispatch, orderId]);
 
   const deliverHandler = () => {
     // dispatch(deliverOrder(order));
@@ -120,9 +83,16 @@ const OrderScreen = ({ match, history }) => {
                   <h2>Payment Method</h2>
                   <p>
                     <strong>Method: </strong>
-                    {order.paymentMethod}
+                    {order.card.cardBrand.toUpperCase()} - **** **** **** {order.card.last4Digits}
                   </p>
-                  {order.isPaid ? <Message variant='success'>Paid on {order.paidAt}</Message> : <Message variant='danger'>Not Paid</Message>}
+                  {order.paid ? <Message variant='success'>Paid on {order.paymentDate}</Message> : <Message variant='danger'>Not Paid</Message>}
+
+                  <p>
+                    <strong>Payment Receipt : </strong>
+                    <a href={order.paymentReceiptUrl} target='_blank'>
+                      {order.paymentReceiptUrl}
+                    </a>
+                  </p>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -132,20 +102,7 @@ const OrderScreen = ({ match, history }) => {
                   ) : (
                     <ListGroup variant='flush'>
                       {order.orderItems.map((item, index) => (
-                        <ListGroup.Item key={index}>
-                          <Row>
-                            <Col md={1}>
-                              {/* <Image src={item.image} alt={item.name} fluid rounded /> */}
-                              <Image src={`https://source.unsplash.com/random/500x500?sig=${getRandomNumber()}`} alt={item.productName} fluid rounded></Image>
-                            </Col>
-                            <Col>
-                              <Link to={`/product/${item.productId}`}>{item.productId}</Link>
-                            </Col>
-                            <Col md={4}>
-                              {item.quantity} x ${item.orderItemPrice} = ${item.quantity * item.orderItemPrice}
-                            </Col>
-                          </Row>
-                        </ListGroup.Item>
+                        <OrderItem item={item}></OrderItem>
                       ))}
                     </ListGroup>
                   )}
@@ -182,12 +139,6 @@ const OrderScreen = ({ match, history }) => {
                       <Col>${order.totalPrice}</Col>
                     </Row>
                   </ListGroup.Item>
-                  {!order.isPaid && (
-                    <ListGroup.Item>
-                      {loadingPay && <Loader />}
-                      {!sdkReady ? <Loader /> : <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />}
-                    </ListGroup.Item>
-                  )}
                   {loadingDeliver && <Loader />}
                   {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                     <ListGroup.Item>

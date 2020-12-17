@@ -13,10 +13,13 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import { createBrowserHistory } from 'history';
+
+export const history = createBrowserHistory();
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter history={history}>
       <Header></Header>
       <main className='py-3'>
         <Container>

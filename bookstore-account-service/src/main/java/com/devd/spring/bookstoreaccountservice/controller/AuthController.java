@@ -4,8 +4,6 @@ import com.devd.spring.bookstoreaccountservice.service.AuthService;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientRequest;
 import com.devd.spring.bookstoreaccountservice.web.CreateOAuthClientResponse;
 import com.devd.spring.bookstoreaccountservice.web.CreateUserResponse;
-import com.devd.spring.bookstoreaccountservice.web.JwtAuthenticationResponse;
-import com.devd.spring.bookstoreaccountservice.web.SignInRequest;
 import com.devd.spring.bookstoreaccountservice.web.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

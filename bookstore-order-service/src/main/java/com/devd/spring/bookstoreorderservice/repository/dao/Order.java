@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +49,8 @@ public class Order extends DateAudit {
     @Column(name = "TOTAL_ORDER_PRICE", nullable = false)
     private double totalOrderPrice;
 
-    @Column(name = "PAYMENT_ID")
-    private String paymentId;
-
-    @Column(name = "PAYMENT_METHOD", nullable = false)
-    private String paymentMethod;
+    @Column(name = "PAYMENT_METHOD_ID", nullable = false)
+    private String paymentMethodId;
 
     @Column(name = "TAX_PRICE", nullable = false)
     private double taxPrice;
@@ -62,6 +60,18 @@ public class Order extends DateAudit {
 
     @Column(name = "IS_PAID")
     private boolean isPaid;
+
+    @Column(name = "PAYMENT_ID")
+    private String paymentId;
+
+    @Column(name = "PAYMENT_DATE")
+    private LocalDateTime paymentDate;
+
+    @Column(name = "PAYMENT_RECEIPT_URL")
+    private String paymentReceiptUrl;
+
+    @Column(name = "DELIVERED_DATE")
+    private LocalDateTime deliveredDate;
 
     @Column(name = "IS_DELIVERED")
     private boolean isDelivered;

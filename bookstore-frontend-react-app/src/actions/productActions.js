@@ -5,6 +5,9 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
+  PRODUCT_REVIEWS_REQUEST,
+  PRODUCT_REVIEWS_SUCCESS,
+  PRODUCT_REVIEWS_FAIL,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_FAIL,
@@ -22,7 +25,7 @@ import {
   PRODUCT_TOP_FAIL
 } from '../constants/productConstants';
 import { getErrorMessage } from '../service/CommonUtils';
-import { getAllProductsDetailApi, getProductDetailApi } from '../service/RestApiCalls';
+import { getAllProductsDetailApi, getProductDetailApi, getProductReviewsApi } from '../service/RestApiCalls';
 
 export const listProductsAction = () => async (dispatch) => {
   try {
@@ -53,6 +56,23 @@ export const listProductDetailsAction = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_DETAILS_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const listProductReviewsAction = (productId) => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_REVIEWS_REQUEST });
+    //Get Product Reviews
+    const productReviews = await getProductReviewsApi(productId);
+    dispatch({
+      type: PRODUCT_REVIEWS_SUCCESS,
+      payload: productReviews
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_REVIEWS_FAIL,
       payload: getErrorMessage(error)
     });
   }

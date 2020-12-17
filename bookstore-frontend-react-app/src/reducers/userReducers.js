@@ -26,6 +26,7 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_RESET
 } from '../constants/userConstants';
+import { history } from '../App';
 
 export const userLoginReducer = (state = {}, action) => {
   switch (action.type) {
@@ -53,6 +54,7 @@ export const userRegisterReducer = (state = {}, action) => {
     case 'USER_REGISTER_RESET':
       return { loading: false, error: null };
     case 'USER_LOGOUT':
+      history.push('/login');
       return {};
     default:
       return state;

@@ -1,16 +1,17 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { productListReducer, productDetailsReducer } from './reducers/productReducers';
+import { productListReducer, productDetailsReducer, productReviewsReducer } from './reducers/productReducers';
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers';
 import { orderListMyReducer, orderReducer, orderPreviewReducer, orderCreateReducer, orderDetailsReducer } from './reducers/orderReducers';
 import { cartAddReducer, cartDetailReducer, cartRemoveReducer } from './reducers/cartReducers';
 import { addressDeleteReducer, addressListMyReducer, addressSaveReducer } from './reducers/addressReducer';
 import { paymentMethodListMyReducer, paymentMethodSaveReducer } from './reducers/paymentReducers';
 
-const reducer = combineReducers({
+const appReducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
+  productReviews: productReviewsReducer,
   cart: cartDetailReducer,
   cartAdd: cartAddReducer,
   cartRemove: cartRemoveReducer,
@@ -44,8 +45,16 @@ const initialState = {
   }
 };
 
+const rootReducer = (state, action) => {
+  if (action.type === 'USER_LOGOUT') {
+    console.log('Logout Root Reducer');
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
+
 const middleware = [thunk];
 
-const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
+const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
 
 export default store;

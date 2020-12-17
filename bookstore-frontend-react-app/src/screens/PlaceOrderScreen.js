@@ -30,13 +30,11 @@ const PlaceOrderScreen = (props) => {
 
   useEffect(() => {
     previewOrder();
-    // if (success) {
-    //   history.push(`/order/${order._id}`);
-    //   //   dispatch({ type: USER_DETAILS_RESET });
-    //   //   dispatch({ type: ORDER_CREATE_RESET });
-    // }
     // eslint-disable-next-line
     if (createOrderResponse?.orderId != null) {
+      dispatch({
+        type: 'ORDER_CREATE_RESET'
+      });
       props.history.push(`/order/${createOrderResponse.orderId}`);
     }
   }, [dispatch, createOrderResponse, order]);
