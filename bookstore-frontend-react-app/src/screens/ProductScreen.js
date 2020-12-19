@@ -4,13 +4,14 @@ import { Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Row } from 'r
 import Message from '../components/Message';
 import { Link } from 'react-router-dom';
 import Rating from '../components/Rating';
-import { listProductDetailsAction, listProductReviewsAction } from '../actions/productActions';
+import { listProductDetailsAction, listProductReviewsAction, createProductReviewAction } from '../actions/productActions';
 import FullPageLoader from '../components/FullPageLoader';
+import Loader from '../components/Loader';
 
 const ProductScreen = (props) => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+  const [reviewMessage, setReviewMessage] = useState('');
 
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
@@ -19,6 +20,12 @@ const ProductScreen = (props) => {
   const productReviews = useSelector((state) => state.productReviews);
   const { loading: loadingProductReviews, error: errorProductReviews, reviews } = productReviews;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const productReviewCreate = useSelector((state) => state.productReviewCreate);
+  const { success: successProductReview, loading: loadingProductReview, error: errorProductReview } = productReviewCreate;
+
   useEffect(() => {
     dispatch(listProductDetailsAction(props.match.params.id));
     dispatch(listProductReviewsAction(props.match.params.id));
@@ -26,6 +33,17 @@ const ProductScreen = (props) => {
 
   const addToCartHandler = () => {
     props.history.push(`/cart/${props.match.params.id}?qty=${qty}`);
+  };
+
+  const createProductReviewHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      createProductReviewAction({
+        productId: props.match.params.id,
+        ratingValue: rating,
+        reviewMessage: reviewMessage
+      })
+    );
   };
 
   return (
@@ -108,8 +126,7 @@ const ProductScreen = (props) => {
             </Col>
           </Row>
           <Row className='m-4 p-4' style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee' }}>
-            <Col md={6}></Col>
-            <Col md={6} style={{ borderLeft: '1px solid #eee' }}>
+            <Col md={6}>
               <h2>Reviews</h2>
               {reviews?.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'>
@@ -121,39 +138,41 @@ const ProductScreen = (props) => {
                     <p>{review.reviewMessage}</p>
                   </ListGroup.Item>
                 ))}
-                {/* <ListGroup.Item>
-                  <h2>Write a Customer Review</h2>
-                  {successProductReview && <Message variant='success'>Review submitted successfully</Message>}
-                  {loadingProductReview && <Loader />}
-                  {errorProductReview && <Message variant='danger'>{errorProductReview}</Message>}
-                  {userInfo ? (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group controlId='rating'>
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control as='select' value={rating} onChange={(e) => setRating(e.target.value)}>
-                          <option value=''>Select...</option>
-                          <option value='1'>1 - Poor</option>
-                          <option value='2'>2 - Fair</option>
-                          <option value='3'>3 - Good</option>
-                          <option value='4'>4 - Very Good</option>
-                          <option value='5'>5 - Excellent</option>
-                        </Form.Control>
-                      </Form.Group>
-                      <Form.Group controlId='comment'>
-                        <Form.Label>Comment</Form.Label>
-                        <Form.Control as='textarea' row='3' value={comment} onChange={(e) => setComment(e.target.value)}></Form.Control>
-                      </Form.Group>
-                      <Button disabled={loadingProductReview} type='submit' variant='primary'>
-                        Submit
-                      </Button>
-                    </Form>
-                  ) : (
-                    <Message>
-                      Please <Link to='/login'>sign in</Link> to write a review{' '}
-                    </Message>
-                  )}
-                </ListGroup.Item> */}
               </ListGroup>
+            </Col>
+            <Col md={6} style={{ borderLeft: '1px solid #eee' }}>
+              <ListGroup.Item>
+                <h2>Write a Customer Review</h2>
+                {successProductReview && <Message variant='success'>Review submitted successfully</Message>}
+                {loadingProductReview && <Loader />}
+                {errorProductReview && <Message variant='danger'>{errorProductReview}</Message>}
+                {userInfo ? (
+                  <Form onSubmit={createProductReviewHandler}>
+                    <Form.Group controlId='rating'>
+                      <Form.Label>Rating</Form.Label>
+                      <Form.Control as='select' value={rating} onChange={(e) => setRating(e.target.value)}>
+                        <option value=''>Select...</option>
+                        <option value='1'>1 - Poor</option>
+                        <option value='2'>2 - Fair</option>
+                        <option value='3'>3 - Good</option>
+                        <option value='4'>4 - Very Good</option>
+                        <option value='5'>5 - Excellent</option>
+                      </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId='reviewMessage'>
+                      <Form.Label>Review</Form.Label>
+                      <Form.Control as='textarea' row='3' value={reviewMessage} onChange={(e) => setReviewMessage(e.target.value)}></Form.Control>
+                    </Form.Group>
+                    <Button disabled={loadingProductReview} type='submit' variant='primary'>
+                      Submit
+                    </Button>
+                  </Form>
+                ) : (
+                  <Message>
+                    Please <Link to='/login'>sign in</Link> to write a review{' '}
+                  </Message>
+                )}
+              </ListGroup.Item>
             </Col>
           </Row>
         </>

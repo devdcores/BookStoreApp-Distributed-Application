@@ -25,7 +25,7 @@ import {
   PRODUCT_TOP_FAIL
 } from '../constants/productConstants';
 import { getErrorMessage } from '../service/CommonUtils';
-import { getAllProductsDetailApi, getProductDetailApi, getProductReviewsApi } from '../service/RestApiCalls';
+import { getAllProductsDetailApi, getProductDetailApi, getProductReviewsApi, createProductReviewApi } from '../service/RestApiCalls';
 
 export const listProductsAction = () => async (dispatch) => {
   try {
@@ -66,6 +66,7 @@ export const listProductReviewsAction = (productId) => async (dispatch) => {
     dispatch({ type: PRODUCT_REVIEWS_REQUEST });
     //Get Product Reviews
     const productReviews = await getProductReviewsApi(productId);
+
     dispatch({
       type: PRODUCT_REVIEWS_SUCCESS,
       payload: productReviews
@@ -73,6 +74,28 @@ export const listProductReviewsAction = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_REVIEWS_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const createProductReviewAction = (createProductReviewRequestBody) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_REQUEST
+    });
+
+    //Create Product Review
+    await createProductReviewApi(createProductReviewRequestBody);
+
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_SUCCESS
+    });
+    dispatch(listProductDetailsAction(createProductReviewRequestBody.productId));
+    dispatch(listProductReviewsAction(createProductReviewRequestBody.productId));
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_FAIL,
       payload: getErrorMessage(error)
     });
   }

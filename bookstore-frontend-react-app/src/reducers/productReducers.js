@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -21,6 +20,7 @@ import {
   PRODUCT_CREATE_REVIEW_REQUEST,
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_FAIL,
+  PRODUCT_CREATE_REVIEW_RESET,
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL
@@ -51,6 +51,7 @@ export const productDetailsReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
+
 export const productReviewsReducer = (state = { reviews: [] }, action) => {
   switch (action.type) {
     case PRODUCT_REVIEWS_REQUEST:
@@ -59,6 +60,21 @@ export const productReviewsReducer = (state = { reviews: [] }, action) => {
       return { loading: false, reviews: action.payload };
     case PRODUCT_REVIEWS_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const productReviewCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REVIEW_REQUEST:
+      return { loading: true };
+    case PRODUCT_CREATE_REVIEW_SUCCESS:
+      return { loading: false, success: true };
+    case PRODUCT_CREATE_REVIEW_FAIL:
+      return { loading: false, error: action.payload };
+    case PRODUCT_CREATE_REVIEW_RESET:
+      return {};
     default:
       return state;
   }

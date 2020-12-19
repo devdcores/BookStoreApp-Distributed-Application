@@ -119,6 +119,14 @@ export const getProductReviewsApi = async (productId) => {
   return responseData;
 };
 
+export const createProductReviewApi = async (createProductReviewRequestBody) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/catalog/review`, createProductReviewRequestBody, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
 export const getAllProductsDetailApi = async () => {
   const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products`).then((response) => {
     return response.data;

@@ -51,6 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         if (review.isPresent()) {
             Review updatedReview = review.get();
+            updatedReview.setRatingValue(createOrUpdateReviewRequest.getRatingValue());
             updatedReview.setReviewMessage(createOrUpdateReviewRequest.getReviewMessage());
             reviewRepository.save(updatedReview);
         } else {
