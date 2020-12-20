@@ -184,7 +184,14 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void deleteUserById(String userId) {
-    getUserByUserId(userId);
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String userName = (String) authentication.getPrincipal();
+    GetUserResponse userByUserId = getUserByUserId(userId);
+
+    if(userName.equals(userByUserId.getUserName())){
+      throw new RunTimeExceptionPlaceHolder("You cannot delete your own account!");
+    }
+
     userRepository.deleteByUserId(userId);
   }
 

@@ -219,7 +219,7 @@ export const deleteUserAction = (userId) => async (dispatch) => {
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {
     dispatch({
-      type: USER_UPDATE_PROFILE_FAIL,
+      type: USER_DELETE_FAIL,
       payload: getErrorMessage(error)
     });
   }
