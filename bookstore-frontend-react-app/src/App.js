@@ -1,6 +1,8 @@
 import { Container } from 'react-bootstrap';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
+import UserListScreen from "./screens/UserListScreen";
+import UserEditScreen from "./screens/UserEditScreen";
 import Footer from './components/Footer';
 import Header from './components/Header';
 import HomeScreen from './screens/HomeScreen';
@@ -32,6 +34,20 @@ function App() {
           <Route path='/register' component={RegisterScreen}></Route>
           <Route path='/product/:id' component={ProductScreen}></Route>
           <Route path='/cart/:id?' component={CartScreen}></Route>
+          <Route path='/admin/userlist' component={UserListScreen} />
+          <Route path='/admin/user/:id/edit' component={UserEditScreen} />
+          {/*<Route*/}
+          {/*  path='/admin/productlist'*/}
+          {/*  component={ProductListScreen}*/}
+          {/*  exact*/}
+          {/*/>*/}
+          {/*<Route*/}
+          {/*  path='/admin/productlist/:pageNumber'*/}
+          {/*  component={ProductListScreen}*/}
+          {/*  exact*/}
+          {/*/>*/}
+          {/*<Route path='/admin/product/:id/edit' component={ProductEditScreen} />*/}
+          {/*<Route path='/admin/orderlist' component={OrderListScreen} />*/}
           <Route path='/' component={HomeScreen} exact></Route>
         </Container>
       </main>

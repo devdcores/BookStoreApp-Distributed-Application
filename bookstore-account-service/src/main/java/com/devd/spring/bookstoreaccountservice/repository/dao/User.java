@@ -34,7 +34,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class User extends DateAudit {
 
   @ManyToMany(fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL)
+      cascade = CascadeType.DETACH)
   @JoinTable(name = "USER_ROLES",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "role_id")})

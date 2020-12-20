@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Col, Row, ListGroup, InputGroup, Spinner } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup, ListGroup, Row, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import CheckoutSteps from '../components/CheckoutSteps';
-import { savePaymentMethod, savePaymentMethodIdToLocalStorage } from '../actions/orderActions';
+import { savePaymentMethodIdToLocalStorage } from '../actions/orderActions';
 import { getMyPaymentMethodsAction, savePaymentMethodAction } from '../actions/paymentActions';
-import Message from '../components/Message';
+import CheckoutSteps from '../components/CheckoutSteps';
 import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const PaymentScreen = ({ history }) => {
   const order = useSelector((state) => state.order);
@@ -77,20 +77,25 @@ const PaymentScreen = ({ history }) => {
                           id={a.paymentMethodId}
                           value={paymentMethodId}
                           name='paymentMethod'
-                          checked={a.paymentMethodId === paymentMethodId ? true : false}
+                          checked={a.paymentMethodId === paymentMethodId}
                           onChange={(e) => {
                             console.log(a.paymentMethodId);
                             setPaymentMethodId(a.paymentMethodId);
-                          }}></Form.Check>
+                          }}
+                        ></Form.Check>
                       </Col>
                       <Col>
                         <div
                           className='p-2'
-                          style={{ whiteSpace: 'pre-wrap', backgroundColor: '#eeeeee' }}
+                          style={{
+                            whiteSpace: 'pre-wrap',
+                            backgroundColor: '#eeeeee'
+                          }}
                           onClick={(e) => {
                             console.log(a.paymentMethodId);
                             setPaymentMethodId(a.paymentMethodId);
-                          }}>
+                          }}
+                        >
                           <p className='m-0' style={{ textTransform: 'uppercase' }}>
                             {a.cardType}
                           </p>
@@ -120,7 +125,8 @@ const PaymentScreen = ({ history }) => {
                     placeholder='Card Number'
                     value={cardNumber}
                     required
-                    onChange={(e) => setCardNumber(e.target.value)}></Form.Control>
+                    onChange={(e) => setCardNumber(e.target.value)}
+                  ></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='expirationMonth'>
@@ -130,7 +136,8 @@ const PaymentScreen = ({ history }) => {
                     placeholder='Exp Month'
                     value={expirationMonth}
                     required
-                    onChange={(e) => setExpirationMonth(e.target.value)}></Form.Control>
+                    onChange={(e) => setExpirationMonth(e.target.value)}
+                  ></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='expirationYear'>
@@ -140,12 +147,19 @@ const PaymentScreen = ({ history }) => {
                     placeholder='Exp Year'
                     value={expirationYear}
                     required
-                    onChange={(e) => setExpirationYear(e.target.value)}></Form.Control>
+                    onChange={(e) => setExpirationYear(e.target.value)}
+                  ></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='cvv'>
                   <Form.Label>Cvv</Form.Label>
-                  <Form.Control type='password' placeholder='Cvv' value={cvv} required onChange={(e) => setCvv(e.target.value)}></Form.Control>
+                  <Form.Control
+                    type='password'
+                    placeholder='Cvv'
+                    value={cvv}
+                    required
+                    onChange={(e) => setCvv(e.target.value)}
+                  ></Form.Control>
                 </Form.Group>
               </Form>
             </Col>

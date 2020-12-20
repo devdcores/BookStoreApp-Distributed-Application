@@ -5,11 +5,15 @@ import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import com.devd.spring.bookstoreaccountservice.repository.dao.User;
+import com.devd.spring.bookstoreaccountservice.service.RoleService;
+import com.devd.spring.bookstoreaccountservice.service.UserRoleService;
 import com.devd.spring.bookstoreaccountservice.service.UserService;
 import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;
 import com.devd.spring.bookstoreaccountservice.web.GetUserInfoResponse;
 import com.devd.spring.bookstoreaccountservice.web.GetUserResponse;
+import com.devd.spring.bookstoreaccountservice.web.MapUserToRolesRequest;
 import com.devd.spring.bookstoreaccountservice.web.UpdateUserRequest;
+import com.devd.spring.bookstoreaccountservice.web.UpdateUserRequestFromAdmin;
 import com.devd.spring.bookstorecommons.exception.Error;
 import com.devd.spring.bookstorecommons.exception.ErrorResponse;
 import com.devd.spring.bookstorecommons.exception.RunTimeExceptionPlaceHolder;
@@ -32,14 +36,16 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
   @Autowired
-  BCryptPasswordEncoder passwordEncoder;
+  private BCryptPasswordEncoder passwordEncoder;
 
   @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  RoleRepository roleRepository;
+  private RoleRepository roleRepository;
 
+  @Autowired
+  private UserRoleService userRoleService;
 
   @Override
   public String createUser(CreateUserRequest createUserRequest) {
@@ -178,8 +184,64 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void deleteUserById(String userId) {
-//    getUserByUserId(userId);
+    getUserByUserId(userId);
     userRepository.deleteByUserId(userId);
+  }
+
+  @Override
+  public List<GetUserResponse> getAllUsers() {
+
+    Iterable<User> all = userRepository.findAll();
+    List<GetUserResponse> allUsers = new ArrayList<>();
+    all.iterator().forEachRemaining(u->{
+      GetUserResponse userResponse = GetUserResponse.builder()
+              .userId(u.getUserId())
+              .userName(u.getUserName())
+              .firstName(u.getFirstName())
+              .lastName(u.getLastName())
+              .email(u.getEmail())
+              .roles(u.getRoles())
+              .build();
+      allUsers.add(userResponse);
+    });
+
+    return allUsers;
+  }
+
+  @Override
+  public void updateUser(String userId, UpdateUserRequestFromAdmin updateUserRequestFromAdmin) {
+
+    Optional<User> existingUser = userRepository.findByUserId(userId);
+
+    User user = existingUser.orElseThrow(() ->
+            new RunTimeExceptionPlaceHolder("UserId doesn't exist!!")
+    );
+
+    if(updateUserRequestFromAdmin.getFirstName()!=null){
+      user.setFirstName(updateUserRequestFromAdmin.getFirstName());
+    }
+    if(updateUserRequestFromAdmin.getLastName()!=null){
+      user.setLastName(updateUserRequestFromAdmin.getLastName());
+    }
+    if(updateUserRequestFromAdmin.getEmail()!=null){
+      user.setEmail(updateUserRequestFromAdmin.getEmail());
+    }
+
+    if(updateUserRequestFromAdmin.isAdmin()){
+      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest();
+      List<String> list = new ArrayList<>();
+      list.add("ADMIN_USER");
+      mapUserToRolesRequest.setRoleNames(list);
+      userRoleService.mapUserToRoles(user.getUserName(), mapUserToRolesRequest);
+    }else{
+      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest();
+      List<String> list = new ArrayList<>();
+      list.add("ADMIN_USER");
+      mapUserToRolesRequest.setRoleNames(list);
+      userRoleService.removeRolesFromUser(user.getUserName(), mapUserToRolesRequest);
+    }
+
+    userRepository.save(user);
   }
 
 }

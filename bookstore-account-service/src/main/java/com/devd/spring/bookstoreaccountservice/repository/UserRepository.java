@@ -2,6 +2,8 @@ package com.devd.spring.bookstoreaccountservice.repository;
 
 
 import com.devd.spring.bookstoreaccountservice.repository.dao.User;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
@@ -24,4 +26,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
   Boolean existsByUserName(String userName);
 
   Boolean existsByEmail(String email);
+
 }

@@ -33,7 +33,11 @@ axios.interceptors.response.use(
 
         if (tokenParts.exp > now) {
           return axios
-            .post(`${BACKEND_API_GATEWAY_URL}/api/account/oauth/token?grant_type=refresh_token&refresh_token=${refreshToken}`, null, axiosConfig)
+            .post(
+              `${BACKEND_API_GATEWAY_URL}/api/account/oauth/token?grant_type=refresh_token&refresh_token=${refreshToken}`,
+              null,
+              axiosConfig
+            )
             .then((response) => {
               const userInfo = JSON.parse(localStorage.getItem('userInfo'));
               const updatedUserInfo = {
@@ -83,9 +87,11 @@ export const postLoginApi = async (loginRequestBody) => {
     }
   };
   const loginRequestBodyEncoded = qs.stringify(loginRequestBody);
-  const responseData = await axios.post(`${BACKEND_API_GATEWAY_URL}/api/account/oauth/token`, loginRequestBodyEncoded, axiosConfig).then((response) => {
-    return response.data;
-  });
+  const responseData = await axios
+    .post(`${BACKEND_API_GATEWAY_URL}/api/account/oauth/token`, loginRequestBodyEncoded, axiosConfig)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 
@@ -97,9 +103,43 @@ export const getUserInfoApi = async () => {
   return responseData;
 };
 
+export const getUserApi = async (userId) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = await axios.get(`${BACKEND_API_GATEWAY_URL}/api/account/user?userId=${userId}`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
 export const putUserInfoApi = async (userInfoRequestBody) => {
   const axiosConfig = getAxiosConfig();
-  const responseData = await axios.put(`${BACKEND_API_GATEWAY_URL}/api/account/userInfo`, userInfoRequestBody, axiosConfig).then((response) => {
+  const responseData = await axios
+    .put(`${BACKEND_API_GATEWAY_URL}/api/account/userInfo`, userInfoRequestBody, axiosConfig)
+    .then((response) => {
+      return response.data;
+    });
+  return responseData;
+};
+
+export const getAllUsersApi = async () => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/account/users`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const deleteUserApi = async (userId) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = axios.delete(`${BACKEND_API_GATEWAY_URL}/api/account/user/${userId}`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const updateUserApi = async (userId, userUpdateRequestBody) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = await axios.put(`${BACKEND_API_GATEWAY_URL}/api/account/user/${userId}`, userUpdateRequestBody, axiosConfig).then((response) => {
     return response.data;
   });
   return responseData;
@@ -121,9 +161,11 @@ export const getProductReviewsApi = async (productId) => {
 
 export const createProductReviewApi = async (createProductReviewRequestBody) => {
   const axiosConfig = getAxiosConfig();
-  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/catalog/review`, createProductReviewRequestBody, axiosConfig).then((response) => {
-    return response.data;
-  });
+  const responseData = axios
+    .post(`${BACKEND_API_GATEWAY_URL}/api/catalog/review`, createProductReviewRequestBody, axiosConfig)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 
@@ -136,9 +178,11 @@ export const getAllProductsDetailApi = async () => {
 
 export const addToCartApi = async (addToCartRequestBody) => {
   const axiosConfig = getAxiosConfig();
-  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/order/cart/cartItem`, addToCartRequestBody, axiosConfig).then((response) => {
-    return response.data;
-  });
+  const responseData = axios
+    .post(`${BACKEND_API_GATEWAY_URL}/api/order/cart/cartItem`, addToCartRequestBody, axiosConfig)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 
@@ -176,9 +220,11 @@ export const getAllMyOrdersApi = async () => {
 
 export const previewOrderApi = async (previewOrderRequestBody) => {
   const axiosConfig = getAxiosConfig();
-  const responseData = axios.post(`${BACKEND_API_GATEWAY_URL}/api/order/previewOrder`, previewOrderRequestBody, axiosConfig).then((response) => {
-    return response.data;
-  });
+  const responseData = axios
+    .post(`${BACKEND_API_GATEWAY_URL}/api/order/previewOrder`, previewOrderRequestBody, axiosConfig)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 

@@ -74,9 +74,14 @@ const OrderScreen = ({ match, history }) => {
                   </p>
                   <p>
                     <strong>Address:</strong>
-                    {order.shippingAddress.addressLine1}, {order.shippingAddress.city} {order.shippingAddress.postalCode}, {order.shippingAddress.country}
+                    {order.shippingAddress.addressLine1}, {order.shippingAddress.city} {order.shippingAddress.postalCode},{' '}
+                    {order.shippingAddress.country}
                   </p>
-                  {order.delivered ? <Message variant='success'>Delivered on {order.deliveredAt}</Message> : <Message variant='danger'>Not Delivered</Message>}
+                  {order.delivered ? (
+                    <Message variant='success'>Delivered on {order.deliveredAt}</Message>
+                  ) : (
+                    <Message variant='danger'>Not Delivered</Message>
+                  )}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -85,7 +90,11 @@ const OrderScreen = ({ match, history }) => {
                     <strong>Method: </strong>
                     {order.card.cardBrand.toUpperCase()} - **** **** **** {order.card.last4Digits}
                   </p>
-                  {order.paid ? <Message variant='success'>Paid on {order.paymentDate}</Message> : <Message variant='danger'>Not Paid</Message>}
+                  {order.paid ? (
+                    <Message variant='success'>Paid on {order.paymentDate}</Message>
+                  ) : (
+                    <Message variant='danger'>Not Paid</Message>
+                  )}
 
                   <p>
                     <strong>Payment Receipt : </strong>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Form, Button, Row, Col } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import { getUserDetails, updateUserProfile } from '../actions/userActions';
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
-import FullPageLoader from '../components/FullPageLoader';
+import { LinkContainer } from 'react-router-bootstrap';
 import { listMyOrdersAction } from '../actions/orderActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import FullPageLoader from '../components/FullPageLoader';
+import Message from '../components/Message';
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const ProfileScreen = ({ history }) => {
   const [firstName, setFirstName] = useState('');
@@ -66,12 +66,22 @@ const ProfileScreen = ({ history }) => {
         <Form onSubmit={userProfileUpdateHandler}>
           <Form.Group controlId='firstName'>
             <Form.Label>First Name</Form.Label>
-            <Form.Control type='firstName' placeholder='Enter First Name' value={firstName} onChange={(e) => setFirstName(e.target.value)}></Form.Control>
+            <Form.Control
+              type='firstName'
+              placeholder='Enter First Name'
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Form.Group controlId='lastName'>
             <Form.Label>Last Name</Form.Label>
-            <Form.Control type='lastName' placeholder='Enter Last Name' value={lastName} onChange={(e) => setLastName(e.target.value)}></Form.Control>
+            <Form.Control
+              type='lastName'
+              placeholder='Enter Last Name'
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Form.Group controlId='email'>
@@ -81,7 +91,12 @@ const ProfileScreen = ({ history }) => {
 
           <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
-            <Form.Control type='password' placeholder='Enter password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
+            <Form.Control
+              type='password'
+              placeholder='Enter password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Form.Group controlId='confirmPassword'>
@@ -90,7 +105,8 @@ const ProfileScreen = ({ history }) => {
               type='password'
               placeholder='Confirm password'
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Button type='submit' variant='primary'>
@@ -121,7 +137,9 @@ const ProfileScreen = ({ history }) => {
                   <td>{order.created_at}</td>
                   <td>{order.totalPrice}</td>
                   <td>{order.paid ? order.paymentDate?.substring(0, 10) : <i className='fas fa-times' style={{ color: 'red' }}></i>}</td>
-                  <td>{order.delivered ? order.deliveredDate?.substring(0, 10) : <i className='fas fa-times' style={{ color: 'red' }}></i>}</td>
+                  <td>
+                    {order.delivered ? order.deliveredDate?.substring(0, 10) : <i className='fas fa-times' style={{ color: 'red' }}></i>}
+                  </td>
                   <td>
                     <LinkContainer to={`/order/${order.orderId}`}>
                       <Button className='btn-sm' variant='light'>
@@ -135,7 +153,7 @@ const ProfileScreen = ({ history }) => {
           </Table>
         )}
       </Col>
-      {(loadingUserDetails || loadingUpdateUserDetails || loadingOrderListMy) && <FullPageLoader></FullPageLoader>}
+      {(loadingUserDetails || loadingUpdateUserDetails || loadingOrderListMy) && <FullPageLoader />}
     </Row>
   );
 };

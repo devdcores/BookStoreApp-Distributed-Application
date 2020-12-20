@@ -35,12 +35,21 @@ const LoginScreen = (props) => {
         <Form onSubmit={loginSubmitHandler}>
           <Form.Group controlId='userNameOrEmail'>
             <Form.Label>Email Address</Form.Label>
-            <Form.Control placeholder='Username or Email' value={userNameOrEmail} onChange={(e) => setUserNameOrEmail(e.target.value)}></Form.Control>
+            <Form.Control
+              placeholder='Username or Email'
+              value={userNameOrEmail}
+              onChange={(e) => setUserNameOrEmail(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
-            <Form.Control placeholder='Password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
+            <Form.Control
+              placeholder='Password'
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Button type='submit' variant='primary'>

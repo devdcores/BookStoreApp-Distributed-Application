@@ -64,7 +64,13 @@ const RegisterScreen = (props) => {
 
           <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
-            <Form.Control required placeholder='Password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
+            <Form.Control
+              required
+              placeholder='Password'
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Form.Group controlId='password'>
@@ -74,7 +80,8 @@ const RegisterScreen = (props) => {
               placeholder='Confirm Password'
               type='password'
               value={confirmPassword}
-              onChange={(e) => setconfirmPassword(e.target.value)}></Form.Control>
+              onChange={(e) => setconfirmPassword(e.target.value)}
+            ></Form.Control>
           </Form.Group>
 
           <Button type='submit' variant='primary'>

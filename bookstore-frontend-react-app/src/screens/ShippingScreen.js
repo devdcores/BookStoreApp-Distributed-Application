@@ -43,7 +43,15 @@ const ShippingScreen = ({ history }) => {
 
   const saveAddressHandler = async (e) => {
     e.preventDefault();
-    const addressRequestBody = { addressLine1, addressLine2, city, state, postalCode, country, phone };
+    const addressRequestBody = {
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      postalCode,
+      country,
+      phone
+    };
     setAddressLine1('');
     setAddressLine2('');
     setCity('');
@@ -108,18 +116,23 @@ const ShippingScreen = ({ history }) => {
                                 setShippingAddressId(a.addressId);
                               }
                               setBillingAddressId(a.addressId);
-                            }}></Form.Check>
+                            }}
+                          ></Form.Check>
                         </Col>
                         <Col>
                           <div
                             className='p-2'
-                            style={{ whiteSpace: 'pre-wrap', backgroundColor: '#eeeeee' }}
+                            style={{
+                              whiteSpace: 'pre-wrap',
+                              backgroundColor: '#eeeeee'
+                            }}
                             onClick={() => {
                               if (shippingCheckbox) {
                                 setShippingAddressId(a.addressId);
                               }
                               setBillingAddressId(a.addressId);
-                            }}>
+                            }}
+                          >
                             <p className='m-0'>{a.addressLine1} </p>
                             <p className='m-0'>{a.addressLine2}</p>
                             <p className='m-0'>
@@ -166,16 +179,21 @@ const ShippingScreen = ({ history }) => {
                                 onChange={(e) => {
                                   console.log(a.addressId);
                                   setShippingAddressId(a.addressId);
-                                }}></Form.Check>
+                                }}
+                              ></Form.Check>
                             </Col>
                             <Col>
                               <div
                                 className='p-2'
-                                style={{ whiteSpace: 'pre-wrap', backgroundColor: '#eeeeee' }}
+                                style={{
+                                  whiteSpace: 'pre-wrap',
+                                  backgroundColor: '#eeeeee'
+                                }}
                                 onClick={(e) => {
                                   console.log(a.addressId);
                                   setShippingAddressId(a.addressId);
-                                }}>
+                                }}
+                              >
                                 <p className='m-0'>{a.addressLine1} </p>
                                 <p className='m-0'>{a.addressLine2}</p>
                                 <p className='m-0'>{a.city}</p>
@@ -214,7 +232,8 @@ const ShippingScreen = ({ history }) => {
                       required
                       placeholder='Enter address line 1'
                       value={addressLine1}
-                      onChange={(e) => setAddressLine1(e.target.value)}></Form.Control>
+                      onChange={(e) => setAddressLine1(e.target.value)}
+                    ></Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId='addressLine2'>
@@ -223,17 +242,30 @@ const ShippingScreen = ({ history }) => {
                       type='text'
                       placeholder='Enter address line 2'
                       value={addressLine2}
-                      onChange={(e) => setAddressLine2(e.target.value)}></Form.Control>
+                      onChange={(e) => setAddressLine2(e.target.value)}
+                    ></Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId='city'>
                     <Form.Label>City</Form.Label>
-                    <Form.Control type='text' placeholder='Enter city' value={city} required onChange={(e) => setCity(e.target.value)}></Form.Control>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter city'
+                      value={city}
+                      required
+                      onChange={(e) => setCity(e.target.value)}
+                    ></Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId='state'>
                     <Form.Label>State</Form.Label>
-                    <Form.Control type='text' placeholder='Enter State' value={state} required onChange={(e) => setState(e.target.value)}></Form.Control>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter State'
+                      value={state}
+                      required
+                      onChange={(e) => setState(e.target.value)}
+                    ></Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId='country'>
@@ -502,18 +534,28 @@ const ShippingScreen = ({ history }) => {
                       placeholder='Enter postal code'
                       value={postalCode}
                       required
-                      onChange={(e) => setPostalCode(e.target.value)}></Form.Control>
+                      onChange={(e) => setPostalCode(e.target.value)}
+                    ></Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId='phone'>
                     <Form.Label>Phone</Form.Label>
-                    <Form.Control type='number' placeholder='Enter Phone number' value={phone} onChange={(e) => setPhone(e.target.value)}></Form.Control>
+                    <Form.Control
+                      type='number'
+                      placeholder='Enter Phone number'
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    ></Form.Control>
                   </Form.Group>
                 </Col>
               </Row>
               <Row className='mx-5 justify-content-md-center'>
                 <Button type='submit' variant='primary' disabled={addressSaveLoading}>
-                  {addressSaveLoading ? <Spinner as='span' animation='border' size='sm' role='status' aria-hidden='true' /> : <>Add New Address</>}
+                  {addressSaveLoading ? (
+                    <Spinner as='span' animation='border' size='sm' role='status' aria-hidden='true' />
+                  ) : (
+                    <>Add New Address</>
+                  )}
                 </Button>
               </Row>
             </Form>

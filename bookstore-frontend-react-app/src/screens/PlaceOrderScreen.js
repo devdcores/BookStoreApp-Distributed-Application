@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
+import { placeOrderAction, previewOrderAction } from '../actions/orderActions';
 import CheckoutSteps from '../components/CheckoutSteps';
+import Message from '../components/Message';
 import OrderItem from '../components/OrderItem';
-import { previewOrderAction, placeOrderAction } from '../actions/orderActions';
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 // import { USER_DETAILS_RESET } from '../constants/userConstants';
 

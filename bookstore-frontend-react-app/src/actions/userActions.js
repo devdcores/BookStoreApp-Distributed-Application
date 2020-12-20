@@ -25,7 +25,7 @@ import {
   USER_UPDATE_REQUEST
 } from '../constants/userConstants';
 
-import { getUserInfoApi, postLoginApi, postSignupApi, putUserInfoApi } from '../service/RestApiCalls';
+import { getUserInfoApi, postLoginApi, postSignupApi, putUserInfoApi, deleteUserApi, getAllUsersApi, getUserApi, updateUserApi} from '../service/RestApiCalls';
 import { getErrorMessage } from '../service/CommonUtils';
 
 export const login = (usernameOrEmail, password) => async (dispatch) => {
@@ -129,14 +129,20 @@ export const register = (userName, firstName, email, password) => async (dispatc
   }
 };
 
-export const getUserDetails = () => async (dispatch) => {
+export const getUserDetails = (userId) => async (dispatch) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST
     });
 
-    //Get UserInfo
-    const userInfoResponse = await getUserInfoApi();
+    let userInfoResponse;
+    if (userId) {
+      userInfoResponse = await getUserApi(userId);
+    } else {
+      //Get UserInfo
+      userInfoResponse = await getUserInfoApi();
+    }
+
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -176,6 +182,69 @@ export const updateUserProfile = (user) => async (dispatch) => {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
       payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const listUsersAction = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST
+    });
+
+    //list  users
+    const listUsersResponse = await getAllUsersApi();
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: listUsersResponse
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const deleteUserAction = (userId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST
+    });
+
+    //Delete User
+    await deleteUserApi(userId);
+
+    dispatch({ type: USER_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const updateUserAction = (userId, userUpdateRequestBody) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_REQUEST
+    });
+
+    //Update User
+    await updateUserApi(userId, userUpdateRequestBody);
+
+    dispatch({ type: USER_UPDATE_SUCCESS });
+
+    dispatch(listUsersAction());
+  } catch (error) {
+    const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload: message
     });
   }
 };

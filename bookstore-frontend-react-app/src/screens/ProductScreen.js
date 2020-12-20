@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
-import Message from '../components/Message';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Rating from '../components/Rating';
-import { listProductDetailsAction, listProductReviewsAction, createProductReviewAction } from '../actions/productActions';
-import FullPageLoader from '../components/FullPageLoader';
+import FullPageLoader from "../components/FullPageLoader";
+import { createProductReviewAction, listProductDetailsAction, listProductReviewsAction } from '../actions/productActions';
 import Loader from '../components/Loader';
+import Message from '../components/Message';
+import Rating from '../components/Rating';
 
 const ProductScreen = (props) => {
   const [qty, setQty] = useState(1);
@@ -59,7 +59,12 @@ const ProductScreen = (props) => {
           <Row>
             <Col md={6}>
               <div style={{ minWidth: '100%', height: '400px' }}>
-                <Image style={{ height: '100%', width: '100%' }} src='https://source.unsplash.com/random?book' alt={product.prductName} fluid></Image>
+                <Image
+                  style={{ height: '100%', width: '100%' }}
+                  src='https://source.unsplash.com/random?book'
+                  alt={product.prductName}
+                  fluid
+                ></Image>
               </div>
             </Col>
             <Col md={3} style={{ borderLeft: '1px solid #eee' }}>
@@ -125,7 +130,13 @@ const ProductScreen = (props) => {
               </Card>
             </Col>
           </Row>
-          <Row className='m-4 p-4' style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee' }}>
+          <Row
+            className='m-4 p-4'
+            style={{
+              borderTop: '1px solid #eee',
+              borderBottom: '1px solid #eee'
+            }}
+          >
             <Col md={6}>
               <h2>Reviews</h2>
               {reviews?.length === 0 && <Message>No Reviews</Message>}
@@ -161,7 +172,12 @@ const ProductScreen = (props) => {
                     </Form.Group>
                     <Form.Group controlId='reviewMessage'>
                       <Form.Label>Review</Form.Label>
-                      <Form.Control as='textarea' row='3' value={reviewMessage} onChange={(e) => setReviewMessage(e.target.value)}></Form.Control>
+                      <Form.Control
+                        as='textarea'
+                        row='3'
+                        value={reviewMessage}
+                        onChange={(e) => setReviewMessage(e.target.value)}
+                      ></Form.Control>
                     </Form.Group>
                     <Button disabled={loadingProductReview} type='submit' variant='primary'>
                       Submit

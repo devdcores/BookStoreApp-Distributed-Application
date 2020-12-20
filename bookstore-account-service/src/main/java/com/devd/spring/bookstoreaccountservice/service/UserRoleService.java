@@ -10,5 +10,7 @@ public interface UserRoleService {
 
   void mapUserToRoles(String userNameOrEmail, MapUserToRolesRequest mapUserToRolesRequest);
 
+  void removeRolesFromUser(String userNameOrEmail, MapUserToRolesRequest mapUserToRolesRequest);
+
   void mapRoleToUsers(String roleName, MapRoleToUsersRequest mapRoleToUsersRequest);
 }

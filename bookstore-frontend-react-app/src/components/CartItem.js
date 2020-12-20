@@ -32,7 +32,12 @@ const CartItem = ({ item, addToCart }) => {
         <ListGroup.Item key={item.productId}>
           <Row>
             <Col md={2}>
-              <Image src={`https://source.unsplash.com/random/500x500?sig=${getRandomNumber()}`} alt={item.productName} fluid rounded></Image>
+              <Image
+                src={`https://source.unsplash.com/random/500x500?sig=${getRandomNumber()}`}
+                alt={item.productName}
+                fluid
+                rounded
+              ></Image>
             </Col>
             <Col md={3} className='pt-4'>
               <Link to={`/product/${item.productId}`}>{item.productName}</Link>

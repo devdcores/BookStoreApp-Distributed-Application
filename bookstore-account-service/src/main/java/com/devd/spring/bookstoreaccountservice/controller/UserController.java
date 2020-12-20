@@ -5,10 +5,12 @@ import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;
 import com.devd.spring.bookstoreaccountservice.web.GetUserInfoResponse;
 import com.devd.spring.bookstoreaccountservice.web.GetUserResponse;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 
 import com.devd.spring.bookstoreaccountservice.web.UpdateUserRequest;
+import com.devd.spring.bookstoreaccountservice.web.UpdateUserRequestFromAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +64,22 @@ public class UserController {
     return ResponseEntity.ok(user);
   }
 
+  @PutMapping("/user/{userId}")
+  @PreAuthorize("hasAuthority('ADMIN_USER')")
+  public ResponseEntity<?> updateUser(@PathVariable("userId") String userId,
+                                      @RequestBody @Valid UpdateUserRequestFromAdmin updateUserRequestFromAdmin) {
+
+    userService.updateUser(userId,updateUserRequestFromAdmin);
+    return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/users")
+  @PreAuthorize("hasAuthority('ADMIN_USER')")
+  public ResponseEntity<List<GetUserResponse>> getAllUsers() {
+    List<GetUserResponse> allUsers = userService.getAllUsers();
+    return ResponseEntity.ok(allUsers);
+  }
+
   @GetMapping("/userInfo")
   public ResponseEntity<GetUserInfoResponse> getUserInfo() {
     GetUserInfoResponse userInfo = userService.getUserInfo();
@@ -81,5 +99,4 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  //TODO CRUD for user
 }
