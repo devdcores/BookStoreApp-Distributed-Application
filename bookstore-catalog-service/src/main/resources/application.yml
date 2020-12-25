@@ -25,6 +25,10 @@ spring:
     allow-bean-definition-overriding: true
   hateoas:
     use-hal-as-default-json-media-type: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 logging:
   level:

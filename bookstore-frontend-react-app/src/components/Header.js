@@ -16,7 +16,12 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar className='navbar navbar-expand-lg navbar-dark bg-dark' collapseOnSelect>
+      <Navbar style={{
+        background: 'linear-gradient(142deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 68%, rgba(252,176,69,1) 100%)',
+        border: '0',
+        color: '#00000'
+
+      }} className='navbar navbar-expand-lg navbar-dark' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand className='bookstore-brand'>BookStore</Navbar.Brand>

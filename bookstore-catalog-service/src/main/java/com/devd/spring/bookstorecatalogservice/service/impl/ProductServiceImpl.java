@@ -59,6 +59,7 @@ public class ProductServiceImpl implements ProductService {
                 .availableItemCount(createProductRequest.getAvailableItemCount())
                 .price(createProductRequest.getPrice())
                 .productCategory(productCategory)
+                .imageId(createProductRequest.getImageId())
                 .build();
 
 
@@ -99,30 +100,46 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProduct(UpdateProductRequest updateProductRequest) {
 
-        Optional<ProductCategory> productCategoryOptional =
-                productCategoryRepository.findById(updateProductRequest.getProductCategoryId());
-
-        //check weather product category exists
-        ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
-
         Optional<Product> productOptional =
                 productRepository.findById(updateProductRequest.getProductId());
 
         //check weather product exists
         final Product productExisting = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
 
-        Product product = Product.builder()
-                                 .productId(updateProductRequest.getProductId())
-                                 .productName(updateProductRequest.getProductName())
-                                 .description(updateProductRequest.getDescription())
-                                 .availableItemCount(updateProductRequest.getAvailableItemCount())
-                                 .price(updateProductRequest.getPrice())
-                                 .productCategory(productCategory)
-                                 .build();
+        productExisting.setProductId(updateProductRequest.getProductId());
 
-        product.setCreated_at(productExisting.getCreated_at());
+        if (updateProductRequest.getProductName() != null) {
+            productExisting.setProductName(updateProductRequest.getProductName());
+        }
 
-        productRepository.save(product);
+        if (updateProductRequest.getDescription() != null) {
+            productExisting.setDescription(updateProductRequest.getDescription());
+        }
+
+        if (updateProductRequest.getPrice() != null) {
+            productExisting.setPrice(updateProductRequest.getPrice());
+        }
+
+        if (updateProductRequest.getImageId() != null) {
+            productExisting.setImageId(updateProductRequest.getImageId());
+        }
+
+        if (updateProductRequest.getProductCategoryId() != null) {
+            Optional<ProductCategory> productCategoryOptional =
+                    productCategoryRepository.findById(updateProductRequest.getProductCategoryId());
+
+            //check weather product category exists
+            ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
+            productExisting.setProductCategory(productCategory);
+        }
+
+        if (updateProductRequest.getAvailableItemCount() != null) {
+            productExisting.setAvailableItemCount(updateProductRequest.getAvailableItemCount());
+        }
+
+        productExisting.setCreatedAt(productExisting.getCreatedAt());
+
+        productRepository.save(productExisting);
     }
 
     @Override

@@ -185,7 +185,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         createOrderResponse.setOrderId(save.getOrderId());
-        createOrderResponse.setCreated_at(save.getCreated_at());
+        createOrderResponse.setCreated_at(save.getCreatedAt());
 
         //set Payment info
         createOrderResponse.setPaid(createPaymentResponse.isCaptured());
@@ -340,7 +340,7 @@ public class OrderServiceImpl implements OrderService {
                     .paymentReceiptUrl(o.getPaymentReceiptUrl())
                     .taxPrice(o.getTaxPrice())
                     .totalPrice(o.getTotalOrderPrice())
-                    .created_at(o.getCreated_at())
+                    .created_at(o.getCreatedAt())
                     .build();
             createOrderResponseList.add(createOrderResponse);
         });

@@ -13,6 +13,10 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 zuul:
   sensitiveHeaders:

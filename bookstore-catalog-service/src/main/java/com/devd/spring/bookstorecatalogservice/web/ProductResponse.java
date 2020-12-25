@@ -20,5 +20,6 @@ public class ProductResponse {
     private int availableItemCount;
     private Double averageRating;
     private int noOfRatings;
+    private String imageId;
 
 }

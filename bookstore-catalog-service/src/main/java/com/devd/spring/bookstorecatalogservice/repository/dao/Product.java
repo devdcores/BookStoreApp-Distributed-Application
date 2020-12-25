@@ -45,6 +45,9 @@ public class Product extends DateAudit {
     private String description;
     private double price;
 
+    @Column(name = "PRODUCT_IMAGE_ID")
+    private String imageId;
+
     @ManyToOne
     @JoinColumn(name = "PRODUCT_CATEGORY_ID")
     private ProductCategory productCategory;

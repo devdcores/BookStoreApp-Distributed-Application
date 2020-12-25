@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Rating from './Rating';
 import { Link } from 'react-router-dom';
+import { getImageApi } from '../service/RestApiCalls';
 
 const Product = (props) => {
   const product = props.product;
-  const getRandomNumber = () => {
-    return Math.floor(Math.random() * 10);
-  };
+  const [productimageBase64, setProductimageBase64] = useState('');
+
+  useEffect(async () => {
+    if (product?.imageId) {
+      setProductimageBase64(await getImageApi(product?.imageId));
+    }
+  }, []);
 
   return (
     <>
       <Card className='my-3 rounded'>
         <Link to={`/product/${product.productId}`}>
-          <Card.Img src={`https://source.unsplash.com/random/500x500?book,sig=${getRandomNumber()}`} variant='top'></Card.Img>
+          <Card.Img
+            src={`data:image/png;base64, ${productimageBase64}`}
+            variant='top'
+            style={{ minWidth: '100%', height: '200px' }}
+          ></Card.Img>
         </Link>
         <Card.Body>
           <Link to={`/product/${product.productId}`}>

@@ -21,19 +21,17 @@ public class UpdateProductRequest {
     @NotEmpty(message = "productId should not be empty!")
     private String productId;
 
-    @NotNull(message = "productName should not be null!")
-    @NotEmpty(message = "productName should not be empty!")
     private String productName;
 
     private String description;
 
     @Min(value = 0)
-    private double price;
+    private Double price;
 
-    @NotNull(message = "productCategoryId should not be null!")
-    @NotEmpty(message = "productCategoryId should not be empty!")
+    private String imageId;
+
     private String productCategoryId;
 
-    private int availableItemCount;
+    private Integer availableItemCount;
 
 }

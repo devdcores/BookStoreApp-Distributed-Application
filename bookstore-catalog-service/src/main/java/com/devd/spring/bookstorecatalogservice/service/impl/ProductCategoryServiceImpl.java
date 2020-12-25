@@ -68,7 +68,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                 .description(updateProductCategoryRequest.getDescription())
                 .build();
 
-        productCategory.setCreated_at(getProductCategory.getCreated_at());
+        productCategory.setCreatedAt(getProductCategory.getCreatedAt());
 
         productCategoryRepository.save(productCategory);
 

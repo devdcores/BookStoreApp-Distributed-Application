@@ -70,7 +70,7 @@ public class ProductController {
 
     @PutMapping("/product")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public ResponseEntity<?> updateProductCategory(@RequestBody @Valid UpdateProductRequest updateProductRequest) {
+    public ResponseEntity<?> updateProduct(@RequestBody @Valid UpdateProductRequest updateProductRequest) {
 
         productService.updateProduct(updateProductRequest);
 

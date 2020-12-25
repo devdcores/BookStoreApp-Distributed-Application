@@ -5,7 +5,6 @@ import com.devd.spring.bookstoreaccountservice.repository.RoleRepository;
 import com.devd.spring.bookstoreaccountservice.repository.UserRepository;
 import com.devd.spring.bookstoreaccountservice.repository.dao.Role;
 import com.devd.spring.bookstoreaccountservice.repository.dao.User;
-import com.devd.spring.bookstoreaccountservice.service.RoleService;
 import com.devd.spring.bookstoreaccountservice.service.UserRoleService;
 import com.devd.spring.bookstoreaccountservice.service.UserService;
 import com.devd.spring.bookstoreaccountservice.web.CreateUserRequest;

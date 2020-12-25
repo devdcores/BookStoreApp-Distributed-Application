@@ -22,19 +22,32 @@ import {
   PRODUCT_CREATE_REVIEW_FAIL,
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
-  PRODUCT_TOP_FAIL
+  PRODUCT_TOP_FAIL,
+  PRODUCT_IMAGE_REQUEST,
+  PRODUCT_IMAGE_SUCCESS,
+  PRODUCT_IMAGE_FAIL
 } from '../constants/productConstants';
 import { getErrorMessage } from '../service/CommonUtils';
-import { getAllProductsDetailApi, getProductDetailApi, getProductReviewsApi, createProductReviewApi } from '../service/RestApiCalls';
+import {
+  getAllProductsDetailApi,
+  getProductDetailApi,
+  getProductReviewsApi,
+  createProductReviewApi,
+  updateProductDetailApi,
+  createProductApi,
+  deleteProductApi,
+  getImageApi
+} from '../service/RestApiCalls';
 
-export const listProductsAction = () => async (dispatch) => {
+export const listProductsAction = (pageNumber) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     //Get All Products Detail
-    const allProductsDetail = await getAllProductsDetailApi();
+    const allProductsDetail = await getAllProductsDetailApi(pageNumber || 0);
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
-      payload: allProductsDetail.page.content
+      payload: allProductsDetail.page.content,
+      pageResponse: allProductsDetail.page
     });
   } catch (error) {
     dispatch({
@@ -79,7 +92,25 @@ export const listProductReviewsAction = (productId) => async (dispatch) => {
   }
 };
 
-export const createProductReviewAction = (createProductReviewRequestBody) => async (dispatch, getState) => {
+export const getImageAction = (imageId) => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_IMAGE_REQUEST });
+    //Get Product Reviews
+    const base64Image = await getImageApi(imageId);
+
+    dispatch({
+      type: PRODUCT_IMAGE_SUCCESS,
+      payload: base64Image
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_IMAGE_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const createProductReviewAction = (createProductReviewRequestBody) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REVIEW_REQUEST
@@ -97,6 +128,79 @@ export const createProductReviewAction = (createProductReviewRequestBody) => asy
     dispatch({
       type: PRODUCT_CREATE_REVIEW_FAIL,
       payload: getErrorMessage(error)
+    });
+  }
+};
+
+export const deleteProductAction = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PRODUCT_DELETE_REQUEST
+    });
+
+    //Delete Product
+    await deleteProductApi(productReqBody);
+
+    dispatch({
+      type: PRODUCT_DELETE_SUCCESS
+    });
+  } catch (error) {
+    const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: PRODUCT_DELETE_FAIL,
+      payload: message
+    });
+  }
+};
+
+export const createProductAction = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: PRODUCT_CREATE_REQUEST
+    });
+
+    //Create Product
+    await createProductApi(productReqBody);
+
+    dispatch({
+      type: PRODUCT_CREATE_SUCCESS
+    });
+  } catch (error) {
+    const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: PRODUCT_CREATE_FAIL,
+      payload: message
+    });
+  }
+};
+
+export const updateProductAction = (productReqBody) => async (dispatch) => {
+  try {
+    dispatch({
+      type: PRODUCT_UPDATE_REQUEST
+    });
+
+    //Update Product
+    await updateProductDetailApi(productReqBody);
+
+    dispatch({
+      type: PRODUCT_UPDATE_SUCCESS
+    });
+    dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: PRODUCT_UPDATE_FAIL,
+      payload: message
     });
   }
 };

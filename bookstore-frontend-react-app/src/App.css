@@ -47,3 +47,34 @@ p {
   z-index: 10000;
   position: absolute;
 }
+
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+}
+
+.page-item.active {
+  z-index: 3;
+  color: #fff;
+  background-color: #d9230f;
+  border-color: #d9230f;
+}
+
+.page-item:first-child .page-link {
+  margin-left: 0;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #d9230f;
+  background-color: #fff;
+  border: 1px solid #eee;
+}

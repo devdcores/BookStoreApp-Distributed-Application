@@ -139,9 +139,11 @@ export const deleteUserApi = async (userId) => {
 
 export const updateUserApi = async (userId, userUpdateRequestBody) => {
   const axiosConfig = getAxiosConfig();
-  const responseData = await axios.put(`${BACKEND_API_GATEWAY_URL}/api/account/user/${userId}`, userUpdateRequestBody, axiosConfig).then((response) => {
-    return response.data;
-  });
+  const responseData = await axios
+    .put(`${BACKEND_API_GATEWAY_URL}/api/account/user/${userId}`, userUpdateRequestBody, axiosConfig)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 
@@ -149,6 +151,32 @@ export const getProductDetailApi = async (productId) => {
   const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/product/${productId}`).then((response) => {
     return response.data;
   });
+  return responseData;
+};
+
+export const createProductApi = async (productReqBody) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = await axios.post(`${BACKEND_API_GATEWAY_URL}/api/catalog/product`, productReqBody, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const updateProductDetailApi = async (productReqBody) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = await axios.put(`${BACKEND_API_GATEWAY_URL}/api/catalog/product`, productReqBody, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const deleteProductApi = async (productId) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = await axios
+    .delete(`${BACKEND_API_GATEWAY_URL}/api/catalog/product/${productId}`, productReqBody, axiosConfig)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 
@@ -169,10 +197,34 @@ export const createProductReviewApi = async (createProductReviewRequestBody) => 
   return responseData;
 };
 
-export const getAllProductsDetailApi = async () => {
-  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products`).then((response) => {
+export const uploadImageApi = async (axiosConfig, formData) => {
+  const accessToken = JSON.parse(localStorage.getItem('userInfo'))?.token;
+
+  if (accessToken) {
+    axiosConfig.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  const responseData = await axios.post(`${BACKEND_API_GATEWAY_URL}/api/catalog/image/upload`, formData, axiosConfig).then((response) => {
+    console.log('Resp ::', response.data);
     return response.data;
   });
+  return responseData;
+};
+
+export const getImageApi = async (imageId) => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/image/${imageId}`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const getAllProductsDetailApi = async (pageNumber) => {
+  const responseData = axios
+    .get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products?sort=updatedAt,DESC&page=${pageNumber}&size=8`)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 

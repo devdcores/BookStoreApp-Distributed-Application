@@ -26,6 +26,8 @@ public class CreateProductRequest {
     @Min(value = 0)
     private double price;
 
+    private String imageId;
+
     @NotNull(message = "productCategoryId should not be null!")
     @NotEmpty(message = "productCategoryId should not be empty!")
     private String productCategoryId;

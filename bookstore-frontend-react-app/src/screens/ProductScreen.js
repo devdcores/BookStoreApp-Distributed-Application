@@ -2,20 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import FullPageLoader from "../components/FullPageLoader";
-import { createProductReviewAction, listProductDetailsAction, listProductReviewsAction } from '../actions/productActions';
+import FullPageLoader from '../components/FullPageLoader';
+import { createProductReviewAction, listProductDetailsAction, listProductReviewsAction, getImageAction } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Rating from '../components/Rating';
+import { getImageApi, getProductDetailApi } from '../service/RestApiCalls';
 
 const ProductScreen = (props) => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [reviewMessage, setReviewMessage] = useState('');
+  const [productimageBase64, setProductimageBase64] = useState(null);
+  const [product, setProduct] = useState(null);
 
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const { loading, error } = productDetails;
 
   const productReviews = useSelector((state) => state.productReviews);
   const { loading: loadingProductReviews, error: errorProductReviews, reviews } = productReviews;
@@ -26,10 +29,19 @@ const ProductScreen = (props) => {
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const { success: successProductReview, loading: loadingProductReview, error: errorProductReview } = productReviewCreate;
 
-  useEffect(() => {
-    dispatch(listProductDetailsAction(props.match.params.id));
+  useEffect(async () => {
+    // setProductimageBase64(null);
+    // dispatch(listProductDetailsAction(props.match.params.id));
+    await getProductDetailApi(props.match.params.id).then((r) => {
+      setProduct(r);
+    });
     dispatch(listProductReviewsAction(props.match.params.id));
-  }, [dispatch]);
+    // if (product?.imageId) {
+    await getImageApi(product?.imageId).then((r) => {
+      setProductimageBase64(r);
+    });
+    // }
+  }, [dispatch, product?.imageId]);
 
   const addToCartHandler = () => {
     props.history.push(`/cart/${props.match.params.id}?qty=${qty}`);
@@ -58,14 +70,16 @@ const ProductScreen = (props) => {
         <>
           <Row>
             <Col md={6}>
-              <div style={{ minWidth: '100%', height: '400px' }}>
-                <Image
-                  style={{ height: '100%', width: '100%' }}
-                  src='https://source.unsplash.com/random?book'
-                  alt={product.prductName}
-                  fluid
-                ></Image>
-              </div>
+              {productimageBase64 && (
+                <div style={{ minWidth: '100%', height: '400px' }}>
+                  <Image
+                    style={{ height: '100%', width: '100%' }}
+                    src={`data:image/png;base64, ${productimageBase64}`}
+                    alt={product.productName}
+                    fluid
+                  ></Image>
+                </div>
+              )}
             </Col>
             <Col md={3} style={{ borderLeft: '1px solid #eee' }}>
               <ListGroup variant='flush'>
@@ -131,7 +145,7 @@ const ProductScreen = (props) => {
             </Col>
           </Row>
           <Row
-            className='m-4 p-4'
+            className='my-4 py-4'
             style={{
               borderTop: '1px solid #eee',
               borderBottom: '1px solid #eee'
