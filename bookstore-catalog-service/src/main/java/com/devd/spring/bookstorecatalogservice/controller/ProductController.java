@@ -36,7 +36,7 @@ import java.net.URI;
 public class ProductController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @PostMapping("/product")
     @PreAuthorize("hasAuthority('ADMIN_USER')")

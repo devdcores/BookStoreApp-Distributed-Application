@@ -58,8 +58,8 @@ p {
 .page-item.active {
   z-index: 3;
   color: #fff;
-  background-color: #d9230f;
-  border-color: #d9230f;
+  /* background-color: #d9230f; */
+  /* border-color: #d9230f; */
 }
 
 .page-item:first-child .page-link {

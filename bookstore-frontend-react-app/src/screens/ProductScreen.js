@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BACKEND_API_GATEWAY_URL } from '../constants/appConstants';
 import { Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -74,7 +75,7 @@ const ProductScreen = (props) => {
                 <div style={{ minWidth: '100%', height: '400px' }}>
                   <Image
                     style={{ height: '100%', width: '100%' }}
-                    src={`data:image/png;base64, ${productimageBase64}`}
+                    src={`${BACKEND_API_GATEWAY_URL}/api/catalog/image/${product?.imageId}`}
                     alt={product.productName}
                     fluid
                   ></Image>
@@ -159,7 +160,7 @@ const ProductScreen = (props) => {
                   <ListGroup.Item key={review.reviewId}>
                     <strong>{review.userName}</strong>
                     <Rating value={review.ratingValue} />
-                    <p>{review.created_at.substring(0, 10)}</p>
+                    {/* <p>{review.created_at.substring(0, 10)}</p> */}
                     <p>{review.reviewMessage}</p>
                   </ListGroup.Item>
                 ))}

@@ -3,6 +3,8 @@ import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { placeOrderAction, previewOrderAction } from '../actions/orderActions';
 import CheckoutSteps from '../components/CheckoutSteps';
+import FullPageLoader from '../components/FullPageLoader';
+import Loader from '../components/Loader';
 import Message from '../components/Message';
 import OrderItem from '../components/OrderItem';
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants';
@@ -60,6 +62,7 @@ const PlaceOrderScreen = (props) => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
+      {previewOrderLoading === true && <Loader></Loader>}
       {previewOrderLoading === false && (
         <Row>
           <Col md={8}>
@@ -125,7 +128,6 @@ const PlaceOrderScreen = (props) => {
                     <Col>${previewOrderResponse.totalPrice}</Col>
                   </Row>
                 </ListGroup.Item>
-                <ListGroup.Item>{error && <Message variant='danger'>{error}</Message>}</ListGroup.Item>
                 <ListGroup.Item>
                   <Button type='button' className='btn-block' disabled={previewOrderResponse.orderItems === 0} onClick={placeOrderHandler}>
                     Place Order
@@ -136,6 +138,7 @@ const PlaceOrderScreen = (props) => {
           </Col>
         </Row>
       )}
+      {placeOrderLoading && <FullPageLoader></FullPageLoader>}
     </>
   );
 };

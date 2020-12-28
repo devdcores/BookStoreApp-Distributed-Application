@@ -1,27 +1,32 @@
 import React, { useEffect } from 'react';
+import { BACKEND_API_GATEWAY_URL } from '../constants/appConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { removeFromCartAction } from '../actions/cartActions.js';
-import { listProductDetailsAction } from '../actions/productActions.js';
+import { getProductDetailApi } from '../service/RestApiCalls.js';
 import FullPageLoader from './FullPageLoader.js';
 import Message from '../components/Message';
+import { useState } from 'react';
+import { getErrorMessage } from '../service/CommonUtils';
 
 const CartItem = ({ item, addToCart }) => {
-  const dispatch = useDispatch();
-  const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const [product, setProduct] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    dispatch(listProductDetailsAction(`${item.productId}`));
-  }, [dispatch, item]);
+  useEffect(async () => {
+    try {
+      const productDetail = await getProductDetailApi(item.productId);
+      setProduct(productDetail);
+      setLoading(false);
+    } catch (err) {
+      setError(getErrorMessage(err));
+    }
+  }, [item]);
 
   const removeFromCartHandler = async (cartItemId) => {
     dispatch(removeFromCartAction(cartItemId));
-  };
-
-  const getRandomNumber = () => {
-    return Math.floor(Math.random() * 10);
   };
 
   return (
@@ -32,12 +37,7 @@ const CartItem = ({ item, addToCart }) => {
         <ListGroup.Item key={item.productId}>
           <Row>
             <Col md={2}>
-              <Image
-                src={`https://source.unsplash.com/random/500x500?sig=${getRandomNumber()}`}
-                alt={item.productName}
-                fluid
-                rounded
-              ></Image>
+              <Image src={`${BACKEND_API_GATEWAY_URL}/api/catalog/image/${product?.imageId}`} alt={item.productName} fluid rounded></Image>
             </Col>
             <Col md={3} className='pt-4'>
               <Link to={`/product/${item.productId}`}>{item.productName}</Link>
@@ -75,7 +75,7 @@ const CartItem = ({ item, addToCart }) => {
           </Row>
         </ListGroup.Item>
       )}
-      {loading && <FullPageLoader></FullPageLoader>}
+      {/* {loading && <FullPageLoader></FullPageLoader>} */}
     </>
   );
 };

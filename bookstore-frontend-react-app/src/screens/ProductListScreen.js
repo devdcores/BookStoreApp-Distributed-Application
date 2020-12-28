@@ -5,13 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin } from '../service/CommonUtils';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import Paginate from '../components/Paginate';
-import { listProductsAction, deleteProductAction, createProductAction } from '../actions/productActions';
+import { listProductsAction, deleteProductAction } from '../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
+import ReactPaginate from 'react-paginate';
 
 const ProductListScreen = ({ history, match }) => {
-  const pageNumber = match.params.pageNumber || 0;
-
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
@@ -32,13 +30,8 @@ const ProductListScreen = ({ history, match }) => {
     if (!userInfo || !isAdmin()) {
       history.push('/login');
     }
-
-    if (successCreate) {
-      history.push(`/admin/product/${createdProduct._id}/edit`);
-    } else {
-      dispatch(listProductsAction(pageNumber));
-    }
-  }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct, pageNumber]);
+    dispatch(listProductsAction(0));
+  }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct]);
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
@@ -47,7 +40,12 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   const createProductHandler = () => {
-    dispatch(createProductAction());
+    history.push('/admin/product/create');
+  };
+
+  const handlePageClick = (data) => {
+    let selected = data.selected;
+    dispatch(listProductsAction(selected));
   };
 
   return (
@@ -107,9 +105,26 @@ const ProductListScreen = ({ history, match }) => {
               ))}
             </tbody>
           </Table>
-          {pageResponse && <Paginate pages={pageResponse?.totalPages} page={pageResponse?.pageable?.pageNumber} isAdmin={true} />}
         </>
       )}
+
+      <Row className='m-5 justify-content-md-center'>
+        <ReactPaginate
+          previousLabel={'Previous'}
+          nextLabel={'Next'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={pageResponse?.totalPages}
+          marginPagesDisplayed={50}
+          pageRangeDisplayed={10}
+          onPageChange={(e) => handlePageClick(e)}
+          containerClassName={'pagination'}
+          activeClassName={'page-item active'}
+          pageLinkClassName={'page-link'}
+          previousClassName={'page-link'}
+          nextClassName={'page-link'}
+        />
+      </Row>
     </>
   );
 };

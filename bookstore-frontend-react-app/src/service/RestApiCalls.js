@@ -11,6 +11,7 @@ axios.interceptors.response.use(
 
     // Prevent infinite loops
     if (error.response.status === 401 && originalRequest.url.includes('grant_type=refresh_token')) {
+      localStorage.clear();
       store.dispatch({
         type: USER_LOGOUT
       });
@@ -172,11 +173,9 @@ export const updateProductDetailApi = async (productReqBody) => {
 
 export const deleteProductApi = async (productId) => {
   const axiosConfig = getAxiosConfig();
-  const responseData = await axios
-    .delete(`${BACKEND_API_GATEWAY_URL}/api/catalog/product/${productId}`, productReqBody, axiosConfig)
-    .then((response) => {
-      return response.data;
-    });
+  const responseData = await axios.delete(`${BACKEND_API_GATEWAY_URL}/api/catalog/product/${productId}`, axiosConfig).then((response) => {
+    return response.data;
+  });
   return responseData;
 };
 
@@ -184,6 +183,15 @@ export const getProductReviewsApi = async (productId) => {
   const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/review?productId=${productId}`).then((response) => {
     return response.data;
   });
+  return responseData;
+};
+
+export const getProductCategories = async () => {
+  const responseData = axios
+    .get(`${BACKEND_API_GATEWAY_URL}/api/catalog/productCategories?direction=ASC&orderBy=PRODUCTCATEGORYNAME`)
+    .then((response) => {
+      return response.data;
+    });
   return responseData;
 };
 
@@ -220,11 +228,9 @@ export const getImageApi = async (imageId) => {
 };
 
 export const getAllProductsDetailApi = async (pageNumber) => {
-  const responseData = axios
-    .get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products?sort=updatedAt,DESC&page=${pageNumber}&size=8`)
-    .then((response) => {
-      return response.data;
-    });
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products?page=${pageNumber}&size=8`).then((response) => {
+    return response.data;
+  });
   return responseData;
 };
 

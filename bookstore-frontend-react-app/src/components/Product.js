@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { BACKEND_API_GATEWAY_URL } from '../constants/appConstants';
 import { Card } from 'react-bootstrap';
 import Rating from './Rating';
 import { Link } from 'react-router-dom';
-import { getImageApi } from '../service/RestApiCalls';
 
 const Product = (props) => {
   const product = props.product;
-  const [productimageBase64, setProductimageBase64] = useState('');
-
-  useEffect(async () => {
-    if (product?.imageId) {
-      setProductimageBase64(await getImageApi(product?.imageId));
-    }
-  }, []);
-
   return (
     <>
-      <Card className='my-3 rounded'>
+      <Card className='my-3 rounded' style={{ height: '400px' }}>
         <Link to={`/product/${product.productId}`}>
           <Card.Img
-            src={`data:image/png;base64, ${productimageBase64}`}
+            src={`${BACKEND_API_GATEWAY_URL}/api/catalog/image/${product?.imageId}`}
             variant='top'
-            style={{ minWidth: '100%', height: '200px' }}
+            style={{ height: '250px' }}
           ></Card.Img>
         </Link>
         <Card.Body>

@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { listProductDetailsAction, updateProductAction } from '../actions/productActions';
+import { createProductAction } from '../actions/productActions';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
-import { uploadImageApi } from '../service/RestApiCalls';
+import { uploadImageApi, getProductCategories } from '../service/RestApiCalls';
 
-const ProductEditScreen = ({ match, history }) => {
+const ProductCreateScreen = ({ match, history }) => {
   const productId = match.params.id;
-
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
@@ -19,6 +17,8 @@ const ProductEditScreen = ({ match, history }) => {
   const [availableItemCount, setAvailableItemCount] = useState(0);
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [productCategories, setProductCategories] = useState([]);
+  const [productCategory, setProductCategory] = useState('');
 
   const dispatch = useDispatch();
 
@@ -28,21 +28,10 @@ const ProductEditScreen = ({ match, history }) => {
   const productUpdate = useSelector((state) => state.productUpdate);
   const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate;
 
-  useEffect(() => {
-    if (successUpdate) {
-      dispatch({ type: PRODUCT_UPDATE_RESET });
-      history.push('/admin/productlist');
-    } else {
-      if (!product?.productName || product?.productId !== productId) {
-        dispatch(listProductDetailsAction(productId));
-      } else {
-        setProductName(product.productName);
-        setPrice(product.price);
-        setImage(product.imageId);
-        setAvailableItemCount(product.availableItemCount);
-        setDescription(product.description);
-      }
-    }
+  useEffect(async () => {
+    await getProductCategories().then((res) => {
+      setProductCategories(res.page.content);
+    });
   }, [dispatch, history, productId, product, successUpdate]);
 
   const uploadFileHandler = async (e) => {
@@ -72,15 +61,17 @@ const ProductEditScreen = ({ match, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
-      updateProductAction({
+      createProductAction({
         productId,
         productName,
         price,
         imageId,
         description,
-        availableItemCount
+        availableItemCount,
+        productCategoryId: productCategory
       })
     );
+    history.push('/admin/productlist');
   };
 
   return (
@@ -89,7 +80,7 @@ const ProductEditScreen = ({ match, history }) => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Product</h1>
+        <h1>Create Product</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? (
@@ -143,15 +134,15 @@ const ProductEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            {/*<Form.Group controlId='category'>*/}
-            {/*  <Form.Label>Category</Form.Label>*/}
-            {/*  <Form.Control*/}
-            {/*    type='text'*/}
-            {/*    placeholder='Enter category'*/}
-            {/*    value={productCategory}*/}
-            {/*    onChange={(e) => setCategory(e.target.value)}*/}
-            {/*  ></Form.Control>*/}
-            {/*</Form.Group>*/}
+            {/* <Form.Group controlId='category'>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter category'
+                value={productCategories}
+                onChange={(e) => setProductCategories(e.target.value)}
+              ></Form.Control>
+            </Form.Group> */}
 
             <Form.Group controlId='description'>
               <Form.Label>Description</Form.Label>
@@ -163,8 +154,22 @@ const ProductEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
+            <Form.Group controlId='productCategory'>
+              <Form.Label>Product Category</Form.Label>
+              <Form.Control as='select' value={productCategory} required onChange={(e) => setProductCategory(e.target.value)}>
+                <option value='0'>Select Product Category</option>
+                {productCategories.length > 0 &&
+                  productCategories.map((pc) => {
+                    return (
+                      <option key={pc.productCategoryId} value={pc.productCategoryId}>
+                        {pc.productCategoryName}
+                      </option>
+                    );
+                  })}
+              </Form.Control>
+            </Form.Group>
             <Button type='submit' variant='primary'>
-              Update
+              Create Product
             </Button>
           </Form>
         )}
@@ -173,4 +178,4 @@ const ProductEditScreen = ({ match, history }) => {
   );
 };
 
-export default ProductEditScreen;
+export default ProductCreateScreen;

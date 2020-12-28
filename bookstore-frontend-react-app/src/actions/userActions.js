@@ -25,7 +25,16 @@ import {
   USER_UPDATE_REQUEST
 } from '../constants/userConstants';
 
-import { getUserInfoApi, postLoginApi, postSignupApi, putUserInfoApi, deleteUserApi, getAllUsersApi, getUserApi, updateUserApi} from '../service/RestApiCalls';
+import {
+  getUserInfoApi,
+  postLoginApi,
+  postSignupApi,
+  putUserInfoApi,
+  deleteUserApi,
+  getAllUsersApi,
+  getUserApi,
+  updateUserApi
+} from '../service/RestApiCalls';
 import { getErrorMessage } from '../service/CommonUtils';
 
 export const login = (usernameOrEmail, password) => async (dispatch) => {
@@ -142,7 +151,6 @@ export const getUserDetails = (userId) => async (dispatch) => {
       //Get UserInfo
       userInfoResponse = await getUserInfoApi();
     }
-
 
     dispatch({
       type: USER_DETAILS_SUCCESS,

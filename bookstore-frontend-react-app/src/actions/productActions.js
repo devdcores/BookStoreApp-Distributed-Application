@@ -132,14 +132,14 @@ export const createProductReviewAction = (createProductReviewRequestBody) => asy
   }
 };
 
-export const deleteProductAction = (id) => async (dispatch, getState) => {
+export const deleteProductAction = (productId) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_DELETE_REQUEST
     });
 
     //Delete Product
-    await deleteProductApi(productReqBody);
+    await deleteProductApi(productId);
 
     dispatch({
       type: PRODUCT_DELETE_SUCCESS
@@ -156,7 +156,7 @@ export const deleteProductAction = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createProductAction = () => async (dispatch) => {
+export const createProductAction = (productReqBody) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST

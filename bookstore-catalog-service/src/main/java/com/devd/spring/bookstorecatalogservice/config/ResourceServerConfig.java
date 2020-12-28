@@ -27,6 +27,7 @@ public class ResourceServerConfig extends GlobalResourceServerConfig {
                 .antMatchers(HttpMethod.POST, "/oauth/token").permitAll()
                 .antMatchers(HttpMethod.GET, "/product**/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/review/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/image/**").permitAll()
                 .antMatchers("/**").authenticated();
     }
 }

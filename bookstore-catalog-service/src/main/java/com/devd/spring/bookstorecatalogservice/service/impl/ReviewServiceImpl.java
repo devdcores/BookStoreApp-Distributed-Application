@@ -7,7 +7,6 @@ import com.devd.spring.bookstorecatalogservice.service.ReviewService;
 import com.devd.spring.bookstorecatalogservice.web.CreateOrUpdateReviewRequest;
 import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
 import com.devd.spring.bookstorecommons.feign.AccountFeignClient;
-import com.devd.spring.bookstorecommons.web.GetUserInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

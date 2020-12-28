@@ -1,29 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { BACKEND_API_GATEWAY_URL } from '../constants/appConstants';
+import { useDispatch, useSelector } from 'react-redux';
 import { Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Message from './Message';
+import { listProductDetailsAction } from '../actions/productActions.js';
+
+import { getProductDetailApi } from '../service/RestApiCalls.js';
+import { useState } from 'react';
+import { getErrorMessage } from '../service/CommonUtils';
+import Loader from './Loader';
 
 const OrderItem = ({ item }) => {
-  const [productDetail, setProductDetail] = useState(null);
+  const [product, setProduct] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    getProductDetail(item.productId);
-  }, []);
+  useEffect(async () => {
+    try {
+      const productDetail = await getProductDetailApi(item.productId);
+      setProduct(productDetail);
+      setLoading(false);
+    } catch (err) {
+      setError(getErrorMessage(err));
+    }
+  }, [item]);
 
-  const getProductDetail = async (id) => {
-    const { data } = await axios.get(`http://localhost:8765/api/catalog/product/${id}`);
-    setProductDetail(data);
-  };
   return (
-    <div>
-      {productDetail && (
+    <>
+      {error && <Message variant='danger'> {JSON.stringify(error.message)}</Message>}
+      {loading ? (
+        <Loader></Loader>
+      ) : (
         <ListGroup.Item key={item.productId}>
           <Row>
             <Col md={2}>
-              <Image src={`https://source.unsplash.com/random/500x500?books`} alt={item.productName} fluid rounded></Image>
+              <Image src={`${BACKEND_API_GATEWAY_URL}/api/catalog/image/${product?.imageId}`} alt={item.productName} fluid rounded></Image>
             </Col>
             <Col md={3} className='pt-4'>
-              <Link to={`/product/${item.productId}`}>{productDetail.productName}</Link>
+              <Link to={`/product/${item.productId}`}>{product.productName}</Link>
             </Col>
             <Col md={2} className='pt-4'>
               ${item.orderItemPrice}
@@ -37,7 +52,7 @@ const OrderItem = ({ item }) => {
           </Row>
         </ListGroup.Item>
       )}
-    </div>
+    </>
   );
 };
 
