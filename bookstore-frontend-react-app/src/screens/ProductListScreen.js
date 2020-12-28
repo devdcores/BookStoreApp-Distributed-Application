@@ -79,7 +79,7 @@ const ProductListScreen = ({ history, match }) => {
                 <th>CATEGORY</th>
                 <th>IMAGE ID</th>
                 <th>AVAILABLE ITEM COUNT</th>
-                <th></th>
+                <th>ACTIONS</th>
               </tr>
             </thead>
             <tbody>

@@ -54,7 +54,7 @@ export const userRegisterReducer = (state = {}, action) => {
     case 'USER_REGISTER_RESET':
       return { loading: false, error: null };
     case 'USER_LOGOUT':
-      history.push('/login');
+      window.location.href = '/login';
       return {};
     default:
       return state;
@@ -105,7 +105,7 @@ export const userListReducer = (state = { users: [] }, action) => {
       return state;
   }
 };
- 
+
 export const userDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_DELETE_REQUEST:

@@ -6,6 +6,7 @@ import Message from '../components/Message';
 import CartItem from '../components/CartItem';
 import { addToCartAction, getCartDetailsAction } from '../actions/cartActions';
 import FullPageLoader from '../components/FullPageLoader';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const CartScreen = (props) => {
   const productId = props.match.params.id;
@@ -69,6 +70,11 @@ const CartScreen = (props) => {
                   ))}
                 </ListGroup.Item>
               )}
+              <Row className='m-5 justify-content-md-center'>
+                <LinkContainer to={'/'}>
+                  <a>Add more books</a>
+                </LinkContainer>
+              </Row>
             </Col>
             <Col md={4}>
               <Card>

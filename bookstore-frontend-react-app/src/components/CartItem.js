@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BACKEND_API_GATEWAY_URL } from '../constants/appConstants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { removeFromCartAction } from '../actions/cartActions.js';
@@ -14,6 +14,7 @@ const CartItem = ({ item, addToCart }) => {
   const [product, setProduct] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(async () => {
     try {

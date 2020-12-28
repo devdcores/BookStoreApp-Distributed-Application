@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { BACKEND_API_GATEWAY_URL } from '../constants/appConstants';
-import { useDispatch, useSelector } from 'react-redux';
 import { Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Message from './Message';
-import { listProductDetailsAction } from '../actions/productActions.js';
-
 import { getProductDetailApi } from '../service/RestApiCalls.js';
 import { useState } from 'react';
 import { getErrorMessage } from '../service/CommonUtils';

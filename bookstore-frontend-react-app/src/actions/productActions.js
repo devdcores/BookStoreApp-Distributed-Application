@@ -192,7 +192,7 @@ export const updateProductAction = (productReqBody) => async (dispatch) => {
     dispatch({
       type: PRODUCT_UPDATE_SUCCESS
     });
-    dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
+    dispatch(listProductDetailsAction(productReqBody.productId));
   } catch (error) {
     const message = error.response && error.response.data.message ? error.response.data.message : error.message;
     if (message === 'Not authorized, token failed') {

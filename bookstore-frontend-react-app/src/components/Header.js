@@ -2,9 +2,9 @@ import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { isAdmin } from "../service/CommonUtils";
+import { isAdmin } from '../service/CommonUtils';
 import { logout } from '../actions/userActions';
-const Header = () => {
+const Header = (props) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -16,12 +16,15 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar style={{
-        background: 'linear-gradient(142deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 68%, rgba(252,176,69,1) 100%)',
-        border: '0',
-        color: '#00000'
-
-      }} className='navbar navbar-expand-lg navbar-dark' collapseOnSelect>
+      <Navbar
+        style={{
+          background: 'linear-gradient(142deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 68%, rgba(252,176,69,1) 100%)',
+          border: '0',
+          color: '#00000'
+        }}
+        className='navbar navbar-expand-lg navbar-dark'
+        collapseOnSelect
+      >
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand className='bookstore-brand'>BookStore</Navbar.Brand>

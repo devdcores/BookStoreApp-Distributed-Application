@@ -61,9 +61,6 @@ public class User extends DateAudit {
   @Column(name = "EMAIL", nullable = false)
   private String email;
 
-  @Column(name = "CART_ID")
-  private String cartId;
-
   public User(String userName, String password, String firstName, String lastName, String email) {
     this.userName = userName;
     this.password = password;
