@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Auth ",
+			"name": "Account Service",
 			"item": [
 				{
 					"name": "Get OAuth Token - ADMIN",
@@ -14,7 +14,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5c2d94aa-e3c4-4bcb-b295-2554dc8de2fe",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
 									"",
@@ -27,7 +26,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "df0d61ed-56e4-4e1d-b4dd-e6085fe2770e",
 								"exec": [
 									""
 								],
@@ -113,31 +111,8 @@
 						},
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "grant_type",
-									"value": "refresh_token",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "username",
-									"value": "e24f5460-c3f3-416d-bcca-2b6ba40d58dc",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "password",
-									"value": "pass@1235",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
 						"url": {
-							"raw": "{{accountServiceAPIGatewayUrl}}/oauth/token?grant_type=refresh_token&refresh_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsid2ViIl0sInVzZXJfbmFtZSI6ImUyNGY1NDYwLWMzZjMtNDE2ZC1iY2NhLTJiNmJhNDBkNThkYyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJlZjFhZTQwNC02MDMxLTQ3OWMtYmMwZS02OWNmNjQ0YjRiZTQiLCJleHAiOjE2MDcxMDc0MTYsImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiOWI2YmY5NjgtYTI5NS00NTE4LTg4ZWYtMWI3ZGQ2N2Y1OWZjIiwiY2xpZW50X2lkIjoiOTNlZDQ1M2UtYjdhYy00MTkyLWE2ZDQtYzQ1ZmFlMGQ5OWFjIn0.rG9-NO3SJfyJJaSavaoSbCCuM4bsDwcLply1HqHTP15V7ftRajL1aOD7F8TpiiL7P4S9UX9KZ5FxiQYN3EnomB4UrJSyc-PDfBkEbFuo_ApCIjTaiHP-a6FxdNc5ftNqf24gPhW6tm-6ePVYw4HBqvR7KdADvMUVN1_xhD6cv6IaDAB2rwxgZxAXJg0k__1dNRt6X2lUkhrA2FeitdveWlBn4w8GNdK9d_h6FtxKenVJjLFOu7MoD2SD_KLhd_7uqpexF47UzjyTDPxYtsc1hVb6_arWo1M2FN94MS6oOqIUjUilzoo8P04Xv-LF1oKD6TnocyO2NJ0OtVGEHWGcEA",
+							"raw": "{{accountServiceAPIGatewayUrl}}/oauth/token?grant_type=refresh_token&refresh_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsid2ViIl0sInVzZXJfaWQiOiI4Y2U5OWE0MC01Y2Q0LTQ2ZWItOTQ5OC1lNzE4NTdjMzg1MzgiLCJ1c2VyX25hbWUiOiJkZXZkMTIzNCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJkMGMzMDE4MC04ZDdmLTRmMjEtYTBhOC1lMGNiODdmNTZmMzciLCJleHAiOjE2MDg2MzQ0NDksImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiMzA2NzEwNjAtNTZlZi00ZTNhLWIzNGUtN2M2NGU1MmEwYTk2IiwiY2xpZW50X2lkIjoiOTNlZDQ1M2UtYjdhYy00MTkyLWE2ZDQtYzQ1ZmFlMGQ5OWFjIn0.L5GZwNm3HzlWnwXv64RVtEBJ4Sr2rLKdLgE19fBIw4HWyetmBJWaRvzXM6LDfayRKIAE18atVxXye0DYv_uxjUc7CSmBuG_GMRwxhERIGSx2ifkkmoRvq7pyn0aVJRBrQy1FW0w863l4tjqq35_m432srKzIYxNrRTxXLn9IL0U0Zpv6OIpmRybdlxWLQBGW90T_iWYIDhPnQ6Uov9YFUcKYMGu1COU9rwt6m55zY94lm6Ezz7cUCmR2yewJypR1cpVxnhDb58_aNwnXWabjECUKaZPybgIMNbHH55_5McgUHH4rp4TTzQEblkv1d8I1_SrTg_y8wFsYjz1x7d4Hww",
 							"host": [
 								"{{accountServiceAPIGatewayUrl}}"
 							],
@@ -152,7 +127,7 @@
 								},
 								{
 									"key": "refresh_token",
-									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsid2ViIl0sInVzZXJfbmFtZSI6ImUyNGY1NDYwLWMzZjMtNDE2ZC1iY2NhLTJiNmJhNDBkNThkYyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJlZjFhZTQwNC02MDMxLTQ3OWMtYmMwZS02OWNmNjQ0YjRiZTQiLCJleHAiOjE2MDcxMDc0MTYsImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiOWI2YmY5NjgtYTI5NS00NTE4LTg4ZWYtMWI3ZGQ2N2Y1OWZjIiwiY2xpZW50X2lkIjoiOTNlZDQ1M2UtYjdhYy00MTkyLWE2ZDQtYzQ1ZmFlMGQ5OWFjIn0.rG9-NO3SJfyJJaSavaoSbCCuM4bsDwcLply1HqHTP15V7ftRajL1aOD7F8TpiiL7P4S9UX9KZ5FxiQYN3EnomB4UrJSyc-PDfBkEbFuo_ApCIjTaiHP-a6FxdNc5ftNqf24gPhW6tm-6ePVYw4HBqvR7KdADvMUVN1_xhD6cv6IaDAB2rwxgZxAXJg0k__1dNRt6X2lUkhrA2FeitdveWlBn4w8GNdK9d_h6FtxKenVJjLFOu7MoD2SD_KLhd_7uqpexF47UzjyTDPxYtsc1hVb6_arWo1M2FN94MS6oOqIUjUilzoo8P04Xv-LF1oKD6TnocyO2NJ0OtVGEHWGcEA"
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsid2ViIl0sInVzZXJfaWQiOiI4Y2U5OWE0MC01Y2Q0LTQ2ZWItOTQ5OC1lNzE4NTdjMzg1MzgiLCJ1c2VyX25hbWUiOiJkZXZkMTIzNCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJkMGMzMDE4MC04ZDdmLTRmMjEtYTBhOC1lMGNiODdmNTZmMzciLCJleHAiOjE2MDg2MzQ0NDksImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiMzA2NzEwNjAtNTZlZi00ZTNhLWIzNGUtN2M2NGU1MmEwYTk2IiwiY2xpZW50X2lkIjoiOTNlZDQ1M2UtYjdhYy00MTkyLWE2ZDQtYzQ1ZmFlMGQ5OWFjIn0.L5GZwNm3HzlWnwXv64RVtEBJ4Sr2rLKdLgE19fBIw4HWyetmBJWaRvzXM6LDfayRKIAE18atVxXye0DYv_uxjUc7CSmBuG_GMRwxhERIGSx2ifkkmoRvq7pyn0aVJRBrQy1FW0w863l4tjqq35_m432srKzIYxNrRTxXLn9IL0U0Zpv6OIpmRybdlxWLQBGW90T_iWYIDhPnQ6Uov9YFUcKYMGu1COU9rwt6m55zY94lm6Ezz7cUCmR2yewJypR1cpVxnhDb58_aNwnXWabjECUKaZPybgIMNbHH55_5McgUHH4rp4TTzQEblkv1d8I1_SrTg_y8wFsYjz1x7d4Hww"
 								}
 							]
 						}
@@ -165,7 +140,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
 									"",
 									"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
@@ -177,7 +151,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f729f5bd-7190-46bf-80df-34d61510a209",
 								"exec": [
 									"var randomId = require('uuid').v4(); ",
 									"pm.environment.set('randomId', randomId);"
@@ -198,7 +171,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userName\": \"{{randomId}}\",\n  \"password\": \"pass@1234\",\n  \"firstName\": \"devaraj\",\n  \"lastName\": \"reddy\",\n  \"email\": \"{{randomId}}@gmail.com\",\n  \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\"]\n}"
+							"raw": "{\n  \"userName\": \"{{randomId}}\",\n  \"password\": \"pass@1234\",\n  \"firstName\": \"devaraj\",\n  \"lastName\": \"reddy\",\n  \"email\": \"{{randomId}}@g.c\",\n  \"roleNames\" : [\"STANDARD_USER\",\"ADMIN_USER\"]\n}"
 						},
 						"url": {
 							"raw": "{{accountServiceAPIGatewayUrl}}/user",
@@ -218,7 +191,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "78736b48-ced9-43ab-9922-f87625e23a99",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -244,7 +216,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{accountServiceAPIGatewayUrl}}/user?userId=e666b095-6727-4229-a4ab-35d2be2fb388",
+							"raw": "{{accountServiceAPIGatewayUrl}}/user?userId=42fe6f25-2559-40f3-8acf-ab51eb8b7c67",
 							"host": [
 								"{{accountServiceAPIGatewayUrl}}"
 							],
@@ -254,7 +226,7 @@
 							"query": [
 								{
 									"key": "userId",
-									"value": "e666b095-6727-4229-a4ab-35d2be2fb388"
+									"value": "42fe6f25-2559-40f3-8acf-ab51eb8b7c67"
 								}
 							]
 						}
@@ -267,7 +239,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
 									"",
 									"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
@@ -279,7 +250,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "79349aaa-58b3-4035-a49c-84134ceb654d",
 								"exec": [
 									""
 								],
@@ -288,6 +258,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -299,7 +272,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userName\": \"{{$guid}}\",\n  \"password\": \"pass@1234\",\n  \"firstName\": \"devd\",\n  \"lastName\": \"reddy\",\n  \"email\": \"{{$guid}}@g.c\"\n}"
+							"raw": "{\n  \"userName\": \"devd1234\",\n  \"password\": \"pass1234\",\n  \"firstName\": \"devd\",\n  \"email\": \"{{$guid}}@g.c\"\n}"
 						},
 						"url": {
 							"raw": "{{accountServiceAPIGatewayUrl}}/signup",
@@ -319,7 +292,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
 									"",
@@ -365,12 +337,12 @@
 								},
 								{
 									"key": "username",
-									"value": "1358c7f6-8fde-482e-8547-034d1a8b1eee",
+									"value": "devd12345",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "pass@1234",
+									"value": "pass1234",
 									"type": "text"
 								}
 							]
@@ -394,7 +366,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -443,7 +414,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -487,7 +457,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"devd\",\n    \"lastName\": \"reddy\",\n    \"email\": \"asdasdasda@g.c\"\n}",
+							"raw": "{\n    \"firstName\": \"devd\",\n    \"lastName\": \"reddy\",\n    \"email\": \"asdasdasda@g.c\",\n    \"password\": \"pass@1235\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -512,7 +482,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
 									"",
 									"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });"
@@ -553,7 +522,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5c2d94aa-e3c4-4bcb-b295-2554dc8de2fe",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -563,7 +531,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "df0d61ed-56e4-4e1d-b4dd-e6085fe2770e",
 								"exec": [
 									""
 								],
@@ -637,7 +604,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81500078-67fc-489b-a61f-550d772f58cd",
 								"exec": [
 									"",
 									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(201); });",
@@ -740,7 +706,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e95613cb-ad4a-47cb-ad26-52531c3bd221",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -762,13 +727,95 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accountServiceAPIGatewayUrl}}/users",
+							"host": [
+								"{{accountServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{accountServiceAPIGatewayUrl}}/user/ffd3b701-a6e1-4129-b91a-1c3718470f48",
+							"host": [
+								"{{accountServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"user",
+								"ffd3b701-a6e1-4129-b91a-1c3718470f48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User as Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"wer\",\n    \"lastName\": \"DevD\",\n    \"email\": \"john2.doe@gmail.com\",\n    \"roles\":[]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{accountServiceAPIGatewayUrl}}/user/e666b095-6727-4229-a4ab-35d2be2fb388",
+							"host": [
+								"{{accountServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"user",
+								"e666b095-6727-4229-a4ab-35d2be2fb388"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "7b07f647-0a27-4449-b1dc-026d7246cd58",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -778,7 +825,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "fcafb360-cfbf-4c48-a56a-d5b504ff8387",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -796,7 +842,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "19611d74-1657-4fac-a269-c33aadd0a737",
 								"exec": [
 									"pm.test(\"Status code should be 201\", function () { pm.response.to.have.status(201); });"
 								],
@@ -836,7 +881,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b6849288-b61a-47ef-88c0-c6f78be5deb9",
 								"exec": [
 									"pm.test(\"Status code should be 204\", function () { pm.response.to.have.status(204); });"
 								],
@@ -876,7 +920,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "93302768-d3d2-4ad2-b16e-d6e3a6f7b58e",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -920,7 +963,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9b032764-f014-4c29-832d-8e59ad318b8f",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -1012,7 +1054,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bd1b9029-969a-41c8-937c-f823447af31d",
 								"exec": [
 									"pm.test(\"Status code should be 201\", function () { pm.response.to.have.status(201); });"
 								],
@@ -1032,7 +1073,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"productName\": \"Book 2\",\n   \"description\": \"Book Desc\",\n   \"price\": 113.0,\n   \"productCategoryId\": \"8f825617-9522-4195-bfea-c396d9b966a0\",\n   \"availableItemCount\": 122\n }"
+							"raw": "{\n   \"productName\": \"Book 2\",\n   \"description\": \"Book Desc\",\n   \"price\": 113.0,\n   \"productCategoryId\": \"8f825617-9522-4195-bfea-c396d9b966a0\",\n   \"availableItemCount\": 122,\n   \"imageId\": \"bcaa8639-25e8-4d35-83bc-a0ba526636e6\"\n }"
 						},
 						"url": {
 							"raw": "{{catalogServiceAPIGatewayUrl}}/product",
@@ -1052,7 +1093,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "feea0fb9-2647-4b02-9033-5bc11b664be3",
 								"exec": [
 									"pm.test(\"Status code should be 204\", function () { pm.response.to.have.status(204); });"
 								],
@@ -1092,7 +1132,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4a07286-e356-4b69-b073-185473e46989",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -1100,11 +1139,8 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -1115,19 +1151,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {}
-							}
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{catalogServiceAPIGatewayUrl}}/product/db1b4a0e-b8a9-4d98-90cf-45c6ca246601",
+							"raw": "{{catalogServiceAPIGatewayUrl}}/product/1",
 							"host": [
 								"{{catalogServiceAPIGatewayUrl}}"
 							],
 							"path": [
 								"product",
-								"db1b4a0e-b8a9-4d98-90cf-45c6ca246601"
+								"1"
 							]
 						}
 					},
@@ -1139,7 +1172,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2e0403ba-7836-49db-add7-f4e8d5396a6a",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -1167,7 +1199,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{catalogServiceAPIGatewayUrl}}/products?direction=ASC&orderBy=AVAILABLEITEMCOUNT&page=0&size=3",
+							"raw": "{{catalogServiceAPIGatewayUrl}}/products?sort=updatedAt,DESC&page=0&size=4",
 							"host": [
 								"{{catalogServiceAPIGatewayUrl}}"
 							],
@@ -1176,12 +1208,8 @@
 							],
 							"query": [
 								{
-									"key": "direction",
-									"value": "ASC"
-								},
-								{
-									"key": "orderBy",
-									"value": "AVAILABLEITEMCOUNT"
+									"key": "sort",
+									"value": "updatedAt,DESC"
 								},
 								{
 									"key": "page",
@@ -1189,7 +1217,7 @@
 								},
 								{
 									"key": "size",
-									"value": "3"
+									"value": "4"
 								}
 							]
 						}
@@ -1231,7 +1259,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f56a7e67-f8c7-44ed-adfa-859debe8f274",
 								"exec": [
 									""
 								],
@@ -1244,7 +1271,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"productId\": \"358638cf-42aa-4fc9-8e05-bd77569ffe72\",\n    \"reviewMessage\": \"This book is worth reading.\"\n}",
+							"raw": "{\n    \"productId\": \"db1b4a0e-b8a9-4d98-90cf-45c6ca246601\",\n    \"ratingValue\" : 3,\n    \"reviewMessage\": \"This book is worth reading.\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1262,6 +1289,122 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get All Reviews For Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX25hbWUiOiJkZXZkMTIzNCIsImF1dGhvcml0aWVzIjpbIkFETUlOX1VTRVIiLCJTVEFOREFSRF9VU0VSIl0sImF1ZCI6WyJ3ZWIiXSwiZXhwIjoxNTY2OTAyNDQ3LCJpYXQiOjE1NjY4OTk0NDd9.G_7np2LRxNBHmOHkig02J7kP4tKsDAectdzQHfoDH4nN_ip_ycNiKqnFPV_chzTYHFy7DQ0VcXaGJ9tKQLckZ2LGqpGGuPo2uaL-rZRs6MofV3HzriaySUwKFQ1VJohTRGsHsOdXqH4cMnvppUpT8eWE2U2mlkUn42CVTe90qsuaeDJxIGH4mwWKf5MpqUR0m7vJQUwMNB-bcvmbi51MGH8t4hbOCFqo609ggVCvfxDLqtWgYhhVxRmrYxUXDDHBxiwaTQbh-QPO_mkmz9w7k1ekDQ8d_abstqmSHV8CZ3JsjonLVYjo92XmNddSEe4f8b9LsqTJ_PX79fzKeYQrRw"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{catalogServiceAPIGatewayUrl}}/review?productId=db1b4a0e-b8a9-4d98-90cf-45c6ca246601",
+							"host": [
+								"{{catalogServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"review"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "db1b4a0e-b8a9-4d98-90cf-45c6ca246601"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/Users/dreddy/Downloads/geran-de klerk-_NM6bXPqaCE.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{catalogServiceAPIGatewayUrl}}/image/upload",
+							"host": [
+								"{{catalogServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"image",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Image By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/Users/dreddy/Downloads/My Post(3).jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{catalogServiceAPIGatewayUrl}}/image/d62ff6f7-a42c-4ac7-8ecf-8e1e7e646d15__geran-de klerk-_NM6bXPqaCE.jpg",
+							"host": [
+								"{{catalogServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"image",
+								"d62ff6f7-a42c-4ac7-8ecf-8e1e7e646d15__geran-de klerk-_NM6bXPqaCE.jpg"
+							],
+							"query": [
+								{
+									"key": "imageFile",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1269,52 +1412,11 @@
 			"name": "Billing Service",
 			"item": [
 				{
-					"name": "Create Billing Address",
+					"name": "Create Address",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "d1af25ae-f9cb-49aa-b843-b1f9c65be138",
-								"exec": [
-									"pm.test(\"Status code should be 201\", function () { pm.response.to.have.status(201); });"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"addressLine1\": \"MG Road\",\n  \"addressLine2\": \"Lido Mall\",\n  \"city\": \"Bangalore\",\n  \"state\": \"Karnataka\",\n  \"postalCode\": \"560008\",\n  \"country\": \"IN\",\n  \"phone\": \"9988776655\"\n}"
-						},
-						"url": {
-							"raw": "{{billingServiceAPIGatewayUrl}}/billingAddress",
-							"host": [
-								"{{billingServiceAPIGatewayUrl}}"
-							],
-							"path": [
-								"billingAddress"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Shipping Address",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "393752e4-f15f-41fe-a145-50137b1681ee",
 								"exec": [
 									"pm.test(\"Status code should be 201\", function () { pm.response.to.have.status(201); });"
 								],
@@ -1334,85 +1436,26 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"addressLine1\": \"MG Road\",\n  \"addressLine2\": \"Lido Mall\",\n  \"city\": \"Bangalore\",\n  \"state\": \"Karnataka\",\n  \"postalCode\": \"560008\",\n  \"country\": \"IN\",\n  \"phone\": \"9988776655\"\n}"
+							"raw": "{\n  \"addressLine1\": \"BAs\",\n  \"addressLine2\": \"Lido Mall\",\n  \"city\": \"Bangalore\",\n  \"state\": \"Karnataka\",\n  \"postalCode\": \"560008\",\n  \"country\": \"IN\",\n  \"phone\": \"9988776655\"\n}"
 						},
 						"url": {
-							"raw": "{{billingServiceAPIGatewayUrl}}/shippingAddress",
+							"raw": "{{billingServiceAPIGatewayUrl}}/address",
 							"host": [
 								"{{billingServiceAPIGatewayUrl}}"
 							],
 							"path": [
-								"shippingAddress"
+								"address"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Billing Address",
+					"name": "Update Address",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "24b68d09-960f-4a8b-81e1-31fd3bee78ab",
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{billingServiceAPIGatewayUrl}}/billingAddress",
-							"host": [
-								"{{billingServiceAPIGatewayUrl}}"
-							],
-							"path": [
-								"billingAddress"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Shipping Address",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "3d7205db-a5d2-4090-b2ea-57bc04d670d7",
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{billingServiceAPIGatewayUrl}}/shippingAddress",
-							"host": [
-								"{{billingServiceAPIGatewayUrl}}"
-							],
-							"path": [
-								"shippingAddress"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Publish",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d1af25ae-f9cb-49aa-b843-b1f9c65be138",
 								"exec": [
 									"pm.test(\"Status code should be 201\", function () { pm.response.to.have.status(201); });"
 								],
@@ -1421,26 +1464,112 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"addressLine1\": \"MG Road\",\n  \"addressLine2\": \"Lido Mall\",\n  \"city\": \"Bangalore\",\n  \"state\": \"Karnataka\",\n  \"postalCode\": \"560008\",\n  \"country\": \"IN\",\n  \"phone\": \"9988776655\"\n}"
+							"raw": "{\n    \"addressId\": \"9b65992e-5eb4-443a-aa0f-600fad1c815f\",\n    \"addressLine1\": \"MG Road\",\n    \"addressLine2\": \"Lido Mall\",\n    \"city\": \"Bangalore\",\n    \"state\": \"Karnataka\",\n    \"postalCode\": \"560008\",\n    \"country\": \"IN\",\n    \"phone\": \"9988776655\"\n}"
 						},
 						"url": {
-							"raw": "{{billingServiceAPIGatewayUrl}}/billingAddress",
+							"raw": "{{billingServiceAPIGatewayUrl}}/address",
 							"host": [
 								"{{billingServiceAPIGatewayUrl}}"
 							],
 							"path": [
-								"billingAddress"
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{billingServiceAPIGatewayUrl}}/address",
+							"host": [
+								"{{billingServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Address By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{billingServiceAPIGatewayUrl}}/address/25dac376-a345-4d06-a2d1-a18d3009f814",
+							"host": [
+								"{{billingServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"address",
+								"25dac376-a345-4d06-a2d1-a18d3009f814"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Address By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{billingServiceAPIGatewayUrl}}/address/695afd2f-c40d-446f-afd0-3247bbd4ebe0",
+							"host": [
+								"{{billingServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"address",
+								"695afd2f-c40d-446f-afd0-3247bbd4ebe0"
 							]
 						}
 					},
@@ -1457,7 +1586,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cf37e096-62af-4f96-8df5-4ac6747a0df6",
 								"exec": [
 									"pm.test(\"Status code should be 201\", function () { pm.response.to.have.status(201); });"
 								],
@@ -1497,7 +1625,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8b7944a4-7b72-4329-ae02-481759fc4730",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -1538,7 +1665,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "97c57f9a-4f2f-4da8-a574-6ddea40a70a7",
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -1560,7 +1686,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"productId\": \"db1b4a0e-b8a9-4d98-90cf-45c6ca246601\",\n    \"quantity\": 5\n}"
+							"raw": "{\n    \"productId\": \"2\",\n    \"quantity\": 2\n}"
 						},
 						"url": {
 							"raw": "{{orderServiceAPIGatewayUrl}}/cart/cartItem",
@@ -1581,7 +1707,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fd55415a-8cb6-419a-a45f-9236e2755bd4",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () { pm.response.to.have.status(204); });"
 								],
@@ -1616,12 +1741,55 @@
 					"response": []
 				},
 				{
-					"name": "Create Order",
+					"name": "Delete All CartItems",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "b07f113d-4f6c-4655-8467-a09e3ad62764",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () { pm.response.to.have.status(204); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{orderServiceAPIGatewayUrl}}/cart/cartItem?cartId=8ada3aaa-4e43-42a4-903e-7174dd76872f",
+							"host": [
+								"{{orderServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"cart",
+								"cartItem"
+							],
+							"query": [
+								{
+									"key": "cartId",
+									"value": "8ada3aaa-4e43-42a4-903e-7174dd76872f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Preview Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
 								"exec": [
 									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
 								],
@@ -1632,6 +1800,52 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shippingAddressId\": \"ce73df9f-5592-46be-bc1f-b09fe0b80605\",\n    \"paymentMethodId\": \"pm_1HyXsuG9R9y827ntZyGafPT1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{orderServiceAPIGatewayUrl}}/previewOrder",
+							"host": [
+								"{{orderServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"previewOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shippingAddressId\": \"13952433-5a9d-49bb-8d60-9da96110bbf4\",\n    \"paymentMethodId\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{orderServiceAPIGatewayUrl}}/order",
 							"host": [
@@ -1643,6 +1857,128 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Order By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{orderServiceAPIGatewayUrl}}/order/c7cf40e8-d279-4e34-9bbb-96537975de01",
+							"host": [
+								"{{orderServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"order",
+								"c7cf40e8-d279-4e34-9bbb-96537975de01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All MyOrders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{orderServiceAPIGatewayUrl}}/order/myorders",
+							"host": [
+								"{{orderServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"order",
+								"myorders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () { pm.response.to.have.status(200); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{orderServiceAPIGatewayUrl}}/orders",
+							"host": [
+								"{{orderServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1650,13 +1986,13 @@
 			"name": "Payment Service",
 			"item": [
 				{
-					"name": "Create credit card payment method.",
+					"name": "Create Payment Method.",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"paymentMethodType\": \"CREDIT_CARD\",\n    \"creditCard\": {\n        \"firstName\": \"devd\",\n        \"lastName\": \"reddy\",\n        \"cardNumber\": \"4111111111111111\",\n        \"last4Digits\": \"1111\",\n        \"expirationMonth\": 12,\n        \"expirationYear\": 2023,\n        \"cvv\": 123\n    }\n}",
+							"raw": "{\n    \"card\": {\n        \"firstName\": \"devd\",\n        \"lastName\": \"reddy\",\n        \"cardNumber\": \"4111111111111111\",\n        \"last4Digits\": \"1111\",\n        \"expirationMonth\": 12,\n        \"expirationYear\": 2023,\n        \"cvv\": 123\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1664,9 +2000,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{paymentServiceUrl}}/paymentMethod",
+							"raw": "{{paymentServiceAPIGatewayUrl}}/paymentMethod",
 							"host": [
-								"{{paymentServiceUrl}}"
+								"{{paymentServiceAPIGatewayUrl}}"
 							],
 							"path": [
 								"paymentMethod"
@@ -1674,60 +2010,60 @@
 						}
 					},
 					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Udemy Course Reset Api",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "RlK9WyJCCf1Gp5IpWViINsg2VsU7FniitwHRqGjc",
-							"type": "string"
-						}
-					]
 				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"mark_as_not_started\":1}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "List All My Payment Methods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{paymentServiceAPIGatewayUrl}}/paymentMethod",
+							"host": [
+								"{{paymentServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"paymentMethod"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://edgeverve.udemy.com/api-2.0/users/me/subscribed-courses/2196488/progress",
-					"protocol": "https",
-					"host": [
-						"edgeverve",
-						"udemy",
-						"com"
-					],
-					"path": [
-						"api-2.0",
-						"users",
-						"me",
-						"subscribed-courses",
-						"2196488",
-						"progress"
-					]
+				{
+					"name": "Get My Payment Methods By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{paymentServiceAPIGatewayUrl}}/paymentMethod/pm_1HyXe2G9R9y827ntOToUD32k",
+							"host": [
+								"{{paymentServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"paymentMethod",
+								"pm_1HyXe2G9R9y827ntOToUD32k"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Do Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{paymentServiceAPIGatewayUrl}}/pay",
+							"host": [
+								"{{paymentServiceAPIGatewayUrl}}"
+							],
+							"path": [
+								"pay"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	],
 	"auth": {
@@ -1744,7 +2080,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "0de36da7-8f6d-4e9f-8e77-bbe2c18e3ca6",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1754,7 +2089,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "d0abd1e3-5d30-46b4-9c96-260e678ac9a2",
 				"type": "text/javascript",
 				"exec": [
 					""
