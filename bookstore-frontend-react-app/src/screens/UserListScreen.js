@@ -50,7 +50,7 @@ const UserListScreen = ({ history }) => {
               <th>FIRST NAME</th>
               <th>LAST NAME</th>
               <th>EMAIL</th>
-              <th>ADMIN</th>
+              <th>ROLES</th>
               <th></th>
             </tr>
           </thead>
@@ -65,13 +65,16 @@ const UserListScreen = ({ history }) => {
                   <a href={`mailto:${user.email}`}>{user.email}</a>
                 </td>
                 <td>
-                  {!!user.roles.filter((u) => {
-                    return u.roleName === 'ADMIN_USER';
-                  }).length ? (
-                    <i className='fas fa-check' style={{ color: 'green' }}></i>
-                  ) : (
-                    <i className='fas fa-times' style={{ color: 'red' }}></i>
-                  )}
+                  {user.roles.map((role) => {
+                    if (role.roleName === 'ADMIN_USER') {
+                      return (
+                        <p style={{ color: 'green' }} className='m-0 p-0'>
+                          <strong>{role.roleName}</strong>
+                        </p>
+                      );
+                    }
+                    return <p className='m-0 p-0'>{role.roleName}</p>;
+                  })}
                 </td>
                 <td>
                   <LinkContainer to={`/admin/user/${user.userId}/edit`}>

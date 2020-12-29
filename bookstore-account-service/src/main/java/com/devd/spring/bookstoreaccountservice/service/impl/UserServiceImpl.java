@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-06-30
@@ -233,18 +234,17 @@ public class UserServiceImpl implements UserService {
       user.setEmail(updateUserRequestFromAdmin.getEmail());
     }
 
-    if(updateUserRequestFromAdmin.isAdmin()){
+    if(user.getRoles().size()>0){
       MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest();
-      List<String> list = new ArrayList<>();
-      list.add("ADMIN_USER");
-      mapUserToRolesRequest.setRoleNames(list);
-      userRoleService.mapUserToRoles(user.getUserName(), mapUserToRolesRequest);
-    }else{
-      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest();
-      List<String> list = new ArrayList<>();
-      list.add("ADMIN_USER");
-      mapUserToRolesRequest.setRoleNames(list);
+      List<String> existingRoles = user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList());
+      mapUserToRolesRequest.setRoleNames(existingRoles);
       userRoleService.removeRolesFromUser(user.getUserName(), mapUserToRolesRequest);
+    }
+
+    if (updateUserRequestFromAdmin.getRoles().size() > 0) {
+      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest();
+      mapUserToRolesRequest.setRoleNames(updateUserRequestFromAdmin.getRoles());
+      userRoleService.mapUserToRoles(user.getUserName(), mapUserToRolesRequest);
     }
 
     userRepository.save(user);

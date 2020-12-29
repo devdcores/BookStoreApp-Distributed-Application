@@ -122,6 +122,14 @@ export const putUserInfoApi = async (userInfoRequestBody) => {
   return responseData;
 };
 
+export const getAllRolesApi = async () => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/account/roles`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
 export const getAllUsersApi = async () => {
   const axiosConfig = getAxiosConfig();
   const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/account/users`, axiosConfig).then((response) => {
@@ -268,6 +276,14 @@ export const removeCartItemApi = async (cartItemId) => {
   return responseData;
 };
 
+export const getAllOrdersApi = async () => {
+  const axiosConfig = getAxiosConfig();
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/order/orders`, axiosConfig).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
 export const getAllMyOrdersApi = async () => {
   const axiosConfig = getAxiosConfig();
   const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/order/order/myorders`, axiosConfig).then((response) => {
@@ -275,7 +291,6 @@ export const getAllMyOrdersApi = async () => {
   });
   return responseData;
 };
-
 export const previewOrderApi = async (previewOrderRequestBody) => {
   const axiosConfig = getAxiosConfig();
   const responseData = axios

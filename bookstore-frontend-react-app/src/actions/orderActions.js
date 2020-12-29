@@ -22,7 +22,7 @@ import {
   ORDER_DELIVER_REQUEST
 } from '../constants/orderConstants';
 import { getErrorMessage } from '../service/CommonUtils';
-import { getAllMyOrdersApi, previewOrderApi, placeOrderApi, getOrderApi } from '../service/RestApiCalls';
+import { getAllMyOrdersApi, previewOrderApi, placeOrderApi, getOrderApi, getAllOrdersApi } from '../service/RestApiCalls';
 
 export const saveBillingAddressIdToLocalStorage = (billingAddressId) => (dispatch) => {
   dispatch({
@@ -46,6 +46,27 @@ export const savePaymentMethodIdToLocalStorage = (paymentMethodId) => (dispatch)
     payload: paymentMethodId
   });
   localStorage.setItem('paymentMethodId', paymentMethodId);
+};
+
+export const listOrdersAdmin = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: ORDER_LIST_REQUEST
+    });
+
+    //Get All my Orders
+    const ordersData = await getAllOrdersApi();
+
+    dispatch({
+      type: ORDER_LIST_SUCCESS,
+      payload: ordersData
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_LIST_FAIL,
+      payload: getErrorMessage(error)
+    });
+  }
 };
 
 export const listMyOrdersAction = () => async (dispatch) => {

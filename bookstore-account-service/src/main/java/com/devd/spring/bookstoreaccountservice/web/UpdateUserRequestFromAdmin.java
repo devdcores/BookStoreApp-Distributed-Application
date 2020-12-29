@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: Devaraj Reddy, Date : 2019-06-30
@@ -24,6 +26,7 @@ public class UpdateUserRequestFromAdmin {
     @Email
     private String email;
 
-    private boolean isAdmin;
+    private List<String> roles = new ArrayList<>();
+
 
 }

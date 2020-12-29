@@ -1,5 +1,4 @@
 
--- add data into PRODUCT category table.
 insert into PRODUCT_CATEGORY (product_category_id, created_at, updated_at, description, product_category_name) values
  ('1', now(), now(), 'These books belong to Literature category', 'Literature'),
  ('2', now(), now(), 'These books belong to Fiction category', 'Fiction'),
@@ -10,7 +9,6 @@ insert into PRODUCT_CATEGORY (product_category_id, created_at, updated_at, descr
  ('7', now(), now(), 'These books belong to Politics category', 'Politics'),
  ('8', now(), now(), 'These books belong to Productivity category', 'Productivity');
 
--- add data into products table
 insert into PRODUCT (product_id, created_at, updated_at, available_item_count, product_description, price, product_name, product_category_id, product_image_id) values
 ('1', now(), now(), 345, 'Modern Indian Literature: Poems and Short Stories', 85, 'Modern Indian Literature: Poems and Short Stories', '1', 'c16108e1-8276-41ad-bf12-4aee4c0a7e65__IndModernLiterature.jpg'),
 ('2', now(), now(), 987, 'The Complete Novels of Sherlock Holmes', 140, 'The Complete Novels of Sherlock Holmes', '1', '2b3ba80b-da93-4206-b50f-83008180a09e__sheHolmes.jpg'),
@@ -42,7 +40,6 @@ insert into PRODUCT (product_id, created_at, updated_at, available_item_count, p
 ('24', now(), now(), 678, '52 Small Changes for the Mind: Improve Memory', 299, '52 Small Changes for the Mind: Improve Memory', '8', '46fb8d5b-2979-4c54-848f-512693b37818__52 Small Changes for the Mind- Improve Memory.jpg'),
 ('25', now(), now(), 3545, 'Productivity Superhero', 500, 'Productivity Superhero', '8', '990945b7-900e-432b-9b2c-79ea20302f6e__Productivity Superhero.jpg');
 
---add data to review table
 insert into REVIEW (review_id, rating_value, user_id, review_message, product_id, user_name, CREATED_AT, UPDATED_AT) values
 (1, 4, 1, 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab corporis et ea voluptas laboriosam nesciunt perferendis iste, architecto quae dignissimos. Tempore quod, veritatis quos consequuntur officia est dolore explicabo facilis.', '1', 'devd', now(), now()),
 (2, 3, 2, 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit aperiam inventore eligendi assumenda accusamus nulla quaerat nostrum vitae officia corporis iure optio esse dicta non ipsam nisi quod ex, totam qui consequuntur iusto minima molestiae eius labore. Nobis similique reiciendis expedita atque velit temporibus exercitationem, eligendi, nisi fuga minus facilis!', '1', 'devd2', now(), now()),

@@ -20,4 +20,6 @@ public interface OrderService {
     CreateOrderResponse getOrderById(String orderId);
 
     List<CreateOrderResponse> getMyOrders();
+
+    List<CreateOrderResponse> getAllOrders();
 }

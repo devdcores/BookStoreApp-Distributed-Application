@@ -309,6 +309,17 @@ public class OrderServiceImpl implements OrderService {
         String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication);
         List<Order> order = orderRepository.findByUserId(userIdFromToken);
 
+        return getCreateOrderResponses(order);
+    }
+
+    @Override
+    public List<CreateOrderResponse> getAllOrders() {
+        Iterable<Order> order = orderRepository.findAll();
+
+        return getCreateOrderResponses(order);
+    }
+
+    private List<CreateOrderResponse> getCreateOrderResponses(Iterable<Order> order) {
         List<CreateOrderResponse> createOrderResponseList = new ArrayList<>();
         order.forEach(o->{
             String orderId = o.getOrderId();

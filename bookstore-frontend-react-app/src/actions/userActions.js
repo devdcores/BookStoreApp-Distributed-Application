@@ -243,7 +243,7 @@ export const updateUserAction = (userId, userUpdateRequestBody) => async (dispat
     await updateUserApi(userId, userUpdateRequestBody);
 
     dispatch({ type: USER_UPDATE_SUCCESS });
-
+    dispatch(getUserDetails(userId));
     dispatch(listUsersAction());
   } catch (error) {
     const message = error.response && error.response.data.message ? error.response.data.message : error.message;

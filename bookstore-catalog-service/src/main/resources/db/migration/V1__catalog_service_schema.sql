@@ -36,13 +36,3 @@ create table REVIEW (
     UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (review_id)
 );
-
-create table IMAGE_TABLE(
-    image_id varchar(255) not null,
-    type varchar(10),
-    name varchar(255),
-    PIC_BYTES varchar,
-    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    primary key (image_id)
-)
