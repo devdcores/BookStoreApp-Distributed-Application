@@ -4,6 +4,7 @@
 #root {
     background-color: var(--bg); /* background color variable */
     color: var(--color-text);
+    height: 100vh;
 }
 
 body {
@@ -92,21 +93,18 @@ p {
     align-items: center;
 }
 
-.card-body{
-    background-color: var(--bg-panel);
-}
-
-.card-body a {
-    color: var(--color-link);
-}
-
-.list-group-item {
+.card-body,
+.list-group-item
+{
     background-color: var(--bg-panel)!important;
 }
 
-.card-body a :hover {
+.link-container a{
+    color: var(--color-link)!important;
+}
+
+.link-container a :hover{
     color: var(--color-hover);
-    text-decoration: underline;
     text-decoration-color: var(--color-hover);
     -webkit-text-decoration-color: var(--color-hover);
 }

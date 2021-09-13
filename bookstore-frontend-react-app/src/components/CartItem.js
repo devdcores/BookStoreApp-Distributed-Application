@@ -40,7 +40,7 @@ const CartItem = ({ item, addToCart }) => {
             <Col md={2}>
               <Image src={`${BACKEND_API_GATEWAY_URL}/api/catalog/image/${product?.imageId}`} alt={item.productName} fluid rounded></Image>
             </Col>
-            <Col md={3} className='pt-4'>
+            <Col md={3} className='pt-4 link-container'>
               <Link to={`/product/${item.productId}`}>{item.productName}</Link>
             </Col>
             <Col md={2} className='pt-4'>
