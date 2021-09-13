@@ -1,9 +1,11 @@
 /* default styling variables - making background color as white */
 #root{
     --bg: #ffffff;
-    --bg-panel: #ebebeb;
+    --bg-panel:  #ffffff;
     --color-heading: rgb(27, 168, 14);
     --color-text: #333333;
+    --color-link: #d9230f;
+    --color-hover: #91170a;
 }
 
 /* dark theme styling - Here, we set data-them as "dark"*/
@@ -11,5 +13,7 @@
     --bg: #333333;
     --bg-panel: #434343;
     --color-heading: #0077ff;
-    --color-text: #B5B5B5;
+    --color-text: #eae9e9;
+    --color-link: #aeaeae;
+    --color-hover: #ffffff;
 }
