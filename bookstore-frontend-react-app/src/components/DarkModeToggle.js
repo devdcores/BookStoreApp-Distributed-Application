@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
+import { useDispatch, useSelector } from 'react-redux';
+import { ENABLE_DARK_MODE, DISABLE_DARK_MODE } from '../actions/darkModeActions';
 
-const ToggleTheme = () => {
+const DarkModeToggle = () => {
 
-  const initialStateChecked = JSON.parse(localStorage.getItem('isDark'));
-  const [checked, setChecked] = useState(initialStateChecked);
+  const { isDark } = useSelector((state) => state.darkMode);
+  const checked = isDark;
+
+  const dispatch = useDispatch();
 
   const changeThemeToDark = () => {
     document.getElementById('root').setAttribute('data-theme', 'dark');
@@ -15,16 +19,20 @@ const ToggleTheme = () => {
   };
 
   const handleChangeToggle = (e) => {
-    setChecked(e.target.checked);
+    if (e.target.checked) {
+      dispatch(ENABLE_DARK_MODE());
+    } else {
+      dispatch(DISABLE_DARK_MODE());
+    }
   };
 
   useEffect(() => {
       if (checked) {
         changeThemeToDark();
-        localStorage.setItem("isDark", JSON.stringify(true))
+        localStorage.setItem('isDark', JSON.stringify(true));
       } else {
         changeThemeToLight();
-        localStorage.setItem("isDark", JSON.stringify(false))
+        localStorage.setItem('isDark', JSON.stringify(false));
       }
     }
     , [checked]
@@ -43,4 +51,4 @@ const ToggleTheme = () => {
   );
 };
 
-export default ToggleTheme;
+export default DarkModeToggle;
