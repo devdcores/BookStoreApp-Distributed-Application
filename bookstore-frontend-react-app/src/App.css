@@ -4,6 +4,7 @@
 #root {
     background-color: var(--bg); /* background color variable */
     color: var(--color-text);
+    height: 100vh;
 }
 
 body {
@@ -105,4 +106,8 @@ p {
     text-decoration: underline;
     text-decoration-color: var(--color-hover);
     -webkit-text-decoration-color: var(--color-hover);
+}
+
+.pagination .page-link {
+    border-radius: 5px;
 }
