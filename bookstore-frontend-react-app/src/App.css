@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('./themes.css');
+
+#root {
+  background-color: var(--bg); /* background color variable */
+}
 
 body {
   margin: 0;
@@ -77,4 +82,11 @@ p {
   color: #d9230f;
   background-color: #fff;
   border: 1px solid #eee;
+}
+
+.row-container-fully-centered {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
