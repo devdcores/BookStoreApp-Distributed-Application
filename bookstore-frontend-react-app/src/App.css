@@ -7,6 +7,10 @@
     height: 100vh;
 }
 
+#root main {
+    background-color: var(--bg)!important;
+}
+
 body {
     margin: 0;
     padding: 0;
