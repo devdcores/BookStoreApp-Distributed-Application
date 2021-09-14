@@ -30,6 +30,8 @@ const ProductScreen = (props) => {
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const { success: successProductReview, loading: loadingProductReview, error: errorProductReview } = productReviewCreate;
 
+  const isDarkMode = useSelector((state) => state.darkMode?.isDark);
+
   useEffect(async () => {
     // setProductimageBase64(null);
     // dispatch(listProductDetailsAction(props.match.params.id));
@@ -61,7 +63,7 @@ const ProductScreen = (props) => {
 
   return (
     <>
-      <Link className='btn btn-dark my-3' to='/'>
+      <Link className={isDarkMode ? 'btn btn-light my-3' : 'btn btn-dark my-3'} to='/'>
         Go Back
       </Link>
 
