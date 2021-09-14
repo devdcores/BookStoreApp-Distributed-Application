@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin } from '../service/CommonUtils';
 import { logout } from '../actions/userActions';
+import DarkModeToggle from './DarkModeToggle';
 const Header = (props) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -64,6 +65,7 @@ const Header = (props) => {
                   </LinkContainer>
                 </NavDropdown>
               )}
+              <DarkModeToggle/>
             </Nav>
           </Navbar.Collapse>
         </Container>

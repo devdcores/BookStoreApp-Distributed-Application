@@ -1,0 +1,21 @@
+/* default styling variables - making background color as white */
+#root{
+    --bg: #ffffff;
+    --bg-panel:  #ffffff;
+    --color-heading: rgb(27, 168, 14);
+    --color-text: #333333;
+    --color-link: #d9230f;
+    --color-hover: #91170a;
+    --color-hover-row: rgba(0,0,0,.075);
+}
+
+/* dark theme styling - Here, we set data-them as "dark"*/
+#root[data-theme='dark'] {
+    --bg: #333333;
+    --bg-panel: #434343;
+    --color-heading: #0077ff;
+    --color-text: #eae9e9;
+    --color-link: #ececec;
+    --color-hover: #ffffff;
+    --color-hover-row: rgba(0,0,0,.35);
+}

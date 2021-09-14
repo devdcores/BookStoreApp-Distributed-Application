@@ -8,7 +8,7 @@ const Product = (props) => {
   const product = props.product;
   return (
     <>
-      <Card className='my-3 rounded' style={{ height: '400px' }}>
+      <Card className='my-3 rounded link-container' style={{ height: '400px' }}>
         <Link to={`/product/${product.productId}`}>
           <Card.Img
             src={`${BACKEND_API_GATEWAY_URL}/api/catalog/image/${product?.imageId}`}

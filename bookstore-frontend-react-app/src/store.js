@@ -31,6 +31,7 @@ import {
 import { cartAddReducer, cartDetailReducer, cartRemoveReducer } from './reducers/cartReducers';
 import { addressDeleteReducer, addressListMyReducer, addressSaveReducer } from './reducers/addressReducer';
 import { paymentMethodListMyReducer, paymentMethodSaveReducer } from './reducers/paymentReducers';
+import { darkModeReducer } from './reducers/darkModeReducer';
 
 const appReducer = combineReducers({
   productList: productListReducer,
@@ -61,13 +62,15 @@ const appReducer = combineReducers({
   addressListMy: addressListMyReducer,
   addressDelete: addressDeleteReducer,
   paymentMethodSave: paymentMethodSaveReducer,
-  paymentMethodListMy: paymentMethodListMyReducer
+  paymentMethodListMy: paymentMethodListMyReducer,
+  darkMode: darkModeReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
 const billingAddressId = localStorage.getItem('billingAddressId') ? localStorage.getItem('billingAddressId') : null;
 const shippingAddressId = localStorage.getItem('shippingAddressId') ? localStorage.getItem('shippingAddressId') : null;
 const paymentMethodId = localStorage.getItem('paymentMethodId') ? localStorage.getItem('paymentMethodId') : null;
+const isDark = localStorage.getItem('isDark') ? JSON.parse(localStorage.getItem('isDark')) : false;
 
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
@@ -75,6 +78,9 @@ const initialState = {
     billingAddressId,
     shippingAddressId,
     paymentMethodId
+  },
+  darkMode: {
+    isDark: isDark
   }
 };
 
