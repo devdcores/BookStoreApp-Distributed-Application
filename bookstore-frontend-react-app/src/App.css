@@ -103,8 +103,9 @@ p {
     color: var(--color-link)!important;
 }
 
-.link-container a :hover{
-    color: var(--color-hover);
+.link-container a:hover,
+.nav-link:hover{
+    color: var(--color-hover)!important;
     text-decoration-color: var(--color-hover);
     -webkit-text-decoration-color: var(--color-hover);
 }
