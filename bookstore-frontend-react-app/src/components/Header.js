@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin } from '../service/CommonUtils';
 import { logout } from '../actions/userActions';
 import DarkModeToggle from './DarkModeToggle';
+import SearchBar from './SearchBar';
 const Header = (props) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -30,6 +31,7 @@ const Header = (props) => {
           <LinkContainer to='/'>
             <Navbar.Brand className='bookstore-brand'>BookStore</Navbar.Brand>
           </LinkContainer>
+          <SearchBar/>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='navbar-nav ml-auto'>
