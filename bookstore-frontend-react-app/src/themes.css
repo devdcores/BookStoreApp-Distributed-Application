@@ -6,6 +6,7 @@
     --color-text: #333333;
     --color-link: #d9230f;
     --color-hover: #91170a;
+    --color-hover-row: rgba(0,0,0,.075);
 }
 
 /* dark theme styling - Here, we set data-them as "dark"*/
@@ -16,4 +17,5 @@
     --color-text: #eae9e9;
     --color-link: #ececec;
     --color-hover: #ffffff;
+    --color-hover-row: rgba(0,0,0,.35);
 }

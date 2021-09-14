@@ -99,6 +99,15 @@ p {
     background-color: var(--bg-panel)!important;
 }
 
+.table {
+    color: var(--color-text)!important;
+}
+
+.table-hover tbody tr:hover {
+    color: var(--color-text)!important;
+    background-color: var(--color-hover-row)!important;
+}
+
 .link-container a{
     color: var(--color-link)!important;
 }
