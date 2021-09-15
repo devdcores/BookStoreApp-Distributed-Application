@@ -17,7 +17,7 @@ const SearchBar = () => {
   };
 
   return (
-    <>
+    <div className="w-100">
       <Form onSubmit={searchHandler}>
         <div className="bg-light rounded shadow-sm">
           <div className="input-group">
@@ -41,7 +41,7 @@ const SearchBar = () => {
           </div>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
 

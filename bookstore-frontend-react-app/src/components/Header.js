@@ -37,11 +37,13 @@ const Header = (props) => {
             <Nav className='navbar-nav ml-auto'>
               <LinkContainer to='/cart'>
                 <Nav.Link>
-                  <i className='p-1 fas fa-shopping-cart'></i>Cart
+                  <div className="row-container-fully-centered">
+                    <i className='p-1 fas fa-shopping-cart'></i>Cart
+                  </div>
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.userName} id='username'>
+                <NavDropdown title={userInfo.userName} id='username' className="row-container-fully-centered">
                   <LinkContainer to='/userProfile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
@@ -55,7 +57,7 @@ const Header = (props) => {
                 </LinkContainer>
               )}
               {userInfo && isAdmin() && (
-                <NavDropdown title='Admin' id='adminmenu'>
+                <NavDropdown title='Admin' id='adminmenu' className="row-container-fully-centered">
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
