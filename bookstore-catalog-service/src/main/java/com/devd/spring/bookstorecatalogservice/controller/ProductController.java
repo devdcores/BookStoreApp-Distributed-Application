@@ -82,9 +82,10 @@ public class ProductController {
     public ResponseEntity<?> getAllProducts(@RequestParam(value = "sort", required = false) String sort,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "size", required = false) Integer size,
+                                            @RequestParam(value = "searchText", required = false) String searchText,
                                             PagedResourcesAssembler<ProductResponse> assembler) {
 
-        Page<ProductResponse> list = productService.getAllProducts(sort, page, size);
+        Page<ProductResponse> list = productService.getAllProducts(sort, page, size, searchText);
     
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest().build()
                                                         .toUriString());

@@ -23,5 +23,6 @@ public interface ProductService {
 
   Page<Product> findAllProducts(Pageable pageable);
 
-  Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size);
+  Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size, String searchText);
+
 }

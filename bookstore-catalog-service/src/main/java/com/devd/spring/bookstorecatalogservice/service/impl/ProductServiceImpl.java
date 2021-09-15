@@ -17,9 +17,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -148,7 +151,7 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size) {
+    public Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size, String searchText) {
         
         //set defaults
         if (size == null || size == 0) {
@@ -179,7 +182,27 @@ public class ProductServiceImpl implements ProductService {
             }
             
         }
-        Page<Product> allProducts = productRepository.findAll(pageable);
+
+        Specification<Product> specification = Specification.where(
+                (root, criteriaQuery, criteriaBuilder) -> {
+
+                    List<Predicate> predicates = new ArrayList<>();
+
+                    if (searchText != null) {
+                        List<Predicate> predicateList = new ArrayList<>();
+                        predicateList.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), "%" + searchText.toLowerCase() + "%"));
+                        predicateList.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + searchText.toLowerCase() + "%"));
+
+                        Predicate[] array = new Predicate[predicateList.size()];
+                        predicates.add(criteriaBuilder.or(predicateList.toArray(array)));
+                    }
+
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+
+                }
+        );
+
+        Page<Product> allProducts = productRepository.findAll(specification, pageable);
         Page<ProductResponse> allProductsResponse = allProducts.map(Product::fromEntity);
         allProductsResponse.forEach(productResponse -> populateRatingForProduct(productResponse.getProductId(), productResponse));
 
