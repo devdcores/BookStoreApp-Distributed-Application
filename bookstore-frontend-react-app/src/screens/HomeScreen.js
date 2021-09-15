@@ -11,15 +11,15 @@ import ReactPaginate from 'react-paginate';
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products, pageResponse } = productList;
+  const { loading, error, products, pageResponse, searchText } = productList;
 
   useEffect(() => {
-    dispatch(listProductsAction(0));
+    dispatch(listProductsAction(0, searchText));
   }, [dispatch]);
 
   const handlePageClick = (data) => {
     let selected = data.selected;
-    dispatch(listProductsAction(selected));
+    dispatch(listProductsAction(selected, searchText));
   };
 
   return (

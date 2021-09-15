@@ -3,6 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 import store from '../store';
 import { USER_LOGOUT } from '../constants/userConstants';
+import { toURLEncode } from './EncodeUtil';
 
 axios.interceptors.response.use(
   (response) => response,
@@ -235,8 +236,9 @@ export const getImageApi = async (imageId) => {
   return responseData;
 };
 
-export const getAllProductsDetailApi = async (pageNumber) => {
-  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products?page=${pageNumber}&size=8`).then((response) => {
+export const getAllProductsDetailApi = async (pageNumber, searchText= "") => {
+
+  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products?page=${pageNumber}&size=8&searchText=${toURLEncode(searchText)}`).then((response) => {
     return response.data;
   });
   return responseData;
