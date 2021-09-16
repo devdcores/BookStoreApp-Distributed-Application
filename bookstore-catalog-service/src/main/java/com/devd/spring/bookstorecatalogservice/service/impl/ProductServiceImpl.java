@@ -9,6 +9,7 @@ import com.devd.spring.bookstorecatalogservice.repository.dao.Review;
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
 import com.devd.spring.bookstorecatalogservice.service.ReviewService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.ProductFiltersRequest;
 import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -151,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size, String searchText) {
+    public Page<ProductResponse> getAllProducts(String sort, Integer page, Integer size, String searchText, ProductFiltersRequest filters) {
         
         //set defaults
         if (size == null || size == 0) {
@@ -195,6 +198,14 @@ public class ProductServiceImpl implements ProductService {
 
                         Predicate[] array = new Predicate[predicateList.size()];
                         predicates.add(criteriaBuilder.or(predicateList.toArray(array)));
+                    }
+
+                    if (filters.getMinPrice() != null) {
+                        predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), filters.getMinPrice()));
+                    }
+
+                    if (filters.getMaxPrice() != null) {
+                        predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), filters.getMaxPrice()));
                     }
 
                     return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
