@@ -7,6 +7,7 @@ import { Col, Row } from 'react-bootstrap';
 import { listProductsAction } from '../actions/productActions';
 import FullPageLoader from '../components/FullPageLoader';
 import ReactPaginate from 'react-paginate';
+import PriceFilter from '../components/PriceFilter';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -30,29 +31,36 @@ const HomeScreen = () => {
       ) : (
         <>
           <Row>
-            {products.map((product) => (
-              <Col key={product.productId} sm={12} md={6} lg={4} xl={3}>
-                <Product key={product.productId} product={product}></Product>
-              </Col>
-            ))}
-          </Row>
-          {/* pageResponse?.pageable?.pageNumber */}
-          <Row className='m-5 justify-content-md-center'>
-            <ReactPaginate
-              previousLabel={'Previous'}
-              nextLabel={'Next'}
-              breakLabel={'...'}
-              breakClassName={'break-me'}
-              pageCount={pageResponse?.totalPages}
-              marginPagesDisplayed={50}
-              pageRangeDisplayed={10}
-              onPageChange={(e) => handlePageClick(e)}
-              containerClassName={'pagination'}
-              activeClassName={'page-item active'}
-              pageLinkClassName={'page-link'}
-              previousClassName={'page-link'}
-              nextClassName={'page-link'}
-            />
+            <Col md={3}>
+              <PriceFilter/>
+            </Col>
+            <Col>
+              <Row>
+                {products.map((product) => (
+                  <Col key={product.productId} sm={12} md={6} lg={4} xl={3}>
+                    <Product key={product.productId} product={product}></Product>
+                  </Col>
+                ))}
+              </Row>
+              {/* pageResponse?.pageable?.pageNumber */}
+              <Row className='m-5 justify-content-md-center'>
+                <ReactPaginate
+                  previousLabel={'Previous'}
+                  nextLabel={'Next'}
+                  breakLabel={'...'}
+                  breakClassName={'break-me'}
+                  pageCount={pageResponse?.totalPages}
+                  marginPagesDisplayed={50}
+                  pageRangeDisplayed={10}
+                  onPageChange={(e) => handlePageClick(e)}
+                  containerClassName={'pagination'}
+                  activeClassName={'page-item active'}
+                  pageLinkClassName={'page-link'}
+                  previousClassName={'page-link'}
+                  nextClassName={'page-link'}
+                />
+              </Row>
+            </Col>
           </Row>
         </>
       )}

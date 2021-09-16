@@ -39,11 +39,11 @@ import {
   getImageApi
 } from '../service/RestApiCalls';
 
-export const listProductsAction = (pageNumber, searchText= '') => async (dispatch) => {
+export const listProductsAction = (pageNumber, searchText= '', filters= {}) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     //Get All Products Detail
-    const allProductsDetail = await getAllProductsDetailApi(pageNumber || 0, searchText);
+    const allProductsDetail = await getAllProductsDetailApi(pageNumber || 0, searchText, filters);
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: allProductsDetail.page.content,
