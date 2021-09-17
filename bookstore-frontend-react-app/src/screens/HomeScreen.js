@@ -12,17 +12,18 @@ import PriceFilter from '../components/PriceFilter';
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products, pageResponse, searchText } = productList;
+  const { loading, error, products, pageResponse, searchText, filters } = productList;
+  const currentPage = pageResponse?.number ? pageResponse.number : 0;
 
   useEffect(() => {
-    dispatch(listProductsAction(0, searchText));
+    dispatch(listProductsAction(0, searchText, filters));
   }, [dispatch]);
 
   const handlePageClick = (data) => {
     let selected = data.selected;
-    dispatch(listProductsAction(selected, searchText));
+    dispatch(listProductsAction(selected, searchText, filters));
   };
-
+  
   return (
     <>
       <h1>Latest Products</h1>
@@ -58,6 +59,7 @@ const HomeScreen = () => {
                   pageLinkClassName={'page-link'}
                   previousClassName={'page-link'}
                   nextClassName={'page-link'}
+                  forcePage={currentPage}
                 />
               </Row>
             </Col>

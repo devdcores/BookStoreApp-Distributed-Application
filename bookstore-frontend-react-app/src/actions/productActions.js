@@ -48,7 +48,8 @@ export const listProductsAction = (pageNumber, searchText= '', filters= {}) => a
       type: PRODUCT_LIST_SUCCESS,
       payload: allProductsDetail.page.content,
       pageResponse: allProductsDetail.page,
-      searchText
+      searchText,
+      filters
     });
   } catch (error) {
     dispatch({

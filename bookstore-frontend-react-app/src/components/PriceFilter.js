@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProductsAction } from '../actions/productActions';
+import { useForm } from '../hooks/useForm';
 
 const PriceFilter = () => {
 
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
+  const filters = useSelector((state) => state.productList.filters);  
+  const searchText = useSelector((state) => state.productList.searchText);
 
-  const dispatch = useDispatch()
-  const {searchText} = useSelector((state) => state.productList);
+  const initialState = {
+    minPrice: '',
+    maxPrice: '',
+  };
+  const [form, handleInputChange, resetForm, setForm] = useForm(initialState);
+  const {minPrice, maxPrice} = form;
+
+  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    console.log(`min price ${minPrice} & max price ${maxPrice}`)
-    dispatch(listProductsAction(0, searchText, {minPrice, maxPrice}))
+    e.preventDefault();    
+    dispatch(listProductsAction(0, searchText, {minPrice, maxPrice}));
   };
+
+  useEffect(() => {
+    if (Object.keys(filters).length === 0) {
+      resetForm();
+    } else {
+      setForm(filters);
+    }
+  }, [filters])
 
   return (
     <>
@@ -25,14 +39,16 @@ const PriceFilter = () => {
             <Form.Control
               type='number'
               placeholder='min'
+              name='minPrice'
               value={minPrice}
-              onChange={event => setMinPrice(event.target.value)}
+              onChange={handleInputChange}
             />
             <Form.Control
               type='number'
               placeholder='max'
+              name='maxPrice'
               value={maxPrice}
-              onChange={event => setMaxPrice(event.target.value)}
+              onChange={handleInputChange}
             />
             <Button type='submit' variant='primary'>
               >
