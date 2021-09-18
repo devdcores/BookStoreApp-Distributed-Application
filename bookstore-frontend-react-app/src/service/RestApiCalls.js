@@ -238,6 +238,8 @@ export const getImageApi = async (imageId) => {
 
 export const getAllProductsDetailApi = async (pageNumber, searchText= "", filters= {}) => {
 
+  // Params must have format {key: value} where value is a primite.
+  // Value must not be object
   const toQueryParams = (params = {}) => {
     let queryParams = "";
 

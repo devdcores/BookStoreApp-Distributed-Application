@@ -8,6 +8,7 @@ import { listProductsAction } from '../actions/productActions';
 import FullPageLoader from '../components/FullPageLoader';
 import ReactPaginate from 'react-paginate';
 import PriceFilter from '../components/PriceFilter';
+import RatingFilter from '../components/RatingFilter';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const HomeScreen = () => {
           <Row>
             <Col md={3}>
               <PriceFilter/>
+              <RatingFilter/>
             </Col>
             <Col>
               <Row>

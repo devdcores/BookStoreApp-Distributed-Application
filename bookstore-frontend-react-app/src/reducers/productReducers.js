@@ -38,8 +38,10 @@ const initialStateProductList = {
   error: '',
   searchText: '',
   filters: {
-  },
-  clearFilters: false,
+    rating: '',
+    minPrice:'',
+    maxPrice:''
+  }
 };
 export const productListReducer = (state = initialStateProductList, action) => {
   switch (action.type) {

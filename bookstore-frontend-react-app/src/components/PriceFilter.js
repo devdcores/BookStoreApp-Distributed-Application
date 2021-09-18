@@ -51,7 +51,7 @@ const PriceFilter = () => {
               onChange={handleInputChange}
             />
             <Button type='submit' variant='primary'>
-              >
+              &gt;
             </Button>
           </div>
         </Form>
