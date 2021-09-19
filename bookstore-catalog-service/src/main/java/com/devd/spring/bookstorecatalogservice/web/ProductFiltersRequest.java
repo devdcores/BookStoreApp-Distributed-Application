@@ -22,4 +22,8 @@ public class ProductFiltersRequest {
 
     private BigDecimal maxPrice;
 
+    private BigDecimal minRating;
+
+    private BigDecimal maxRating;
+
 }

@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  * @author: Devaraj Reddy,
@@ -54,6 +55,12 @@ public class Product extends DateAudit {
 
     @Column(name = "AVAILABLE_ITEM_COUNT")
     private int availableItemCount;
+
+    @Column(name = "AVERAGE_RATING")
+    private BigDecimal averageRating;
+
+    @Column(name = "NO_OF_RATINGS")
+    private Integer noOfRatings;
 
     public String getProductCategory() {
         return productCategory.getProductCategoryName();

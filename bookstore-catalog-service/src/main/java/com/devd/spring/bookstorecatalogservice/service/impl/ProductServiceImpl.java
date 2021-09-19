@@ -25,6 +25,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -90,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
         if (reviewsForProduct.size() > 0) {
             double sum = reviewsForProduct.stream().mapToDouble(Review::getRatingValue).sum();
             double rating = sum / reviewsForProduct.size();
-            productResponse.setAverageRating(rating);
+            productResponse.setAverageRating(BigDecimal.valueOf(rating));
         }
 
         productResponse.setNoOfRatings(Math.toIntExact(reviewRepository.countAllByProductId(productId)));
@@ -208,15 +209,34 @@ public class ProductServiceImpl implements ProductService {
                         predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), filters.getMaxPrice()));
                     }
 
+                    if (filters.getMinRating() != null) {
+                        List<Predicate> predicateList = new ArrayList<>();
+                        predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("averageRating"), filters.getMinRating()));
+                        if (filters.getMinRating().equals(BigDecimal.ZERO)) {
+                            predicateList.add(criteriaBuilder.isNull(root.get("averageRating"))); // Include no rating products
+                        }
+
+                        Predicate[] array = new Predicate[predicateList.size()];
+                        predicates.add(criteriaBuilder.or(predicateList.toArray(array)));
+                    }
+
+                    if (filters.getMaxRating() != null) {
+                        List<Predicate> predicateList = new ArrayList<>();
+                        predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get("averageRating"), filters.getMaxRating()));
+                        predicateList.add(criteriaBuilder.isNull(root.get("averageRating"))); // Include no rating products
+
+                        Predicate[] array = new Predicate[predicateList.size()];
+                        predicates.add(criteriaBuilder.or(predicateList.toArray(array)));
+                    }
+
                     return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
 
                 }
         );
 
         Page<Product> allProducts = productRepository.findAll(specification, pageable);
-        Page<ProductResponse> allProductsResponse = allProducts.map(Product::fromEntity);
-        allProductsResponse.forEach(productResponse -> populateRatingForProduct(productResponse.getProductId(), productResponse));
 
-        return allProductsResponse;
+        return allProducts.map(Product::fromEntity);
+
     }
 }
