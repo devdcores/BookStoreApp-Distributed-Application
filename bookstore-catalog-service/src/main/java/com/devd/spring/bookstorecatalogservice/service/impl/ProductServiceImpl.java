@@ -21,8 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -227,6 +225,10 @@ public class ProductServiceImpl implements ProductService {
 
                         Predicate[] array = new Predicate[predicateList.size()];
                         predicates.add(criteriaBuilder.or(predicateList.toArray(array)));
+                    }
+
+                    if (filters.getAvailability() != null && filters.getAvailability().equals(true)) {
+                        predicates.add(criteriaBuilder.greaterThan(root.get("availableItemCount"), 0));
                     }
 
                     return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));

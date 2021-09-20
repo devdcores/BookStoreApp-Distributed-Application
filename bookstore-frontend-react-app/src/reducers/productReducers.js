@@ -36,7 +36,8 @@ export const initialStateFilters = {
   minPrice:'',
   maxPrice:'',
   minRating:'0',
-  maxRating:'5'
+  maxRating:'5',
+  availability:''
 }
 const initialStateProductList = {
   loading: false,

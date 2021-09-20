@@ -11,10 +11,17 @@ export const useForm = (initialState) => {
         });
     };
 
+    const handleCheckedChange = ({target}) => {
+        setForm({
+          ...form,
+          [target.name] : target.checked
+        });
+    };
+
     const resetForm = () => {
         setForm(initialState);
     }
 
-    return [form , handleInputChange, resetForm, setForm];
+    return [form , handleInputChange, resetForm, setForm, handleCheckedChange];
 
 }

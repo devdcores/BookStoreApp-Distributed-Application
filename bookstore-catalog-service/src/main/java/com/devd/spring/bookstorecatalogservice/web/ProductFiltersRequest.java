@@ -26,4 +26,6 @@ public class ProductFiltersRequest {
 
     private BigDecimal maxRating;
 
+    private Boolean availability;
+
 }
