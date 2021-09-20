@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { listProductsAction } from '../actions/productActions';
+import { listProductsAction, resetFiltersProductsAction } from '../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../hooks/useForm';
+import { initialStateFilters } from '../reducers/productReducers';
 
 const SearchBar = () => {
 
@@ -16,7 +17,7 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(listProductsAction(0, searchText, {}));
+    dispatch(listProductsAction(0, searchText, initialStateFilters));
   };
   
   return (

@@ -40,8 +40,8 @@ import {
 } from '../service/RestApiCalls';
 
 export const listProductsAction = (pageNumber, searchText= '', filters= {}) => async (dispatch) => {
-  console.log(filters);
   try {
+    console.log(filters)
     dispatch({ type: PRODUCT_LIST_REQUEST });
     //Get All Products Detail
     const allProductsDetail = await getAllProductsDetailApi(pageNumber || 0, searchText, filters);

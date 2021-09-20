@@ -18,22 +18,21 @@ const PriceFilter = () => {
 
   const dispatch = useDispatch();
 
-  const submitHandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();    
-    dispatch(listProductsAction(0, searchText, {minPrice, maxPrice}));
+    dispatch(listProductsAction(0, searchText, {...filters, minPrice, maxPrice}));
   };
 
   useEffect(() => {
-    if (Object.keys(filters).length === 0) {
-      resetForm();
-    } else {
-      setForm(filters);
-    }
+      setForm({
+        minPrice: filters.minPrice,
+        maxPrice: filters.maxPrice
+      });
   }, [filters])
 
   return (
     <>
-        <Form onSubmit={submitHandler}>
+        <Form onSubmit={handleSubmit} className="mt-3">
           <h6>Price</h6>
           <div className="row-container-fully-centered">
             <Form.Control
@@ -42,6 +41,7 @@ const PriceFilter = () => {
               name='minPrice'
               value={minPrice}
               onChange={handleInputChange}
+              className='mr-2'
             />
             <Form.Control
               type='number'
@@ -49,6 +49,7 @@ const PriceFilter = () => {
               name='maxPrice'
               value={maxPrice}
               onChange={handleInputChange}
+              className='mr-2'
             />
             <Button type='submit' variant='primary'>
               &gt;

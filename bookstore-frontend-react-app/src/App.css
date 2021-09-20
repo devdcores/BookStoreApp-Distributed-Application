@@ -97,6 +97,13 @@ p {
     align-items: center;
 }
 
+.col-container-fully-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .card-body,
 .list-group-item
 {

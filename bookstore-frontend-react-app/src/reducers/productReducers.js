@@ -32,30 +32,32 @@ import {
   PRODUCT_IMAGE_RESET
 } from '../constants/productConstants';
 
+export const initialStateFilters = {
+  minPrice:'',
+  maxPrice:'',
+  minRating:'0',
+  maxRating:'5'
+}
 const initialStateProductList = {
   loading: false,
   products: [],
   error: '',
   searchText: '',
-  filters: {
-    rating: '',
-    minPrice:'',
-    maxPrice:''
-  }
+  filters: initialStateFilters
 };
 export const productListReducer = (state = initialStateProductList, action) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
-      return { ...state, loading: true, products: [] };
+      return { ...state, loading: true };
     case PRODUCT_LIST_SUCCESS:
       return { 
-                ...state,
-                loading: false, 
-                products: action.payload, 
-                pageResponse: action.pageResponse, 
-                searchText: action.searchText,
-                filters: action.filters 
-             };
+        ...state,
+        loading: false, 
+        products: action.payload, 
+        pageResponse: action.pageResponse, 
+        searchText: action.searchText,
+        filters: action.filters 
+             };    
     case PRODUCT_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };
     default:

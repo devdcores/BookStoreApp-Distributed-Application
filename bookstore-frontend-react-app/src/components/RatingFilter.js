@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProductsAction } from '../actions/productActions';
 import useEffectDidMount from '../hooks/useEffectDidMount';
@@ -7,47 +6,65 @@ import { useForm } from '../hooks/useForm';
 
 const RatingFilter = () => {
 
+
+  const dispatch = useDispatch();
+  const formEl = useRef();
+
   const filters = useSelector((state) => state.productList.filters);
   const searchText = useSelector((state) => state.productList.searchText);
 
-  const [rating, setRating] = useState('')
+  const initialStateForm = {
+    maxRating: '5'
+  }
+  const [form , handleInputChange, resetForm, setForm] = useForm(initialStateForm)
+  const {maxRating} = form;
 
-  const dispatch = useDispatch();
+  const [instantRating, setInstantRating] = useState(maxRating);
+  const handleChangeInstantRating = (event) => {
+    setInstantRating(event.target.value);
+  }
 
-  const handleRatingChange = (e) => {    
-    setRating(e.target.value);    
+  const handleSubmit = (e) => {
+    e.preventDefault();    
+    dispatch(listProductsAction(0, searchText, { ...filters, minRating: '0', maxRating}));
   };
 
-  useEffectDidMount(() => {
-    dispatch(listProductsAction(0, searchText, { ...filters, rating}));    
-  }, [rating])
+  useEffect(() => {
+    setForm({
+      maxRating: filters.maxRating
+    });
+    setInstantRating(
+      filters.maxRating
+    );
+  }, [filters])
 
-  // useEffect(() => {
-  //   if (Object.keys(filters).length === 0) {
-  //     resetForm();
-  //   } else {
-  //     setForm(filters);
-  //   }
-  // }, [filters])
+  useEffectDidMount(()=> {
+    formEl.current.click();
+  }, [maxRating])
 
   return (
     <>        
-        <h6>Average Rating</h6>
-        <div className="row-container-fully-centered">
-        <Form.Control 
-          as='select' 
-          value={rating} 
-          onChange={handleRatingChange}
-         >
-            <option value=''>Select...</option>
-            <option value='1'>1 - Poor</option>
-            <option value='2'>2 - Fair</option>
-            <option value='3'>3 - Good</option>
-            <option value='4'>4 - Very Good</option>
-            <option value='5'>5 - Excellent</option>
-          </Form.Control>
-
-        </div>
+        <form onSubmit={handleSubmit} className="mt-3">
+          <h6>Average Rating</h6>
+          <div  className='col-container-fully-centered'>
+            <input 
+                  type="range" 
+                  className="custom-range" 
+                  id="customRange1" 
+                  max='5'
+                  min='0'
+                  step='0.1'
+                  onMouseUp={handleInputChange}
+                  current={maxRating}
+                  name='maxRating'
+                  onChange={handleChangeInstantRating}
+              />
+              <div>0 - {instantRating}</div>           
+              <button type='submit' className="btn btn-primary d-none" ref={formEl}>
+                &gt;
+              </button>
+          </div>
+        </form>
     </>
   );
 };
