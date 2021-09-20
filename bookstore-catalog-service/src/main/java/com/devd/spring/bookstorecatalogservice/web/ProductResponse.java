@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * @author Devaraj Reddy, Date : 08-Nov-2020
  */
@@ -18,7 +20,7 @@ public class ProductResponse {
     private double price;
     private String productCategory;
     private int availableItemCount;
-    private Double averageRating;
+    private BigDecimal averageRating;
     private int noOfRatings;
     private String imageId;
 

@@ -1,39 +1,43 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { listProductsAction } from '../actions/productActions';
+import { listProductsAction, resetFiltersProductsAction } from '../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../hooks/useForm';
+import { initialStateFilters } from '../reducers/productReducers';
 
 const SearchBar = () => {
 
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products, pageResponse, searchText } = productList;
-  const [searchTextLocal, setSearchTextLocal] = useState(searchText ? searchText : '');
+  const initialState = {
+    searchText:''
+  };
+  const [form, handleInputChange] = useForm(initialState);
+  const {searchText} = form;
 
   const dispatch = useDispatch();
 
-  const searchHandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(listProductsAction(0, searchTextLocal));
+    dispatch(listProductsAction(0, searchText, initialStateFilters));
   };
-
+  
   return (
     <div className="w-100">
-      <Form onSubmit={searchHandler}>
+      <Form onSubmit={handleSubmit}>
         <div className="bg-light rounded shadow-sm">
           <div className="input-group">
             <input type="search"
                    placeholder="Search books"
                    aria-describedby="button-addon1"
                    className="form-control border-0 bg-light"
-                   value={searchTextLocal}
-                   onChange={(e) => setSearchTextLocal(e.target.value)}
+                   name="searchText"
+                   value={searchText}
+                   onChange={handleInputChange}
             />
             <div className="input-group-append">
               <button
                 id="button-addon1"
                 type="submit"
-                className="btn btn-link text-primary"
-                disabled={loading}
+                className="btn btn-link text-primary"                
               >
                 <i className="fa fa-search" />
               </button>
@@ -45,4 +49,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default React.memo(SearchBar);
