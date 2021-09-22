@@ -39,15 +39,17 @@ import {
   getImageApi
 } from '../service/RestApiCalls';
 
-export const listProductsAction = (pageNumber) => async (dispatch) => {
+export const listProductsAction = (pageNumber, searchText= '', filters= {}) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     //Get All Products Detail
-    const allProductsDetail = await getAllProductsDetailApi(pageNumber || 0);
+    const allProductsDetail = await getAllProductsDetailApi(pageNumber || 0, searchText, filters);
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: allProductsDetail.page.content,
-      pageResponse: allProductsDetail.page
+      pageResponse: allProductsDetail.page,
+      searchText,
+      filters
     });
   } catch (error) {
     dispatch({

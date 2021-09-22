@@ -124,7 +124,8 @@ const ShippingScreen = ({ history }) => {
                             className='p-2'
                             style={{
                               whiteSpace: 'pre-wrap',
-                              backgroundColor: '#eeeeee'
+                              backgroundColor: '#eeeeee',
+                              color: '#0e0e0e'
                             }}
                             onClick={() => {
                               if (shippingCheckbox) {

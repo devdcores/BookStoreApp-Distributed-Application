@@ -70,9 +70,9 @@ const CartScreen = (props) => {
                   ))}
                 </ListGroup.Item>
               )}
-              <Row className='m-5 justify-content-md-center'>
+              <Row className='m-5 justify-content-md-center link-container'>
                 <LinkContainer to={'/'}>
-                  <a>Add more books</a>
+                  <a className="link-description">Add more books</a>
                 </LinkContainer>
               </Row>
             </Col>

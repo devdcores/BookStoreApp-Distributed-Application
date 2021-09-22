@@ -69,7 +69,7 @@ const OrderScreen = ({ match, history }) => {
                   <p>
                     <strong>Name: </strong> {userInfo.userName}
                   </p>
-                  <p>
+                  <p className="link-container">
                     <strong>Email: </strong> <a href={`mailto:${userInfo.email}`}>{userInfo.email}</a>
                   </p>
                   <p>
@@ -96,7 +96,7 @@ const OrderScreen = ({ match, history }) => {
                     <Message variant='danger'>Not Paid</Message>
                   )}
 
-                  <p>
+                  <p className="link-container">
                     <strong>Payment Receipt : </strong>
                     <a href={order.paymentReceiptUrl} target='_blank'>
                       {order.paymentReceiptUrl}

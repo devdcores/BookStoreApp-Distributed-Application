@@ -1,80 +1,135 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('./themes.css');
+
+#root {
+    background-color: var(--bg); /* background color variable */
+    color: var(--color-text);
+    height: 100vh;
+}
+
+#root main {
+    background-color: var(--bg)!important;
+}
 
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 button {
-  border-radius: 5px !important;
+    border-radius: 5px !important;
 }
 
 a {
-  border-radius: 5px !important;
+    border-radius: 5px !important;
 }
 
 p {
-  font-family: sans-serif !important;
+    font-family: sans-serif !important;
 }
 
 .bookstore-brand {
-  font-family: 'Kaushan Script', cursive;
-  font-size: 2em !important;
-  font-weight: 800;
-  clip-path: polygon(0 30%, 100% 11%, 100% 75%, 0 92%);
+    font-family: 'Kaushan Script', cursive;
+    font-size: 2em !important;
+    font-weight: 800;
+    clip-path: polygon(0 30%, 100% 11%, 100% 75%, 0 92%);
 
-  background: rgb(2, 0, 36);
-  background: linear-gradient(84deg, rgba(2, 0, 36, 1) 21%, rgba(0, 0, 179, 1) 63%, rgba(191, 0, 76, 1) 92%);
-  padding: 5px;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(84deg, rgba(2, 0, 36, 1) 21%, rgba(0, 0, 179, 1) 63%, rgba(191, 0, 76, 1) 92%);
+    padding: 5px;
 }
 
 .bookstore-brand:hover {
-  color: aquamarine !important;
+    color: aquamarine !important;
 }
 
 .fp-container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: #111c1fad;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #111c1fad;
 }
 
 .fp-container .fp-loader {
-  top: 45%;
-  left: 48%;
-  z-index: 10000;
-  position: absolute;
+    top: 45%;
+    left: 48%;
+    z-index: 10000;
+    position: absolute;
 }
 
 .pagination {
-  display: flex;
-  padding-left: 0;
-  list-style: none;
-  border-radius: 0.25rem;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
 }
 
 .page-item.active {
-  z-index: 3;
-  color: #fff;
-  /* background-color: #d9230f; */
-  /* border-color: #d9230f; */
+    z-index: 3;
+    color: #fff;
+    /* background-color: #d9230f; */
+    /* border-color: #d9230f; */
 }
 
 .page-item:first-child .page-link {
-  margin-left: 0;
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+    margin-left: 0;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
 }
 
 .page-link {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0.75rem;
-  margin-left: -1px;
-  line-height: 1.25;
-  color: #d9230f;
-  background-color: #fff;
-  border: 1px solid #eee;
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #d9230f;
+    background-color: #fff;
+    border: 1px solid #eee;
+}
+
+.row-container-fully-centered {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-container-fully-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-body,
+.list-group-item
+{
+    background-color: var(--bg-panel)!important;
+}
+
+.table {
+    color: var(--color-text)!important;
+}
+
+.table-hover tbody tr:hover {
+    color: var(--color-text)!important;
+    background-color: var(--color-hover-row)!important;
+}
+
+.link-container a{
+    color: var(--color-link)!important;
+}
+
+.link-container a:hover,
+.nav-link:hover{
+    color: var(--color-hover)!important;
+    text-decoration-color: var(--color-hover);
+    -webkit-text-decoration-color: var(--color-hover);
+}
+
+.pagination .page-link {
+    border-radius: 5px;
 }

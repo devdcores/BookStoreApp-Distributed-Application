@@ -4,6 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin } from '../service/CommonUtils';
 import { logout } from '../actions/userActions';
+import DarkModeToggle from './DarkModeToggle';
+import SearchBar from './SearchBar';
 const Header = (props) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -29,16 +31,19 @@ const Header = (props) => {
           <LinkContainer to='/'>
             <Navbar.Brand className='bookstore-brand'>BookStore</Navbar.Brand>
           </LinkContainer>
+          <SearchBar/>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='navbar-nav ml-auto'>
               <LinkContainer to='/cart'>
                 <Nav.Link>
-                  <i className='p-1 fas fa-shopping-cart'></i>Cart
+                  <div className="row-container-fully-centered">
+                    <i className='p-1 fas fa-shopping-cart'></i>Cart
+                  </div>
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.userName} id='username'>
+                <NavDropdown title={userInfo.userName} id='username' className="row-container-fully-centered">
                   <LinkContainer to='/userProfile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
@@ -52,7 +57,7 @@ const Header = (props) => {
                 </LinkContainer>
               )}
               {userInfo && isAdmin() && (
-                <NavDropdown title='Admin' id='adminmenu'>
+                <NavDropdown title='Admin' id='adminmenu' className="row-container-fully-centered">
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
@@ -64,6 +69,7 @@ const Header = (props) => {
                   </LinkContainer>
                 </NavDropdown>
               )}
+              <DarkModeToggle/>
             </Nav>
           </Navbar.Collapse>
         </Container>

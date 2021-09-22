@@ -1,10 +1,7 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
 import com.devd.spring.bookstorecatalogservice.service.ProductService;
-import com.devd.spring.bookstorecatalogservice.web.CreateProductRequest;
-import com.devd.spring.bookstorecatalogservice.web.ProductResponse;
-import com.devd.spring.bookstorecatalogservice.web.ProductsPagedResponse;
-import com.devd.spring.bookstorecatalogservice.web.UpdateProductRequest;
+import com.devd.spring.bookstorecatalogservice.web.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -25,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.net.URI;
 
 /**
@@ -82,9 +80,11 @@ public class ProductController {
     public ResponseEntity<?> getAllProducts(@RequestParam(value = "sort", required = false) String sort,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "size", required = false) Integer size,
+                                            @RequestParam(value = "searchText", required = false) String searchText,
+                                            ProductFiltersRequest filters,
                                             PagedResourcesAssembler<ProductResponse> assembler) {
 
-        Page<ProductResponse> list = productService.getAllProducts(sort, page, size);
+        Page<ProductResponse> list = productService.getAllProducts(sort, page, size, searchText, filters);
     
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest().build()
                                                         .toUriString());
