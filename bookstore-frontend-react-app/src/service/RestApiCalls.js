@@ -238,22 +238,25 @@ export const getImageApi = async (imageId) => {
 
 export const getAllProductsDetailApi = async (pageNumber, searchText= "", filters= {}) => {
 
-  // Params must have format {key: value} where value is a primite.
+  // Params must have format {key: value} where value is a primitive.
   // Value must not be object
   const toQueryParams = (params = {}) => {
     let queryParams = "";
-
     // For every key into params add => &key=value
     const arrayParams = Object.entries(params);
     for (let i = 0; i < arrayParams.length; i++) {
       queryParams = queryParams + `&${arrayParams[i][0]}=${arrayParams[i][1]}`
     }
-
     return queryParams;
-
   }
 
-  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products?page=${pageNumber}&size=8&searchText=${toURLEncode(searchText)}${toQueryParams(filters)}`).then((response) => {
+  const pageParam = `page=${pageNumber}`
+  const sizePageParam = `&size=8`;
+  const searchTextParam = `&searchText=${toURLEncode(searchText)}`;
+  const filtersParams = toQueryParams(filters);
+
+  const url = `${BACKEND_API_GATEWAY_URL}/api/catalog/products?${pageParam}${sizePageParam}${searchTextParam}${filtersParams}`;
+  const responseData = axios.get(url).then((response) => {
     return response.data;
   });
   return responseData;
