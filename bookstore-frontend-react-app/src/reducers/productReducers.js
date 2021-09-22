@@ -37,7 +37,8 @@ export const initialStateFilters = {
   maxPrice:'',
   minRating:'0',
   maxRating:'5',
-  availability:''
+  availability:'',
+  sort:'description,ASC'
 }
 const initialStateProductList = {
   loading: false,

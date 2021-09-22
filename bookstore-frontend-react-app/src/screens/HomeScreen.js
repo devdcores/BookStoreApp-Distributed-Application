@@ -10,6 +10,7 @@ import ReactPaginate from 'react-paginate';
 import PriceFilter from '../components/PriceFilter';
 import RatingFilter from '../components/RatingFilter';
 import StockFilter from '../components/StockFilter';
+import { SortingCatalog } from '../components/SortingCatalog';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const HomeScreen = () => {
               <PriceFilter/>
               <RatingFilter/>
               <StockFilter/>
+              <SortingCatalog/>
             </Col>
             <Col>
               <Row>

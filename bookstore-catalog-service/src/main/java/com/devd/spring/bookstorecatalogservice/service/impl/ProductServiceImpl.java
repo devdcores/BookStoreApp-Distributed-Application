@@ -167,7 +167,7 @@ public class ProductServiceImpl implements ProductService {
         
         Pageable pageable;
         
-        if (sort == null) {
+        if (sort == null || sort.isEmpty()) {
             pageable = PageRequest.of(page, size);
         } else {
             Sort.Order order;
