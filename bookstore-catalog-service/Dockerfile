@@ -11,4 +11,4 @@ COPY dockerize dockerize
 
 COPY ./images /images
 
-CMD ./dockerize -wait tcp://bookstore-mysql-db:3306 -timeout 15m java -Djava.security.egd=file:/dev/./urandom -jar /catalog-service.jar
+CMD ./dockerize -wait tcp://bookstore-mysql-db:3306 -timeout 15m java -Djava.security.egd=file:/dev/./urandom -javaagent:/java-agent/ver22.3.0.33637/javaagent.jar -jar /catalog-service.jar
