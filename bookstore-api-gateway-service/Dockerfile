@@ -6,4 +6,4 @@ ARG JAR_FILE
 
 COPY target/${JAR_FILE} gateway-server.jar
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/gateway-server.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-javaagent:/java-agent/ver22.3.0.33637/javaagent.jar","-jar","/gateway-server.jar"]
