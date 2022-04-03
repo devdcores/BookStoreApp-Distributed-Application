@@ -6,10 +6,9 @@ services:
   java-agent:
     build:
       context: ./java-agent
-      args:
       dockerfile: Dockerfile
     image: java-agent
-    container-name: java-agent
+    container_name: java-agent
     volumes:
       - java-agent-volume:/java-agent
 
