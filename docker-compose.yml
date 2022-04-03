@@ -62,6 +62,10 @@ services:
       - SERVER_PORT=8765
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - APPDYNAMICS_AGENT_TIER_NAME=zuul-api-gateway-server
+      - APPDYNAMICS_AGENT_NODE_NAME=zuul-api-gateway-server-1
+    env_file:
+    - controller-info.env
 
   bookstore-account-service:
     build:
@@ -82,6 +86,10 @@ services:
       - SERVER_PORT=4001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - APPDYNAMICS_AGENT_TIER_NAME=account-service
+      - APPDYNAMICS_AGENT_NODE_NAME=account-service-1
+    env_file:
+    - controller-info.env
 
   bookstore-billing-service:
     build:
@@ -102,6 +110,10 @@ services:
       - SERVER_PORT=5001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - APPDYNAMICS_AGENT_TIER_NAME=billing-service
+      - APPDYNAMICS_AGENT_NODE_NAME=billing-service-1
+    env_file:
+    - controller-info.env
 
   bookstore-catalog-service:
     build:
@@ -122,6 +134,10 @@ services:
       - SERVER_PORT=6001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - APPDYNAMICS_AGENT_TIER_NAME=catalog-service
+      - APPDYNAMICS_AGENT_NODE_NAME=catalog-service-1
+    env_file:
+    - controller-info.env
 
   bookstore-order-service:
     build:
@@ -142,6 +158,10 @@ services:
       - SERVER_PORT=7001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - APPDYNAMICS_AGENT_TIER_NAME=order-service
+      - APPDYNAMICS_AGENT_NODE_NAME=order-service-1
+    env_file:
+    - controller-info.env
 
   bookstore-payment-service:
     build:
@@ -162,6 +182,10 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - APPDYNAMICS_AGENT_TIER_NAME=payment-service
+      - APPDYNAMICS_AGENT_NODE_NAME=payment-service-1
+    env_file:
+    - controller-info.env
 
   # Tracing service
   bookstore-zipkin:
