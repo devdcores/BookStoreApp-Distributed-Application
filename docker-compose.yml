@@ -2,6 +2,15 @@ version: "3.4"
 
 services:
 
+  # AppDynamics java-agent
+  java-agent:
+    build:
+      context: ./java-agent
+      args:
+      dockerfile: Dockerfile
+    image: java-agent
+    container-name: java-agent
+    
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
