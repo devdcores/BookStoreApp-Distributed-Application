@@ -10,7 +10,9 @@ services:
       dockerfile: Dockerfile
     image: java-agent
     container-name: java-agent
-    
+    volumes:
+      - java-agent-volume:/java-agent
+
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
@@ -51,6 +53,8 @@ services:
     image: bookstore-zuul-api-gateway-server
     container_name: bookstore-zuul-api-gateway-server
     hostname: bookstore-zuul-api-gateway-server
+    volumes:
+      - java-agent-volume:/java-agent
     ports:
       - "8765:8765"
     networks:
@@ -69,6 +73,8 @@ services:
     image: bookstore-account-service
     container_name: bookstore-account-service
     hostname: bookstore-account-service
+    volumes:
+      - java-agent-volume:/java-agent
     ports:
       - "4001:4001"
     networks:
@@ -87,6 +93,8 @@ services:
     image: bookstore-billing-service
     container_name: bookstore-billing-service
     hostname: bookstore-billing-service
+    volumes:
+      - java-agent-volume:/java-agent
     ports:
       - "5001:5001"
     networks:
@@ -105,6 +113,8 @@ services:
     image: bookstore-catalog-service
     container_name: bookstore-catalog-service
     hostname: bookstore-catalog-service
+    volumes:
+      - java-agent-volume:/java-agent
     ports:
       - "6001:6001"
     networks:
@@ -123,6 +133,8 @@ services:
     image: bookstore-order-service
     container_name: bookstore-order-service
     hostname: bookstore-order-service
+    volumes:
+      - java-agent-volume:/java-agent    
     ports:
       - "7001:7001"
     networks:
@@ -141,6 +153,8 @@ services:
     image: bookstore-payment-service
     container_name: bookstore-payment-service
     hostname: bookstore-payment-service
+    volumes:
+      - java-agent-volume:/java-agent
     ports:
       - "8001:8001"
     networks:
@@ -248,6 +262,7 @@ volumes:
   booksture-telegraph-volume:
   booksture-influxdb-volume:
   booksture-chronograf-volume:
+  java-agent-volume:
 
 networks:
   bookstore-app-network:
