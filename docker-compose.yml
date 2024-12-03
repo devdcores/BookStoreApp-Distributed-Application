@@ -25,7 +25,7 @@ services:
   # Core services
   bookstore-consul-discovery:
     hostname: bookstore-consul-discovery
-    image: consul
+    image: hashicorp/consul
     container_name: bookstore-consul-discovery
     restart: always
     ports:
