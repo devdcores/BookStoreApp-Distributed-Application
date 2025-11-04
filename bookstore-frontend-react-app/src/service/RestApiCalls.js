@@ -236,8 +236,14 @@ export const getImageApi = async (imageId) => {
 };
 
 export const getAllProductsDetailApi = async (pageNumber) => {
-  const responseData = axios.get(`${BACKEND_API_GATEWAY_URL}/api/catalog/products?page=${pageNumber}&size=8`).then((response) => {
+  const url = `${BACKEND_API_GATEWAY_URL}/api/catalog/products?page=${pageNumber}&size=8`;
+  console.log('getAllProductsDetailApi - calling URL:', url);
+  const responseData = axios.get(url).then((response) => {
+    console.log('getAllProductsDetailApi - response:', response.data);
     return response.data;
+  }).catch((error) => {
+    console.error('getAllProductsDetailApi - error:', error);
+    throw error;
   });
   return responseData;
 };

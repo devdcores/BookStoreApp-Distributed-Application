@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Testing API Connection</h1>
+    <button onclick="testAPI()">Test API</button>
+    <div id="result"></div>
+    
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Loading...';
+            
+            try {
+                // Test with proxy (relative URL)
+                const response = await fetch('/api/catalog/products?page=0&size=8');
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <h2>Success! ✅</h2>
+                    <p>Status: ${response.status}</p>
+                    <p>Products found: ${data.page.content.length}</p>
+                    <pre>${JSON.stringify(data.page.content, null, 2)}</pre>
+                `;
+            } catch (err) {
+                resultDiv.innerHTML = `
+                    <h2>Error ❌</h2>
+                    <p>${err.message}</p>
+                    <pre>${err.stack}</pre>
+                `;
+            }
+        }
+        
+        // Auto test on load
+        window.onload = testAPI;
+    </script>
+</body>
+</html>

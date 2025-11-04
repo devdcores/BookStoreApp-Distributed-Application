@@ -1,9 +1,9 @@
-# BookStoreApp-Distributed-Application [![HitCount](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application.svg)](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application)
+# ClothingStore-Distributed-Application 👕
 
 <hr>
 
 ## About this project
-This is an Ecommerce project still `development in progress`, where users can adds books to the cart and buy those books.
+This is an Ecommerce project still `development in progress`, where users can browse clothing items, add them to cart and purchase fashionable clothes online.
 
 Application is being developed using Java, Spring and React.
 
@@ -31,7 +31,7 @@ based on the url route. Zuul also registers with eureka and gets the ip/domain f
 >Frontend App 
 
 Navigate to `bookstore-frontend-react-app` folder
-Run below commnads to start Frontend React Application
+Run below commands to start Frontend React Application
 
 ```
 yarn install

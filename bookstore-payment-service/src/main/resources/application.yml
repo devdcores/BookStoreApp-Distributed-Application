@@ -6,7 +6,7 @@ security:
     public-key: classpath:jwt-signing-public-key.txt
 
 service:
-  stripeKey: sk_test_51HyGx6G9R9y827ntfKTizO243LzKHnaNIucO8i7apU0zuTIE5iNAes6l64aoWczGwiCnnBNsvvrgS95nfpbWa2cw00FnScmrhd
+  stripeKey: ${STRIPE_SECRET_KEY:sk_test_PLACEHOLDER_KEY_FOR_DEVELOPMENT}
 
 spring:
   profiles:

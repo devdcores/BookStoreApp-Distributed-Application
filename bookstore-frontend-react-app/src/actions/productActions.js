@@ -41,15 +41,24 @@ import {
 
 export const listProductsAction = (pageNumber) => async (dispatch) => {
   try {
+    console.log('listProductsAction - starting, pageNumber:', pageNumber);
     dispatch({ type: PRODUCT_LIST_REQUEST });
     //Get All Products Detail
+    console.log('listProductsAction - calling getAllProductsDetailApi');
     const allProductsDetail = await getAllProductsDetailApi(pageNumber || 0);
-    dispatch({
-      type: PRODUCT_LIST_SUCCESS,
-      payload: allProductsDetail.page.content,
-      pageResponse: allProductsDetail.page
-    });
+    console.log('listProductsAction - API response:', allProductsDetail);
+    
+    if (allProductsDetail && allProductsDetail.page) {
+      dispatch({
+        type: PRODUCT_LIST_SUCCESS,
+        payload: allProductsDetail.page.content || [],
+        pageResponse: allProductsDetail.page
+      });
+    } else {
+      throw new Error('Invalid API response structure');
+    }
   } catch (error) {
+    console.error('listProductsAction - error:', error);
     dispatch({
       type: PRODUCT_LIST_FAIL,
       payload: getErrorMessage(error)

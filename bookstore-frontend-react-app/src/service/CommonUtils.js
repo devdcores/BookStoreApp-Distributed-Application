@@ -1,17 +1,17 @@
 import jwtDecode from 'jwt-decode';
 
 export const getErrorMessage = (error) => {
-  return error
-    ? error.response
-      ? error.response.data
-        ? error.response.data.error_description
-          ? error.response.data.error_description
-          : error.response.data.errors.length > 0
-          ? error.response.data.errors[0].message
-          : error.message
-        : error.message
-      : error.message
-    : 'Something went wrong';
+  if (!error) return 'Something went wrong';
+  
+  if (error.response && error.response.data) {
+    const data = error.response.data;
+    if (data.error_description) return data.error_description;
+    if (data.errors && data.errors.length > 0 && data.errors[0].message) {
+      return data.errors[0].message;
+    }
+  }
+  
+  return error.message || 'Something went wrong';
 };
 
 export const isAdmin = () => {

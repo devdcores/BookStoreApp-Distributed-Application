@@ -15,7 +15,7 @@ const Header = (props) => {
   };
 
   return (
-    <header>
+    <header style={{position: 'fixed', top: 0, width: '100%', zIndex: 1000}}>
       <Navbar
         style={{
           background: 'linear-gradient(142deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 68%, rgba(252,176,69,1) 100%)',
@@ -27,7 +27,7 @@ const Header = (props) => {
       >
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand className='bookstore-brand'>BookStore</Navbar.Brand>
+            <Navbar.Brand className='clothingstore-brand'>👕 ClothingStore</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
